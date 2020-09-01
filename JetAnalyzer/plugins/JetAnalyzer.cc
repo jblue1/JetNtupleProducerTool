@@ -517,7 +517,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 				matchDPT->Fill(dPT*1.0);
 				matchDRDPT->Fill(dR*1.0, dPT*1.0);
 				
-				if(dR<0.2 && dPT>0.8 && dPT<1.1){
+				if(dR<0.2 && dPT<0.2){
 					matched++;
 				}
 			}
