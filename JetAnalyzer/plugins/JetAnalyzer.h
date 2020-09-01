@@ -13,7 +13,6 @@
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
-#include "DataFormats/Math/interface/deltaR.h"
 #include "DataFormats/Common/interface/ValueMap.h"
 
 // File service for saving the ROOT files
@@ -38,6 +37,8 @@
 #include "TTree.h"
 #include "TFile.h"
 #include "TLorentzVector.h"
+#include "TH1D.h"
+#include "TH2D.h"
 
 using namespace std;
 using namespace reco;
@@ -51,6 +52,18 @@ class JetAnalyzer : public edm::EDAnalyzer {
         ~JetAnalyzer();
 
     private:
+	
+		//Helper Functions
+		double dR2(double eta1, double eta2, double phi1, double phi2);
+		
+		//Histograms
+		TH1D* matchDR;
+		TH1D* matchDPT;
+		TH2D* matchDRDPT;
+		
+		TH1D* matchPercent;
+		TH1D* matchNumber;
+		
         // Tokens
         edm::EDGetTokenT<reco::VertexCollection> vtxToken_;
         edm::EDGetTokenT<pat::JetCollection> jetToken_;
@@ -134,6 +147,8 @@ class JetAnalyzer : public edm::EDAnalyzer {
         Float_t PF_dTheta[kMaxPF];
         Float_t PF_dPhi[kMaxPF];
         Float_t PF_dEta[kMaxPF];
+		Float_t PF_phi[kMaxPF];
+        Float_t PF_eta[kMaxPF];
         Float_t PF_mass[kMaxPF];
         Int_t PF_id[kMaxPF];
         UInt_t PF_fromPV[kMaxPF];
@@ -150,6 +165,8 @@ class JetAnalyzer : public edm::EDAnalyzer {
         Float_t genJetPF_pT[kMaxPF];
         Float_t genJetPF_dR[kMaxPF];
         Float_t genJetPF_dTheta[kMaxPF];
+		Float_t genJetPF_phi[kMaxPF];
+		Float_t genJetPF_eta[kMaxPF];
         Float_t genJetPF_mass[kMaxPF];
         Int_t genJetPF_id[kMaxPF];
 

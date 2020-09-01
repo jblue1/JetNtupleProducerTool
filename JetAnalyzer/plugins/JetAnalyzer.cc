@@ -6,6 +6,8 @@
 //  Based on previous work by: Petra-Maria Ekroos
 
 #include "JetAnalyzer.h"
+//#include "TH1D.h"
+//#include "TH2D.h"
 
 JetAnalyzer::JetAnalyzer(const edm::ParameterSet& iConfig):
     vtxToken_(consumes<reco::VertexCollection>(iConfig.getParameter<edm::InputTag>("vertices"))),
@@ -33,7 +35,17 @@ JetAnalyzer::~JetAnalyzer()
 
 void JetAnalyzer::beginJob()
 {
-    // Create the ROOT tree and add all the branches to it
+    // Create histograms
+	matchDR = fs->make<TH1D>("matchDR" , "DR of all gen/reco combinations" , 100 , 0 , 5);
+	matchDPT = fs->make<TH1D>("matchDPT" , "|(genPT-recoPT)|/genPT of all gen/reco combinations" , 100 , 0 , 3);
+	matchDRDPT = fs->make<TH2D>("matchDRDPT" , "DR of all gen/reco combinations" , 100 , 0 , 5, 100, 0, 3);
+	
+	matchPercent = fs->make<TH1D>("matchPercent" , "percent of all gen jets which mass" , 100 , 0 , 1);
+	matchNumber = fs->make<TH1D>("matchNumber" , "distribution of number of matches per jet" , 21 , 0 , 20);
+
+	
+	
+	// Create the ROOT tree and add all the branches to it
     jetTree = fs->make<TTree>("jetTree", "jetTree");
 
     jetTree->Branch("jetPt", &jetPt, "jetPt/F");
@@ -78,6 +90,8 @@ void JetAnalyzer::beginJob()
     jetTree->Branch("PF_dTheta", &PF_dTheta, "PF_dTheta[nPF]/F");
     jetTree->Branch("PF_dPhi", &PF_dPhi, "PF_dPhi[nPF]/F");
     jetTree->Branch("PF_dEta", &PF_dEta, "PF_dEta[nPF]/F");
+	jetTree->Branch("PF_phi", &PF_phi, "PF_phi[nPF]/F");
+    jetTree->Branch("PF_eta", &PF_eta, "PF_eta[nPF]/F");
     jetTree->Branch("PF_mass", &PF_mass, "cPF_mass[nPF]/F");
     jetTree->Branch("PF_id", &PF_id, "PF_id[nPF]/I");
     jetTree->Branch("PF_fromPV", &PF_fromPV, "PF_fromPV[nPF]/I");
@@ -92,6 +106,8 @@ void JetAnalyzer::beginJob()
     jetTree->Branch("genJetPF_pT", &genJetPF_pT, "genJetPF_pT[nGenJetPF]/F");
     jetTree->Branch("genJetPF_dR", &genJetPF_dR, "genJetPF_dR[nGenJetPF]/F");
     jetTree->Branch("genJetPF_dTheta", &genJetPF_dTheta, "genJetPF_dTheta[nGenJetPF]/F");
+	jetTree->Branch("genJetPF_phi", &genJetPF_phi, "genJetPF_phi[nGenJetPF]/F");
+	jetTree->Branch("genJetPF_eta", &genJetPF_eta, "genJetPF_eta[nGenJetPF]/F");
     jetTree->Branch("genJetPF_mass", &genJetPF_mass, "genJetPF_mass[nGenJetPF]/F");
     jetTree->Branch("genJetPF_id", &genJetPF_id, "genJetPF_id[nGenJetPF]/I");
 
@@ -442,6 +458,8 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
                 genJetPF_pT[ng] = genParticle->pt();
                 genJetPF_dR[ng] = deltaR(gj->eta(), gj->phi(), genParticle->eta(), genParticle->phi());
                 genJetPF_dTheta[ng] = std::atan2(dPhi, dEta);
+				genJetPF_eta[ng] = genParticle->eta();
+				genJetPF_phi[ng] = genParticle->phi();
                 genJetPF_mass[ng] = genParticle->mass();
                 genJetPF_id[ng] = genParticle->pdgId();
                 ++ng;
@@ -459,14 +477,15 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
         for (unsigned int i = 0; i != pfsSize; ++i) {
             const pat::PackedCandidate &pf = (*pfs)[i];
             const pat::PackedCandidate* pfPointer = &pf;
-
+			
+			/*
             // Check if the PF was contained in the AK4 jet
             if (pfMap.count(pfPointer)) {
                 PF_fromAK4Jet[npfs] = 1;
             } else {
                 PF_fromAK4Jet[npfs] = 0;
             }
-
+			*/
             float dEta = (pf.eta()-j.eta());
             float dPhi = deltaPhi(pf.phi(),j.phi());
 
@@ -477,17 +496,45 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
             PF_dTheta[npfs] = std::atan2(dPhi, dEta);
             PF_dPhi[npfs] = dPhi;
             PF_dEta[npfs] = dEta;
+			PF_phi[npfs] = pf.phi();
+            PF_eta[npfs] = pf.eta();
             PF_mass[npfs] = pf.mass();
             PF_id[npfs] = pf.pdgId();
             PF_fromPV[npfs] =  pf.fromPV();
             ++npfs;
         }
         nPF = npfs;
-
+		
+		for(unsigned int x = 0; x < nGenJetPF;x++){ 
+			int matched = 0;
+			
+			for(unsigned int y = 0; y < nPF; y++){
+				double dR = deltaR(genJetPF_eta[x], genJetPF_phi[x], PF_eta[y], PF_phi[y]);
+				double dPT = abs(genJetPF_pT[x]-PF_pT[y])/genJetPF_pT[x];
+				
+				matchDR->Fill(dR*1.0);
+				matchDPT->Fill(dPT*1.0);
+				matchDRDPT->Fill(dR*1.0, dPT*1.0);
+				
+				if(dR<0.1){
+					matched++;
+				}
+			}
+			matchNumber->Fill(matched);
+			if(matched > 0){
+				matchPercent->Fill(1.0);
+			} else {
+				matchPercent->Fill(0.0);
+			}
+		
+		}
+		
+		
         // Save the jet in the tree
         jetTree->Fill();
     }
 }
+
 
 // Define this as a plug-in
 DEFINE_FWK_MODULE(JetAnalyzer);
