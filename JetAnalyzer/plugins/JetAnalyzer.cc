@@ -36,11 +36,11 @@ JetAnalyzer::~JetAnalyzer()
 void JetAnalyzer::beginJob()
 {
     // Create histograms
-	matchDR = fs->make<TH1D>("matchDR" , "DR of all gen/reco combinations" , 100 , 0 , 5);
-	matchDPT = fs->make<TH1D>("matchDPT" , "|(genPT-recoPT)|/genPT of all gen/reco combinations" , 100 , 0 , 3);
-	matchDRDPT = fs->make<TH2D>("matchDRDPT" , "DR of all gen/reco combinations" , 100 , 0 , 5, 100, 0, 3);
+	matchDR = fs->make<TH1D>("matchDR" , "DR of all gen/reco combinations" , 100 , 0 , 2);
+	matchDPT = fs->make<TH1D>("matchDPT" , "|(genPT-recoPT)|/genPT of all gen/reco combinations" , 100 , 0 , 1.5);
+	matchDRDPT = fs->make<TH2D>("matchDRDPT" , "DR of all gen/reco combinations" , 100 , 0 , 2, 100, 0, 1.5);
 	
-	matchPercent = fs->make<TH1D>("matchPercent" , "percent of all gen jets which mass" , 100 , 0 , 1);
+	matchPercent = fs->make<TH1D>("matchPercent" , "percent of all gen jet particles which match something" , 100 , 0 , 2);
 	matchNumber = fs->make<TH1D>("matchNumber" , "distribution of number of matches per jet" , 21 , 0 , 20);
 
 	
@@ -246,8 +246,8 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
         ++iJetR;
         sortedJets.push_back( JetIndexed( jet, iJetR) );
         // Select
-        if ( (jet.pt() > 30) && (fabs(jet.eta()) < 2.5) ) {
-            selectedJets.push_back( JetIndexed( jet, iJetR) );
+        if ( (jet.pt() > 30) ) {// && (fabs(jet.eta()) < 2.5) ) {
+			selectedJets.push_back( JetIndexed( jet, iJetR) );
         }
     }
 
@@ -505,6 +505,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
         }
         nPF = npfs;
 		
+		
 		for(unsigned int x = 0; x < nGenJetPF;x++){ 
 			int matched = 0;
 			
@@ -516,7 +517,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 				matchDPT->Fill(dPT*1.0);
 				matchDRDPT->Fill(dR*1.0, dPT*1.0);
 				
-				if(dR<0.1){
+				if(dR<0.2 && dPT>0.8 && dPT<1.1){
 					matched++;
 				}
 			}
@@ -528,7 +529,6 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 			}
 		
 		}
-		
 		
         // Save the jet in the tree
         jetTree->Fill();
