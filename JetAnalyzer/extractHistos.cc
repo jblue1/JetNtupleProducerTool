@@ -9,7 +9,7 @@
 #include <iostream>
 
 	
-void extractMain(){
+void extractHistos(){
 	
 	TCanvas * c = new TCanvas();
 	c->SetCanvasSize(1200, 600);
