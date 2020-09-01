@@ -14,6 +14,7 @@ JetAnalyzer::JetAnalyzer(const edm::ParameterSet& iConfig):
     EDMGenJetsToken_(consumes<reco::GenJetCollection>(iConfig.getParameter<edm::InputTag>("genJets"))),
     genEventInfoToken_(consumes <GenEventInfoProduct>(iConfig.getParameter<edm::InputTag>("genEventInfo"))),
     pileupInfoToken_(consumes <std::vector<PileupSummaryInfo>> (iConfig.getParameter<edm::InputTag>("pileupInfo"))),
+	genParticleToken_(consumes<reco::GenParticleCollection>(iConfig.getParameter<edm::InputTag>("genParticles"))),
     pfRhoAllToken_(consumes <double> (iConfig.getParameter<edm::InputTag>("pfRhoAll"))),
     pfRhoCentralToken_(consumes<double>(iConfig.getParameter<edm::InputTag>("pfRhoCentral"))),
     pfRhoCentralNeutralToken_(consumes<double>(iConfig.getParameter<edm::InputTag>("pfRhoCentralNeutral"))),
@@ -199,6 +200,8 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
     iEvent.getByToken(genEventInfoToken_, genEventInfo);
     edm::Handle<std::vector< PileupSummaryInfo >>  puInfo;
     iEvent.getByToken(pileupInfoToken_, puInfo);
+	edm::Handle<reco::GenParticleCollection> genParticles;
+	iEvent.getByToken(genParticleToken_, genParticles);
 
     edm::Handle<double> pfRhoAllHandle;
     iEvent.getByToken(pfRhoAllToken_, pfRhoAllHandle);
@@ -218,6 +221,12 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
     edm::Handle<edm::ValueMap<int>> multHandle;
     iEvent.getByToken(multToken_, multHandle);
 
+	std::cout << std::endl << "--------- EVENT: " << iEvent.id().event() << "---------" << std::endl;
+	// Loop over genParticles and print information
+	for(reco::GenParticleCollection::const_iterator particleIt = genParticles->begin(); particleIt != genParticles->end(); ++particleIt) {
+			const reco::GenParticle &particle = *particleIt;
+			std::cout << "STATUS: " << particle.status() << " PDGID:" << particle.pdgId() << std::endl;
+	}
     // Create vectors for the jets
     // sortedJets include all jets of the event, while selectedJets have pT and eta cuts
     vector<JetIndexed> sortedJets;

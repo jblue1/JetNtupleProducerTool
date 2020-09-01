@@ -31,6 +31,7 @@ process.AK4jets = cms.EDAnalyzer("JetAnalyzer",
 	pfCands = cms.InputTag("packedPFCandidates"),
 	genJets = cms.InputTag("slimmedGenJets"),
 	genEventInfo = cms.InputTag("generator"),
+	genParticles = cms.InputTag("prunedGenParticles"),
 	## good primary vertices ##
 	vertices = cms.InputTag("offlineSlimmedPrimaryVertices"),
 	confGoodVtxNdof = cms.double(4),

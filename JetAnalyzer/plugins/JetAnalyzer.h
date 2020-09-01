@@ -59,6 +59,7 @@ class JetAnalyzer : public edm::EDAnalyzer {
         edm::EDGetTokenT<reco::GenJetCollection> EDMGenJetsToken_;
         edm::EDGetTokenT<GenEventInfoProduct> genEventInfoToken_;
         edm::EDGetTokenT<std::vector<PileupSummaryInfo >> pileupInfoToken_;
+		edm::EDGetTokenT<reco::GenParticleCollection> genParticleToken_;
 
         edm::EDGetTokenT<double> pfRhoAllToken_;
         edm::EDGetTokenT<double> pfRhoCentralToken_;
