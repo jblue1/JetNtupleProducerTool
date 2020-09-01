@@ -490,7 +490,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
             float dPhi = deltaPhi(pf.phi(),j.phi());
 
             // Only save the PF candidates within the desired area
-            if ( (fabs(dEta) > 1.0) || (fabs(dPhi) > 1.0) ) continue;
+            //if ( (fabs(dEta) > 1.0) || (fabs(dPhi) > 1.0) ) continue;
             PF_pT[npfs] = pf.pt();
             PF_dR[npfs] = deltaR(j.eta(), j.phi(), pf.eta(), pf.phi());
             PF_dTheta[npfs] = std::atan2(dPhi, dEta);
