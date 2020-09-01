@@ -20,9 +20,9 @@ fileList = FileUtils.loadListFromFile(filePath+"RunIISummer16MiniAODv2_QCD_Pt-15
 
 process.source = cms.Source("PoolSource",
 	## Process whole data set
-	fileNames = cms.untracked.vstring(*fileList)
+	# fileNames = cms.untracked.vstring(*fileList)
 	## Process just one file
-	# fileNames = cms.untracked.vstring(fileList[0])
+	fileNames = cms.untracked.vstring(fileList[0])
 )
 
 process.AK4jets = cms.EDAnalyzer("JetAnalyzer",
@@ -45,7 +45,7 @@ process.AK4jets = cms.EDAnalyzer("JetAnalyzer",
 )
 
 # Choose how many events to process (-1 = all)
-process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
+process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(100) )
 
 # Report execution progress
 process.load("FWCore.MessageService.MessageLogger_cfi")
