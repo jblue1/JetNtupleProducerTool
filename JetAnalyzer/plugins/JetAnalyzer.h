@@ -160,7 +160,7 @@ class JetAnalyzer : public edm::EDAnalyzer {
         Int_t PF_id[kMaxPF];
         UInt_t PF_fromPV[kMaxPF];
         UInt_t PF_fromAK4Jet[kMaxPF];
-		TLorentzVector PF_Lorentz[kMaxPF];
+		LorentzVector PF_Lorentz[kMaxPF];
 
         // Generator level jet variables
         Float_t genJetPt;
@@ -177,8 +177,8 @@ class JetAnalyzer : public edm::EDAnalyzer {
 		Float_t genJetPF_eta[kMaxPF];
         Float_t genJetPF_mass[kMaxPF];
         Int_t genJetPF_id[kMaxPF];
-		TLorentzVector genJetPF_Lorentz[kMaxPF];
-		TLorentzVector genJetPF_jetLorentz[kMaxPF];
+		LorentzVector genJetPF_Lorentz[kMaxPF];
+		LorentzVector genJetPF_jetLorentz[kMaxPF];
 
         // Misc. jet variables
         UInt_t eventJetMult;
