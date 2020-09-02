@@ -60,9 +60,15 @@ class JetAnalyzer : public edm::EDAnalyzer {
 		TH1D* matchDR;
 		TH1D* matchDPT;
 		TH2D* matchDRDPT;
+		TH1D* genDR;
+		TH1D* genDPhi;
+		TH1D* genDEta;
+		
 		
 		TH1D* matchPercent;
 		TH1D* matchNumber;
+		TH1D* genNumber;
+		
 		
         // Tokens
         edm::EDGetTokenT<reco::VertexCollection> vtxToken_;

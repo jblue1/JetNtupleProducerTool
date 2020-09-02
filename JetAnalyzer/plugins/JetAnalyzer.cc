@@ -39,10 +39,13 @@ void JetAnalyzer::beginJob()
 	matchDR = fs->make<TH1D>("matchDR" , "DR of all gen/reco combinations" , 100 , 0 , 2);
 	matchDPT = fs->make<TH1D>("matchDPT" , "|(genPT-recoPT)|/genPT of all gen/reco combinations" , 100 , 0 , 1.5);
 	matchDRDPT = fs->make<TH2D>("matchDRDPT" , "DR of all gen/reco combinations" , 100 , 0 , 2, 100, 0, 1.5);
+	genDR = fs->make<TH1D>("genDR" , "DR of all gen particles to gen jets" , 100 , 0 , 2);
+	genDPhi = fs->make<TH1D>("genDPhi" , "DPhi of all gen particles to gen jets" , 100 , 0 , 2);
+	genDEta = fs->make<TH1D>("genDEta" , "DEta of all gen particles to gen jets" , 100 , 0 , 2);
 	
 	matchPercent = fs->make<TH1D>("matchPercent" , "percent of all gen jet particles which match something" , 100 , 0 , 2);
 	matchNumber = fs->make<TH1D>("matchNumber" , "distribution of number of matches per jet" , 21 , 0 , 20);
-
+	genNumber = fs->make<TH1D>("genNumber" , "distribution of number of particles per gen Jet" , 100 , 0 , 200);
 	
 	
 	// Create the ROOT tree and add all the branches to it
@@ -449,6 +452,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
             std::sort(genParticles.begin(), genParticles.end(), [](const pat::PackedGenParticle* p1, const pat::PackedGenParticle* p2) {return p1->pt() > p2->pt(); });
 
             unsigned int genParticlesSize = genParticles.size();
+			genCount->Fill(genParticlesSize);
             for (unsigned int i = 0; i != genParticlesSize; ++i) {
                 const pat::PackedGenParticle* genParticle = dynamic_cast<const pat::PackedGenParticle*>(genParticles[i]);
 
@@ -462,6 +466,9 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 				genJetPF_phi[ng] = genParticle->phi();
                 genJetPF_mass[ng] = genParticle->mass();
                 genJetPF_id[ng] = genParticle->pdgId();
+				genDR->Fill(genJetPF_dR[npfs]);
+				genDEta->Fill(dEta);
+				genDPhi->Fill(dPhi);
                 ++ng;
             }
             nGenJetPF = ng;
@@ -502,6 +509,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
             PF_id[npfs] = pf.pdgId();
             PF_fromPV[npfs] =  pf.fromPV();
             ++npfs;
+			
         }
         nPF = npfs;
 		
