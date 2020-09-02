@@ -511,7 +511,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
             PF_mass[npfs] = pf.mass();
             PF_id[npfs] = pf.pdgId();
             PF_fromPV[npfs] =  pf.fromPV();
-			PT_Lorentz[npfs] = pf.p4();
+			PF_Lorentz[npfs] = pf.p4();
             ++npfs;
 			
         }
@@ -522,9 +522,9 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 			int matched = 0;
 			
 			for(unsigned int y = 0; y < nPF; y++){
-				double dR = deltaR((genJetPF_Lorentz[x]-genJetPF_jetLorentz[x])->eta(), (genJetPF_Lorentz[x]-genJetPF_jetLorentz[x])->phi(),
-										(PF_Lorentz[y]-genJetPF_jetLorentz[x])->eta(), (PF_Lorentz[y]-genJetPF_jetLorentz[x])->phi());
-				double dPT = abs((genJetPF_Lorentz[x]-genJetPF_jetLorentz[x])->pt()-PF_Lorentz[y]-genJetPF_jetLorentz[x])->pt())/(genJetPF_Lorentz[x]-genJetPF_jetLorentz[x])->pt();
+				double dR = deltaR((genJetPF_Lorentz[x]-genJetPF_jetLorentz[x]).eta(), (genJetPF_Lorentz[x]-genJetPF_jetLorentz[x]).phi(),
+										(PF_Lorentz[y]-genJetPF_jetLorentz[x]).eta(), (PF_Lorentz[y]-genJetPF_jetLorentz[x]).phi());
+				double dPT = abs((genJetPF_Lorentz[x]-genJetPF_jetLorentz[x]).pt()-PF_Lorentz[y]-genJetPF_jetLorentz[x]).pt())/(genJetPF_Lorentz[x]-genJetPF_jetLorentz[x]).pt();
 				
 				matchDR->Fill(dR*1.0);
 				matchDPT->Fill(dPT*1.0);
