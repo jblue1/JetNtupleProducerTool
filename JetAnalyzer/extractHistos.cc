@@ -51,6 +51,7 @@ void extractHistos(){
 	
 	
 	matchDRDPT->Draw("COLZ");
+	matchDRDPT->SetStats(0);
 	c->Print("matchDRDPT.png");
 	c->Clear();
 	
