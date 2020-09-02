@@ -524,7 +524,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 			for(unsigned int y = 0; y < nPF; y++){
 				double dR = deltaR((genJetPF_Lorentz[x]-genJetPF_jetLorentz[x]).eta(), (genJetPF_Lorentz[x]-genJetPF_jetLorentz[x]).phi(),
 										(PF_Lorentz[y]-genJetPF_jetLorentz[x]).eta(), (PF_Lorentz[y]-genJetPF_jetLorentz[x]).phi());
-				double dPT = abs((genJetPF_Lorentz[x]-genJetPF_jetLorentz[x]).pt()-PF_Lorentz[y]-genJetPF_jetLorentz[x]).pt())/(genJetPF_Lorentz[x]-genJetPF_jetLorentz[x]).pt();
+				double dPT = abs((genJetPF_Lorentz[x]-genJetPF_jetLorentz[x]).pt()-(PF_Lorentz[y]-genJetPF_jetLorentz[x]).pt())/(genJetPF_Lorentz[x]-genJetPF_jetLorentz[x]).pt();
 				
 				matchDR->Fill(dR*1.0);
 				matchDPT->Fill(dPT*1.0);
