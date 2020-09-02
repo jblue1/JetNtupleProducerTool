@@ -33,13 +33,13 @@ void extractHistos(){
 	d->GetObject("matchDR", matchDR);
 	d->GetObject("matchDPT", matchDPT);
 	d->GetObject("matchDRDPT", matchDRDPT);
-	d->GetObject("genDR", matchDRDPT);
-	d->GetObject("genDPhi", matchDRDPT);
-	d->GetObject("genDEta", matchDRDPT);
+	d->GetObject("genDR", genDR);
+	d->GetObject("genDPhi", genDPhi);
+	d->GetObject("genDEta", genDEta);
 	
 	d->GetObject("matchPercent", matchPercent);
 	d->GetObject("matchNumber", matchNumber);
-	d->GetObject("genNumber", matchDRDPT);
+	d->GetObject("genNumber", genNumber);
 	
 	matchDR->Draw("HIST");
 	c->Print("matchDR.png");
