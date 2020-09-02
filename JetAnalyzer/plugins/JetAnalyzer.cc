@@ -38,7 +38,7 @@ void JetAnalyzer::beginJob()
     // Create histograms
 	matchDR = fs->make<TH1D>("matchDR" , "DR of all gen/reco combinations" , 100 , 0 , 2);
 	matchDPT = fs->make<TH1D>("matchDPT" , "|(genPT-recoPT)|/genPT of all gen/reco combinations" , 100 , 0 , 1.5);
-	matchDRDPT = fs->make<TH2D>("matchDRDPT" , "DR of all gen/reco combinations" , 100 , 0 , 0.8, 100, 0, 0.8);
+	matchDRDPT = fs->make<TH2D>("matchDRDPT" , "DR of all gen/reco combinations" , 100 , 0 , 2, 100, 0, 1.5);
 	genDR = fs->make<TH1D>("genDR" , "DR of all gen particles to gen jets" , 100 , 0 , 2);
 	genDPhi = fs->make<TH1D>("genDPhi" , "DPhi of all gen particles to gen jets" , 100 , 0 , 2);
 	genDEta = fs->make<TH1D>("genDEta" , "DEta of all gen particles to gen jets" , 100 , 0 , 2);
