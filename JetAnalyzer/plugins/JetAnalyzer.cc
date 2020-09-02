@@ -7,6 +7,34 @@
 
 #include "JetAnalyzer.h"
 
+particle::particle(reco::GenParticle newParticle) {
+		pdgId = newParticle.pdgId();
+		status = newParticle.status();
+		pt = newParticle.pt();
+		eta = newParticle.eta();
+		phi = newParticle.phi();
+		mass = newParticle.mass();
+}
+
+particle::particle(const reco::Candidate *newParticle) {
+		pdgId = newParticle->pdgId();
+		status = newParticle->status();
+		pt = newParticle->pt();
+		eta = newParticle->eta();
+		phi = newParticle->phi();
+		mass = newParticle->mass();
+}
+
+bool particle::operator==(particle rhs) {
+		if (pdgId == rhs.get_pdgId()
+						&& status == rhs.get_status()
+						&& pt == rhs.get_pt()
+						&& eta == rhs.get_eta()
+						&& phi == rhs.get_phi()
+						&& mass == rhs.get_mass()
+		   ) {return true;}
+		else {return false;}
+}
 JetAnalyzer::JetAnalyzer(const edm::ParameterSet& iConfig):
     vtxToken_(consumes<reco::VertexCollection>(iConfig.getParameter<edm::InputTag>("vertices"))),
     jetToken_(consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>("jets"))),
@@ -36,6 +64,13 @@ void JetAnalyzer::beginJob()
 {
     // Create the ROOT tree and add all the branches to it
     jetTree = fs->make<TTree>("jetTree", "jetTree");
+
+	jetTree->Branch("genPartPdgId", &genPartPdgId);
+	jetTree->Branch("genPartStatus", &genPartStatus);
+	jetTree->Branch("genPartPt", &genPartPt);
+	jetTree->Branch("genPartEta", &genPartEta);
+	jetTree->Branch("genPartPhi", &genPartPhi);
+	jetTree->Branch("genPartM", &genPartM);
 
     jetTree->Branch("jetPt", &jetPt, "jetPt/F");
     jetTree->Branch("jetEta", &jetEta, "jetEta/F");
@@ -222,11 +257,60 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
     iEvent.getByToken(multToken_, multHandle);
 
 	std::cout << std::endl << "--------- EVENT: " << iEvent.id().event() << "---------" << std::endl;
+	std::vector<particle> parts;
+	
+	// container to store the mother indices of each particle
+	std::vector<std::set<int>> indices;
+
+	int j = 0;
+
 	// Loop over genParticles and print information
 	for(reco::GenParticleCollection::const_iterator particleIt = genParticles->begin(); particleIt != genParticles->end(); ++particleIt) {
-			const reco::GenParticle &particle = *particleIt;
-			std::cout << "STATUS: " << particle.status() << " PDGID:" << particle.pdgId() << std::endl;
+			const reco::GenParticle &part = *particleIt;
+			particle p(part);
+			if (std::find(parts.begin(), parts.end(), p) == parts.end()) {
+					parts.push_back(p);
+			}
+			
+
+			genPartPdgId.push_back(part.status());
+			genPartStatus.push_back(part.pdgId());
+			genPartPt.push_back(part.pt());
+			genPartEta.push_back(part.eta());
+			genPartPhi.push_back(part.phi());
+			genPartM.push_back(part.mass());
+
+			int n = part.numberOfMothers();
+			std::set<int> set_of_mothers;
+			for (int i = 0; i < n; i++) {
+					const reco::Candidate *mother = part.mother(i);
+					particle m(mother);
+					std::vector<particle>::iterator it = std::find(parts.begin(), parts.end(), m);
+					int index = std::distance(parts.begin(), it);
+					set_of_mothers.insert(index);
+			}
+			indices.push_back(set_of_mothers);
+			j++;
 	}
+	// reset particle index
+	j = 0;
+	// go back through the list of particles and assert that for each particle p, the set of mothers of
+	// each daughter d includes p (ie making sure the mother daughter links are bidirectional)
+	for(reco::GenParticleCollection::const_iterator particleIt = genParticles->begin(); particleIt != genParticles->end(); ++particleIt) {
+			const reco::GenParticle &part = *particleIt;
+			particle p(part);
+			int n = part.numberOfDaughters();
+			for (int i = 0; i < n; i++) {
+					const reco::Candidate *daughter = part.daughter(i);
+					particle d(daughter);
+					std::vector<particle>::iterator it = std::find(parts.begin(), parts.end(), d);
+					int index = std::distance(parts.begin(), it);
+					std::set<int> mothers = indices[index];
+					assert(mothers.count(j) == 1);
+			}
+			j++;
+	}
+			
     // Create vectors for the jets
     // sortedJets include all jets of the event, while selectedJets have pT and eta cuts
     vector<JetIndexed> sortedJets;

@@ -7,6 +7,8 @@
 #include <cmath>
 #include <iostream>
 #include <fstream>
+#include <cstdint>
+#include <set>
 
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "FWCore/Framework/interface/EDAnalyzer.h"
@@ -29,6 +31,7 @@
 #include "DataFormats/PatCandidates/interface/PackedCandidate.h"
 #include "DataFormats/PatCandidates/interface/PackedGenParticle.h"
 #include "DataFormats/HepMCCandidate/interface/GenParticle.h"
+#include "HepMC/SimpleVector.h"
 #include "DataFormats/Candidate/interface/Candidate.h"
 
 #include "SimDataFormats/PileupSummaryInfo/interface/PileupSummaryInfo.h"
@@ -42,6 +45,41 @@
 using namespace std;
 using namespace reco;
 using namespace pat;
+
+
+// quick class used to compare objects of type reco::Candidate and reco::GenParticle
+class particle {
+		private:
+			Int_t pdgId;
+			UInt_t status;
+			Float_t pt;
+			Float_t eta;
+			Float_t phi;
+			Float_t mass;
+		public:
+			particle(reco::GenParticle newParticle);
+			particle(const reco::Candidate *newParticle);
+			Int_t get_pdgId() {
+					return pdgId;
+			}
+			UInt_t get_status() {
+					return status;
+			}
+			Float_t get_pt() {
+					return pt; 
+			}
+			Float_t get_eta() {
+					return eta;
+			}
+			Float_t get_phi() {
+					return phi;
+			}
+			Float_t get_mass() {
+					return mass;
+			}
+
+			bool operator==(particle rhs);
+};
 
 class JetAnalyzer : public edm::EDAnalyzer {
     public:
@@ -87,6 +125,14 @@ class JetAnalyzer : public edm::EDAnalyzer {
         // TTree variables
         // -------------------------
         static const UInt_t kMaxPF = 5000;
+
+		// GenParticle Variables
+		std::vector<Int_t> genPartPdgId;
+		std::vector<UInt_t> genPartStatus;
+		std::vector<Float_t> genPartPt;
+		std::vector<Float_t> genPartEta;
+		std::vector<Float_t> genPartPhi;
+		std::vector<Float_t> genPartM;
 
         // Jet variables
         Float_t jetPt;
