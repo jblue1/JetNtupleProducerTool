@@ -49,6 +49,7 @@ void extractHistos(){
 	c->Print("matchDPT.png");
 	c->Clear();
 	
+	matchDRDPT->SetMaximum(40);
 	matchDRDPT->Draw("COLZ");
 	c->Print("matchDRDPT.png");
 	c->Clear();
