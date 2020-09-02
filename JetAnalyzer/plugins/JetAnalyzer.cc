@@ -452,7 +452,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
             std::sort(genParticles.begin(), genParticles.end(), [](const pat::PackedGenParticle* p1, const pat::PackedGenParticle* p2) {return p1->pt() > p2->pt(); });
 
             unsigned int genParticlesSize = genParticles.size();
-			genCount->Fill(genParticlesSize);
+			genNumber->Fill(genParticlesSize);
             for (unsigned int i = 0; i != genParticlesSize; ++i) {
                 const pat::PackedGenParticle* genParticle = dynamic_cast<const pat::PackedGenParticle*>(genParticles[i]);
 
@@ -466,7 +466,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 				genJetPF_phi[ng] = genParticle->phi();
                 genJetPF_mass[ng] = genParticle->mass();
                 genJetPF_id[ng] = genParticle->pdgId();
-				genDR->Fill(genJetPF_dR[npfs]);
+				genDR->Fill(genJetPF_dR[ng]);
 				genDEta->Fill(dEta);
 				genDPhi->Fill(dPhi);
                 ++ng;
