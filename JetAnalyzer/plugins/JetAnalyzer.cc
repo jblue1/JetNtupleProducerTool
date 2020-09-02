@@ -467,7 +467,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
                 genJetPF_mass[ng] = genParticle->mass();
                 genJetPF_id[ng] = genParticle->pdgId();
 				genJetPF_Lorentz[ng] = genParticle->p4();
-				genJetPF_jetLorentz[ng] = gj->p4();
+				genJetPF_jetLorentz[ng] = gj->p4()/genParticlesSize;
 				
 				genDR->Fill(genJetPF_dR[ng]);
 				genDEta->Fill(dEta);
