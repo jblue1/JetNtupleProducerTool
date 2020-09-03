@@ -258,21 +258,18 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 
 	std::cout << std::endl << "--------- EVENT: " << iEvent.id().event() << "---------" << std::endl;
 	std::vector<particle> parts;
+	std::vector<std::vector<Int_t>> daughters;
+	std::vector<std::vector<Int_t>> mothers;
 	
-	// container to store the mother indices of each particle
-	std::vector<std::set<int>> indices;
-
-	int j = 0;
-
 	// Loop over genParticles and print information
 	for(reco::GenParticleCollection::const_iterator particleIt = genParticles->begin(); particleIt != genParticles->end(); ++particleIt) {
 			const reco::GenParticle &part = *particleIt;
 			particle p(part);
+			// add new particles to the vector
 			if (std::find(parts.begin(), parts.end(), p) == parts.end()) {
 					parts.push_back(p);
 			}
 			
-
 			genPartPdgId.push_back(part.status());
 			genPartStatus.push_back(part.pdgId());
 			genPartPt.push_back(part.pt());
@@ -280,34 +277,40 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 			genPartPhi.push_back(part.phi());
 			genPartM.push_back(part.mass());
 
-			int n = part.numberOfMothers();
-			std::set<int> set_of_mothers;
-			for (int i = 0; i < n; i++) {
-					const reco::Candidate *mother = part.mother(i);
-					particle m(mother);
-					std::vector<particle>::iterator it = std::find(parts.begin(), parts.end(), m);
-					int index = std::distance(parts.begin(), it);
-					set_of_mothers.insert(index);
-			}
-			indices.push_back(set_of_mothers);
-			j++;
 	}
 	// reset particle index
-	j = 0;
+	int j = 0;
 	// go back through the list of particles and assert that for each particle p, the set of mothers of
 	// each daughter d includes p (ie making sure the mother daughter links are bidirectional)
 	for(reco::GenParticleCollection::const_iterator particleIt = genParticles->begin(); particleIt != genParticles->end(); ++particleIt) {
 			const reco::GenParticle &part = *particleIt;
 			particle p(part);
-			int n = part.numberOfDaughters();
-			for (int i = 0; i < n; i++) {
+			int num_daught = part.numberOfDaughters();
+			std::vector<Int_t> daughter_indices;
+			for (int i = 0; i < num_daught; i++) {
 					const reco::Candidate *daughter = part.daughter(i);
 					particle d(daughter);
+					// get pointer to daughter in vector
 					std::vector<particle>::iterator it = std::find(parts.begin(), parts.end(), d);
+					// get index of daughter in vector
 					int index = std::distance(parts.begin(), it);
-					std::set<int> mothers = indices[index];
-					assert(mothers.count(j) == 1);
+					daughter_indices.push_back(index);
 			}
+			daughters.push_back(daughter_indices);
+
+			int num_moth = part.numberOfMothers();
+			std::vector<Int_t> mother_indices;
+			for (int i = 0; i < num_moth; i++) {
+					const reco::Candidate *mother = part.mother(i);
+					particle m(mother);
+					// get pointer to mother in vector
+					std::vector<particle>::iterator it = std::find(parts.begin(), parts.end(), m);
+					// gen index of daugther in vector
+					int index = std::distance(parts.begin(), it);
+					mother_indices.push_back(index);
+			}
+			mothers.push_back(mother_indices);
+
 			j++;
 	}
 			
