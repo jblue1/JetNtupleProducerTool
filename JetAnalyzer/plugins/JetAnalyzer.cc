@@ -71,6 +71,12 @@ void JetAnalyzer::beginJob()
 	jetTree->Branch("genPartEta", &genPartEta);
 	jetTree->Branch("genPartPhi", &genPartPhi);
 	jetTree->Branch("genPartM", &genPartM);
+	jetTree->Branch("genPartPx", &genPartPx);
+	jetTree->Branch("genPartPy", &genPartPy);
+	jetTree->Branch("genPartPz", &genPartPz);
+	jetTree->Branch("genPartE", &genPartE);
+	jetTree->Branch("motherIndices", &motherIndices);
+	jetTree->Branch("daughterIndices", &daughterIndices);
 
     jetTree->Branch("jetPt", &jetPt, "jetPt/F");
     jetTree->Branch("jetEta", &jetEta, "jetEta/F");
@@ -256,10 +262,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
     edm::Handle<edm::ValueMap<int>> multHandle;
     iEvent.getByToken(multToken_, multHandle);
 
-	std::cout << std::endl << "--------- EVENT: " << iEvent.id().event() << "---------" << std::endl;
 	std::vector<particle> parts;
-	std::vector<std::vector<Int_t>> daughters;
-	std::vector<std::vector<Int_t>> mothers;
 	
 	// Loop over genParticles and print information
 	for(reco::GenParticleCollection::const_iterator particleIt = genParticles->begin(); particleIt != genParticles->end(); ++particleIt) {
@@ -276,17 +279,20 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 			genPartEta.push_back(part.eta());
 			genPartPhi.push_back(part.phi());
 			genPartM.push_back(part.mass());
+			genPartPx.push_back(part.p4().px());
+			genPartPy.push_back(part.p4().py());
+			genPartPz.push_back(part.p4().pz());
+			genPartE.push_back(part.p4().E());
+		
 
 	}
-	// reset particle index
-	int j = 0;
 	// go back through the list of particles and assert that for each particle p, the set of mothers of
 	// each daughter d includes p (ie making sure the mother daughter links are bidirectional)
 	for(reco::GenParticleCollection::const_iterator particleIt = genParticles->begin(); particleIt != genParticles->end(); ++particleIt) {
 			const reco::GenParticle &part = *particleIt;
 			particle p(part);
 			int num_daught = part.numberOfDaughters();
-			std::vector<Int_t> daughter_indices;
+			std::vector<UInt_t> particle_daughter_indices;
 			for (int i = 0; i < num_daught; i++) {
 					const reco::Candidate *daughter = part.daughter(i);
 					particle d(daughter);
@@ -294,12 +300,12 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 					std::vector<particle>::iterator it = std::find(parts.begin(), parts.end(), d);
 					// get index of daughter in vector
 					int index = std::distance(parts.begin(), it);
-					daughter_indices.push_back(index);
+					particle_daughter_indices.push_back(index);
 			}
-			daughters.push_back(daughter_indices);
+			daughterIndices.push_back(particle_daughter_indices);
 
 			int num_moth = part.numberOfMothers();
-			std::vector<Int_t> mother_indices;
+			std::vector<UInt_t> particle_mother_indices;
 			for (int i = 0; i < num_moth; i++) {
 					const reco::Candidate *mother = part.mother(i);
 					particle m(mother);
@@ -307,11 +313,9 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 					std::vector<particle>::iterator it = std::find(parts.begin(), parts.end(), m);
 					// gen index of daugther in vector
 					int index = std::distance(parts.begin(), it);
-					mother_indices.push_back(index);
+					particle_mother_indices.push_back(index);
 			}
-			mothers.push_back(mother_indices);
-
-			j++;
+			motherIndices.push_back(particle_mother_indices);
 	}
 			
     // Create vectors for the jets
