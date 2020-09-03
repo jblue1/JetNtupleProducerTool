@@ -75,6 +75,9 @@ void JetAnalyzer::beginJob()
 	jetTree->Branch("genPartPy", &genPartPy);
 	jetTree->Branch("genPartPz", &genPartPz);
 	jetTree->Branch("genPartE", &genPartE);
+	jetTree->Branch("genPartVx", &genPartVx);
+	jetTree->Branch("genPartVy", &genPartVy);
+	jetTree->Branch("genPartVz", &genPartVz);
 	jetTree->Branch("motherIndices", &motherIndices);
 	jetTree->Branch("daughterIndices", &daughterIndices);
 
@@ -279,11 +282,14 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 			genPartEta.push_back(part.eta());
 			genPartPhi.push_back(part.phi());
 			genPartM.push_back(part.mass());
-			genPartPx.push_back(part.p4().px());
-			genPartPy.push_back(part.p4().py());
-			genPartPz.push_back(part.p4().pz());
-			genPartE.push_back(part.p4().E());
-		
+			genPartPx.push_back(part.px());
+			genPartPy.push_back(part.py());
+			genPartPz.push_back(part.pz());
+			genPartE.push_back(part.energy());
+			genPartVx.push_back(part.vx());
+			genPartVy.push_back(part.vy());
+			genPartVz.push_back(part.vz());
+
 
 	}
 	// go back through the list of particles and assert that for each particle p, the set of mothers of

@@ -137,6 +137,9 @@ class JetAnalyzer : public edm::EDAnalyzer {
 		std::vector<Float_t> genPartPy;
 		std::vector<Float_t> genPartPz;
 		std::vector<Float_t> genPartE;
+		std::vector<Float_t> genPartVx;
+		std::vector<Float_t> genPartVy;
+		std::vector<Float_t> genPartVz;
 		std::vector<std::vector<UInt_t>> motherIndices;
 		std::vector<std::vector<UInt_t>> daughterIndices;
 
