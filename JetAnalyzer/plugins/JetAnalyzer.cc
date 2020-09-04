@@ -39,6 +39,10 @@ void JetAnalyzer::beginJob()
 	matchDR = fs->make<TH1D>("matchDR" , "DR of all gen/reco combinations" , 100 , 0 , 5);
 	matchDPT = fs->make<TH1D>("matchDPT" , "|(genPT-recoPT)|/genPT of all gen/reco combinations" , 100 , 0 , 5);
 	matchDRDPT = fs->make<TH2D>("matchDRDPT" , "DR of all gen/reco combinations" , 100 , 0 , 2, 100, 0, 1.5);
+	matchDRDist = fs->make<TH1D>("matchDRDist" , "DR of all selected gen/reco combinations" , 100 , 0 , 5);
+	matchDPTDist = fs->make<TH1D>("matchDPTDist" , "|(genPT-recoPT)|/genPT of all selected gen/reco combinations" , 100 , 0 , 5);
+	matchDRDPTDist = fs->make<TH2D>("matchDRDPTDist" , "DR of all selected gen/reco combinations" , 100 , 0 , 2, 100, 0, 1.5);
+	matchDRPlusDPTDist = fs->make<TH1D>("matchDRPlusDPTDist" , "dPT + dR of all selected gen/reco combinations" , 100 , 0 , 5);
 	genDR = fs->make<TH1D>("genDR" , "DR of all gen particles to gen jets" , 100 , 0 , 2);
 	genDPhi = fs->make<TH1D>("genDPhi" , "DPhi of all gen particles to gen jets" , 100 , 0 , 2);
 	genDEta = fs->make<TH1D>("genDEta" , "DEta of all gen particles to gen jets" , 100 , 0 , 2);
@@ -520,11 +524,17 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 		
 		for(unsigned int x = 0; x < nGenJetPF;x++){ 
 			int matched = 0;
-			
+			double minDR=100;
+			double minDPT=100;
 			for(unsigned int y = 0; y < nPF; y++){
 				double dR = deltaR((genJetPF_Lorentz[x]-genJetPF_jetLorentz[x]).eta(), (genJetPF_Lorentz[x]-genJetPF_jetLorentz[x]).phi(),
 										(PF_Lorentz[y]-genJetPF_jetLorentz[x]).eta(), (PF_Lorentz[y]-genJetPF_jetLorentz[x]).phi());
 				double dPT = abs((genJetPF_Lorentz[x]-genJetPF_jetLorentz[x]).pt()-(PF_Lorentz[y]-genJetPF_jetLorentz[x]).pt())/(genJetPF_Lorentz[x]-genJetPF_jetLorentz[x]).pt();
+				if(dR+dPT < minDR + minDPT){
+					minDR = dR;
+					minDPT = dPT;
+				}
+				
 				
 				matchDR->Fill(dR*1.0);
 				matchDPT->Fill(dPT*1.0);
@@ -541,6 +551,10 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 			} else {
 				matchPercent->Fill(0.0);
 			}
+			matchDRDist->Fill(minDR);
+			matchDPTDist->Fill(minDPT);
+			matchDRPlusDPTDist->Fill(minDPT+minDR);
+			matchDRDPTDist->Fill(minDR, minDPT);
 		
 		}
 		

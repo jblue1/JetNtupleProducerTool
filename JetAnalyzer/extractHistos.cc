@@ -22,9 +22,14 @@ void extractHistos(){
 	TH1D * matchDR = nullptr;
 	TH1D * matchDPT = nullptr;
 	TH2D * matchDRDPT = nullptr;
+	TH1D * matchDRDist = nullptr;
+	TH1D * matchDPTDist = nullptr;
+	TH2D * matchDRDPTDist = nullptr;
+	TH1D * matchDRPlusDPTDist = nullptr;
 	TH1D * genDR = nullptr;
 	TH1D * genDPhi = nullptr;
 	TH1D * genDEta = nullptr;
+	
 	
 	TH1D * matchPercent = nullptr;
 	TH1D * matchNumber = nullptr;
@@ -33,6 +38,10 @@ void extractHistos(){
 	d->GetObject("matchDR", matchDR);
 	d->GetObject("matchDPT", matchDPT);
 	d->GetObject("matchDRDPT", matchDRDPT);
+	d->GetObject("matchDRDist", matchDR);
+	d->GetObject("matchDPTDist", matchDPT);
+	d->GetObject("matchDRDPTDist", matchDRDPT);
+	d->GetObject("matchDRPlusDPTDist", matchDRDPT);
 	d->GetObject("genDR", genDR);
 	d->GetObject("genDPhi", genDPhi);
 	d->GetObject("genDEta", genDEta);
@@ -56,10 +65,36 @@ void extractHistos(){
 	c->Clear();
 	
 	matchDRDPT->SetMaximum(4e4);
-	matchDRDPT->GetXaxis()->SetRangeUser(0,0.8);
-	matchDRDPT->GetYaxis()->SetRangeUser(0,0.8);
+	//matchDRDPT->GetXaxis()->SetRangeUser(0,0.8);
+	//matchDRDPT->GetYaxis()->SetRangeUser(0,0.8);
 	matchDRDPT->Draw("COLZ");
 	c->Print("matchDRDPTCutoff.png");
+	c->Clear();
+	
+	
+	matchDRDist->Draw("HIST");
+	c->Print("matchDRDist.png");
+	c->Clear();
+
+	matchDPTDist->Draw("HIST");
+	c->Print("matchDPTDist.png");
+	c->Clear();
+	
+	
+	matchDRDPTDist->Draw("COLZ");
+	matchDRDPTDist->SetStats(0);
+	c->Print("matchDRDPTDist.png");
+	c->Clear();
+	
+	matchDRDPTDist->SetMaximum(4e4);
+	//matchDRDPTDist->GetXaxis()->SetRangeUser(0,0.8);
+	//matchDRDPTDist->GetYaxis()->SetRangeUser(0,0.8);
+	matchDRDPTDist->Draw("COLZ");
+	c->Print("matchDRDPTDistCutoff.png");
+	c->Clear();
+	
+	matchDRPlusDPTDist->Draw("HIST");
+	c->Print("matchDRPlusDPTDist.png");
 	c->Clear();
 	
 	genDR->Draw("HIST");
