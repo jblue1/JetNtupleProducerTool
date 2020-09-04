@@ -7,34 +7,27 @@
 
 #include "JetAnalyzer.h"
 
-particle::particle(reco::GenParticle newParticle) {
-		pdgId = newParticle.pdgId();
-		status = newParticle.status();
-		pt = newParticle.pt();
-		eta = newParticle.eta();
-		phi = newParticle.phi();
-		mass = newParticle.mass();
-}
+/**
+ * Used to compare if a reco::GenParticle and a reco::Candidate are the same particle
+ * by comparing their status, pdgId, pt, eta, phi, and vertex location. 
+ */
+bool areEquivalent(reco::GenParticle particle1, const reco::Candidate *particle2) {
+		if (particle1.status() == particle2->status()
+			&& particle1.pdgId() == particle2->pdgId()
+			&& particle1.pt() == particle2->pt()
+			&& particle1.eta() == particle2->eta()
+			&& particle1.phi() == particle2->phi()
+			&& particle1.vx() == particle2->vx()
+			&& particle1.vy() == particle2->vy()
+			&& particle1.vz() == particle2->vz()) {
+				return 1;
+		}
 
-particle::particle(const reco::Candidate *newParticle) {
-		pdgId = newParticle->pdgId();
-		status = newParticle->status();
-		pt = newParticle->pt();
-		eta = newParticle->eta();
-		phi = newParticle->phi();
-		mass = newParticle->mass();
+		else {
+			return 0;
+		}
 }
-
-bool particle::operator==(particle rhs) {
-		if (pdgId == rhs.get_pdgId()
-						&& status == rhs.get_status()
-						&& pt == rhs.get_pt()
-						&& eta == rhs.get_eta()
-						&& phi == rhs.get_phi()
-						&& mass == rhs.get_mass()
-		   ) {return true;}
-		else {return false;}
-}
+int eventIndex = 0;
 JetAnalyzer::JetAnalyzer(const edm::ParameterSet& iConfig):
     vtxToken_(consumes<reco::VertexCollection>(iConfig.getParameter<edm::InputTag>("vertices"))),
     jetToken_(consumes<pat::JetCollection>(iConfig.getParameter<edm::InputTag>("jets"))),
@@ -265,19 +258,33 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
     edm::Handle<edm::ValueMap<int>> multHandle;
     iEvent.getByToken(multToken_, multHandle);
 
-	std::vector<particle> parts;
+//	std::vector<particle> parts;
+	eventIndex++;
+	std::cout << "Event: " << eventIndex << std::endl;
+	//clear vectors
+	genPartPdgId.clear();
+	genPartStatus.clear();
+	genPartPt.clear();
+	genPartEta.clear();
+	genPartPhi.clear();
+	genPartM.clear();
+	genPartPx.clear();
+	genPartPy.clear();
+	genPartPz.clear();
+	genPartE.clear();
+	genPartVx.clear();
+	genPartVy.clear();
+	genPartVz.clear();
+	motherIndices.clear();
+	daughterIndices.clear();
 	
 	// Loop over genParticles and print information
 	for(reco::GenParticleCollection::const_iterator particleIt = genParticles->begin(); particleIt != genParticles->end(); ++particleIt) {
 			const reco::GenParticle &part = *particleIt;
-			particle p(part);
-			// add new particles to the vector
-			if (std::find(parts.begin(), parts.end(), p) == parts.end()) {
-					parts.push_back(p);
-			}
 			
-			genPartPdgId.push_back(part.status());
-			genPartStatus.push_back(part.pdgId());
+			std::cout << "STATUS: " << part.status() << " PDGID: " << part.pdgId() << std::endl;
+			genPartPdgId.push_back(part.pdgId());
+			genPartStatus.push_back(part.status());
 			genPartPt.push_back(part.pt());
 			genPartEta.push_back(part.eta());
 			genPartPhi.push_back(part.phi());
@@ -290,40 +297,29 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 			genPartVy.push_back(part.vy());
 			genPartVz.push_back(part.vz());
 
-
-	}
-	// go back through the list of particles and assert that for each particle p, the set of mothers of
-	// each daughter d includes p (ie making sure the mother daughter links are bidirectional)
-	for(reco::GenParticleCollection::const_iterator particleIt = genParticles->begin(); particleIt != genParticles->end(); ++particleIt) {
-			const reco::GenParticle &part = *particleIt;
-			particle p(part);
-			int num_daught = part.numberOfDaughters();
-			std::vector<UInt_t> particle_daughter_indices;
-			for (int i = 0; i < num_daught; i++) {
+			int numDaught = part.numberOfDaughters();
+			std::vector<UInt_t> daughterParticleIndices;
+			for (int i = 0; i < numDaught; i++) {
 					const reco::Candidate *daughter = part.daughter(i);
-					particle d(daughter);
-					// get pointer to daughter in vector
-					std::vector<particle>::iterator it = std::find(parts.begin(), parts.end(), d);
-					// get index of daughter in vector
-					int index = std::distance(parts.begin(), it);
-					particle_daughter_indices.push_back(index);
+					auto predicate = std::bind(areEquivalent, std::placeholders::_1, daughter);
+					reco::GenParticleCollection::const_iterator it;
+					it = std::find_if(genParticles->begin(), genParticles->end(), predicate);
+					int index = std::distance(genParticles->begin(), it);
+					daughterParticleIndices.push_back(index);
 			}
-			daughterIndices.push_back(particle_daughter_indices);
-
-			int num_moth = part.numberOfMothers();
-			std::vector<UInt_t> particle_mother_indices;
-			for (int i = 0; i < num_moth; i++) {
+			daughterIndices.push_back(daughterParticleIndices);
+			int numMoth = part.numberOfMothers();
+			std::vector<UInt_t> motherParticleIndices;
+			for (int i = 0; i < numMoth; i++) {
 					const reco::Candidate *mother = part.mother(i);
-					particle m(mother);
-					// get pointer to mother in vector
-					std::vector<particle>::iterator it = std::find(parts.begin(), parts.end(), m);
-					// gen index of daugther in vector
-					int index = std::distance(parts.begin(), it);
-					particle_mother_indices.push_back(index);
+					auto predicate = std::bind(areEquivalent, std::placeholders::_1, mother);
+					reco::GenParticleCollection::const_iterator it;
+					it = std::find_if(genParticles->begin(), genParticles->end(), predicate);
+					int index = std::distance(genParticles->begin(), it);
+					motherParticleIndices.push_back(index);
 			}
-			motherIndices.push_back(particle_mother_indices);
+			motherIndices.push_back(motherParticleIndices);
 	}
-			
     // Create vectors for the jets
     // sortedJets include all jets of the event, while selectedJets have pT and eta cuts
     vector<JetIndexed> sortedJets;

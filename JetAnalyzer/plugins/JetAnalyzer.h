@@ -48,6 +48,7 @@ using namespace pat;
 
 
 // quick class used to compare objects of type reco::Candidate and reco::GenParticle
+/*
 class particle {
 		private:
 			Int_t pdgId;
@@ -80,7 +81,7 @@ class particle {
 
 			bool operator==(particle rhs);
 };
-
+*/
 class JetAnalyzer : public edm::EDAnalyzer {
     public:
         explicit JetAnalyzer(const edm::ParameterSet&);
