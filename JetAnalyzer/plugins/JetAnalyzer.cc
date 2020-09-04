@@ -467,7 +467,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
                 genJetPF_mass[ng] = genParticle->mass();
                 genJetPF_id[ng] = genParticle->pdgId();
 				genJetPF_Lorentz[ng] = genParticle->p4();
-				genJetPF_jetLorentz[ng] = gj->p4()/genParticlesSize;
+				genJetPF_jetLorentz[ng] = gj->p4()*0; //genParticlesSize;
 				
 				genDR->Fill(genJetPF_dR[ng]);
 				genDEta->Fill(dEta);
@@ -530,7 +530,8 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 				matchDPT->Fill(dPT*1.0);
 				matchDRDPT->Fill(dR*1.0, dPT*1.0);
 				
-				if(dR<0.2 && dPT<0.4){
+				//if(dR*2 + dPT <0.2){// && dPT<0.1){
+				if(dR<0.4 && dPT <1){
 					matched++;
 				}
 			}

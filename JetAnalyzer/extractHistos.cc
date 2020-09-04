@@ -55,7 +55,9 @@ void extractHistos(){
 	c->Print("matchDRDPT.png");
 	c->Clear();
 	
-	matchDRDPT->SetMaximum(1e5);
+	matchDRDPT->SetMaximum(4e4);
+	matchDRDPT->GetXaxis()->SetRangeUser(0,0.8);
+	matchDRDPT->GetYaxis()->SetRangeUser(0,0.8);
 	matchDRDPT->Draw("COLZ");
 	c->Print("matchDRDPTCutoff.png");
 	c->Clear();
