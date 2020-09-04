@@ -40,8 +40,8 @@ void extractHistos(){
 	d->GetObject("matchDRDPT", matchDRDPT);
 	d->GetObject("matchDRDist", matchDR);
 	d->GetObject("matchDPTDist", matchDPT);
-	d->GetObject("matchDRDPTDist", matchDRDPT);
-	d->GetObject("matchDRPlusDPTDist", matchDRDPT);
+	d->GetObject("matchDRDPTDist", matchDRDPTDist);
+	d->GetObject("matchDRPlusDPTDist", matchDRPlusDPTDist);
 	d->GetObject("genDR", genDR);
 	d->GetObject("genDPhi", genDPhi);
 	d->GetObject("genDEta", genDEta);
