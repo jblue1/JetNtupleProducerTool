@@ -396,8 +396,6 @@ void JetAnalyzer::analyze(const edm::Event &iEvent,
 
     int statusCode = part.status();
     if (statusCode > 70 && statusCode < 80) {
-      std::cout << "STATUS: " << part.status() << " PDGID: " << part.pdgId()
-                << std::endl;
       genPartPdgId.push_back(part.pdgId());
       genPartStatus.push_back(part.status());
       genPartPt.push_back(part.pt());
