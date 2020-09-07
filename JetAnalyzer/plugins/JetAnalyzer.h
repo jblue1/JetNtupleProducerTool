@@ -106,6 +106,10 @@ private:
         std::vector<Float_t> genPartVx;
         std::vector<Float_t> genPartVy;
         std::vector<Float_t> genPartVz;
+		ULong64_t genPartEvent;
+        UInt_t genPartRun;
+        UInt_t genPartLumi;
+
 
         // Jet variables
         Float_t jetPt;

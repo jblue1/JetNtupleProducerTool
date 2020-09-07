@@ -63,6 +63,9 @@ void JetAnalyzer::beginJob() {
   genPartTree->Branch("genPartVx", &genPartVx);
   genPartTree->Branch("genPartVy", &genPartVy);
   genPartTree->Branch("genPartVz", &genPartVz);
+  genPartTree->Branch("event", &genPartEvent);
+  genPartTree->Branch("run", &genPartRun);
+  genPartTree->Branch("lumi", &genPartEvent);
 
   // Create the ROOT tree for jet variables and add all the branches to it
   jetTree = fs->make<TTree>("jetTree", "jetTree");
@@ -388,7 +391,13 @@ void JetAnalyzer::analyze(const edm::Event &iEvent,
   genPartVy.clear();
   genPartVz.clear();
 
-  // Loop over genParticles and print information
+  // save event information
+  genPartEvent = iEvent.id().event();
+  genPartRun = iEvent.id().run();
+  genPartLumi = iEvent.id().luminosityBlock();
+
+
+  // Loop over genParticles and save information
   for (reco::GenParticleCollection::const_iterator particleIt =
            genParticles->begin();
        particleIt != genParticles->end(); ++particleIt) {
