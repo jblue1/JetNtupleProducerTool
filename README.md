@@ -43,6 +43,30 @@ new TBrowser
 
 ## Content of the tuples
 
+### genPartTree
+
+Variables are saved to the tree event by event. This tree stores information about generated partons post-showering and pre-hadronization.
+
+| Data variable | Type | Description |
+| :---------------------- | -----------------: | :---------------------- |
+| genPartPdgId | std::vector \<Int_t> | pdgid of parton |
+| genPartStatus | std::vector\<Int_t> | Pythia8 status of parton |
+| genPartPt | std::vector\<Float_t> | Transverse momentum of parton |
+| genPartEta | std::vector\<Float_t> | Pseudorapidity (η) of parton |
+| genPartPhi | std::vector\<Float_t> | Azimuthal angle (ϕ) of parton |
+| genPartM | std::vector\<Float_t> | Mass of parton |
+| genPartPx | std::vector\<Float_t> | x-component of 4-momentum of parton |
+| genPartPy | std::vector\<Float_t> | y-component of 4-momentum of parton |
+| genPartPz | std::vector\<Float_t> | z-component of 4-momentum of parton |
+| genPartE | std::vector\<Float_t> | Energy component of 4-momentum of parton |
+| genPartVx | std::vector\<Float_t> | x coordinate of vertex position of parton |
+| genPartVy   | std::vector\<Float_t>  | y coordinate of vertex position of parton  |
+| genPartVz   |  std::vector\<Float_t> | z coordinate of vertex position of parton  |
+
+
+### jetTree
+
+
 Variables are saved to ROOT trees jet by jet.
 
 In this version, the reconstructed jets are AK4 jets clustered from Particle Flow candidates. The standard L1+L2+L3+residual energy corrections are applied to the jets and pileup is reduced using the CHS algorithm.
@@ -109,9 +133,9 @@ In this version, the reconstructed jets are AK4 jets clustered from Particle Flo
 | pthat | Float_t | Transverse momentum of the generated hard process |
 | eventWeight | Float_t | Weight assigned to the generated event |
 | rhoAll | Float_t | The median density (in GeV/A) of pile-up contamination per event; computed from all PF candidates of the event |
-| rhoCentral | Float_t | Same as above, computed from all PF candidates with \|η\| < 2.5 |
-| rhoCentralNeutral | Float_t | Same as above, computed from all neutral PF candidates with \|η\| < 2.5 |
-| rhoCentralChargedPileUp | Float_t | Same as above, computed from all PF charged hadrons associated to pileup vertices and with \|η\| < 2.5 |
+| rhoCentral | Float_t | Same as above, computed from all PF candidates |
+| rhoCentralNeutral | Float_t | Same as above, computed from all neutral PF candidates |
+| rhoCentralChargedPileUp | Float_t | Same as above, computed from all PF charged hadrons associated to pileup vertices |
 | PV_npvsGood | UInt_t | The number of good reconstructed primary vertices |
 | Pileup_nPU | UInt_t | The number of pileup interactions that have been added to the event in the current bunch crossing |
 | Pileup_nTrueInt | Float_t | The true mean number of the poisson distribution for this event from which the number of interactions in each bunch crossing has been sampled |
