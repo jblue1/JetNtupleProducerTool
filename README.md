@@ -2,7 +2,7 @@
 
 This is a CMSSW module for producing mostly flat tuples from 13 TeV Run2 MC samples.
 
-The code is intended to run inside the CMS Virtual Machine environment.
+The code is intended to run inside a CMSSW docker instance.
 
 ## Setting up
 
