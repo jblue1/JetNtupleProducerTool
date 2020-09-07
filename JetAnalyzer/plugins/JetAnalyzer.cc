@@ -171,9 +171,9 @@ void JetAnalyzer::beginJob() {
   genPartTree->GetBranch("genPartPy")
       ->SetTitle("y-component of 4-momentum of parton");
   genPartTree->GetBranch("genPartPz")
-      ->SetTitle("x-component of 4-momentum of parton");
+      ->SetTitle("z-component of 4-momentum of parton");
   genPartTree->GetBranch("genPartE")
-      ->SetTitle("Enegry component of 4-momentum of parton");
+      ->SetTitle("Energy component of 4-momentum of parton");
   genPartTree->GetBranch("genPartVx")
       ->SetTitle("x coordinate of vertex position of parton");
   genPartTree->GetBranch("genPartVy")
