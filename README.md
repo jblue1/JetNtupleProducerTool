@@ -6,16 +6,14 @@ The code is intended to run inside the CMS Virtual Machine environment.
 
 ## Setting up
 
-First install the CMS Virtual Machine as per instructions here: http://opendata.cern.ch/docs/cms-virtual-machine-2011
+First install the CMS Docker image as per instructions here: http://opendata.cern.ch/docs/cms-guide-docker
+This module has been tested on CMSSW_10_6_8_patch1
 
 Then open up the terminal and create the work area:
 ```
-mkdir WorkingArea
-cd WorkingArea
-cmsrel CMSSW_8_0_26
-cd CMSSW_8_0_26/src
 cmsenv                  # activates the CMSSW environment
-git clone https://github.com/cms-opendata-analyses/JetNtupleProducerTool/
+git clone https://github.com/jblue1/JetNtupleProducerTool.git
+git checkout partons # checkout this branch
 scram b                 # compiles the code
 cd JetNtupleProducerTool/JetAnalyzer
 ```
