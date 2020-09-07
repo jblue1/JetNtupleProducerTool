@@ -67,6 +67,8 @@ class JetAnalyzer : public edm::EDAnalyzer {
 		TH1D* matchDPTDist;
 		TH2D* matchDRDPTDist;
 		TH1D* matchDRPlusDPTDist;
+		TH2D* matchPTdPTDist;
+		TH1D* genPT;
 		TH1D* genDR;
 		TH1D* genDPhi;
 		TH1D* genDEta;

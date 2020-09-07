@@ -41,11 +41,13 @@ void JetAnalyzer::beginJob()
 	matchDRDPT = fs->make<TH2D>("matchDRDPT" , "DR and DPT of all gen/reco combinations" , 100 , 0 , 2, 100, 0, 5);
 	matchDRDist = fs->make<TH1D>("matchDRDist" , "DR of all selected gen/reco combinations" , 100 , 0 , 2);
 	matchDPTDist = fs->make<TH1D>("matchDPTDist" , "(genPT-recoPT)/genPT of all selected gen/reco combinations" , 100 , 0 , 2);
-	matchDRDPTDist = fs->make<TH2D>("matchDRDPTDist" , "DR of all selected gen/reco combinations" , 100 , 0 , 0.25, 100, 0, 2);
+	matchDRDPTDist = fs->make<TH2D>("matchDRDPTDist" , "DR vs DPT of all selected gen/reco combinations" , 100 , 0 , 0.25, 100, 0, 2);
 	matchDRPlusDPTDist = fs->make<TH1D>("matchDRPlusDPTDist" , "dPT + dR of all selected gen/reco combinations" , 100 , 0 , 5);
+	matchPTdPTDist = fs->make<TH2D>("matchPTdPTDist" , "PT vs DPT of all selected gen/reco combinations" , 100 , 0 , 500, 100, 0, 5);
 	genDR = fs->make<TH1D>("genDR" , "DR of all gen particles to gen jets" , 100 , 0 , 2);
 	genDPhi = fs->make<TH1D>("genDPhi" , "DPhi of all gen particles to gen jets" , 100 , 0 , 2);
 	genDEta = fs->make<TH1D>("genDEta" , "DEta of all gen particles to gen jets" , 100 , 0 , 2);
+	genPT = fs->make<TH1D>("genPT" , "PT of all gen particles to gen jets" , 100 , 0 , 500);
 	
 	matchPercent = fs->make<TH1D>("matchPercent" , "percent of all gen jet particles which match something" , 100 , 0 , 2);
 	matchNumber = fs->make<TH1D>("matchNumber" , "distribution of number of matches per jet" , 21 , 0 , 20);
@@ -476,6 +478,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 				genDR->Fill(genJetPF_dR[ng]);
 				genDEta->Fill(dEta);
 				genDPhi->Fill(dPhi);
+				genPT->Fill(genParticle->pt());
                 ++ng;
             }
             nGenJetPF = ng;
@@ -558,6 +561,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 				matchDPTDist->Fill(minDPT);
 				matchDRPlusDPTDist->Fill(abs(1-minDPT)+minDR);
 				matchDRDPTDist->Fill(minDR, minDPT);
+				matchPTdPTDist->Fill(genJetPF_Lorentz[x].pt(), minDPT)
 			}
 		}
 		

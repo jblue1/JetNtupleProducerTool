@@ -26,9 +26,11 @@ void extractHistos(){
 	TH1D * matchDPTDist = nullptr;
 	TH2D * matchDRDPTDist = nullptr;
 	TH1D * matchDRPlusDPTDist = nullptr;
+	TH2D * matchPTdPTDist = nullptr;
 	TH1D * genDR = nullptr;
 	TH1D * genDPhi = nullptr;
 	TH1D * genDEta = nullptr;
+	TH1D * genPT = nullptr;
 	
 	
 	TH1D * matchPercent = nullptr;
@@ -42,9 +44,11 @@ void extractHistos(){
 	d->GetObject("matchDPTDist", matchDPTDist);
 	d->GetObject("matchDRDPTDist", matchDRDPTDist);
 	d->GetObject("matchDRPlusDPTDist", matchDRPlusDPTDist);
+	d->GetObject("matchPTdPTDist", matchPTdPTDist);
 	d->GetObject("genDR", genDR);
 	d->GetObject("genDPhi", genDPhi);
 	d->GetObject("genDEta", genDEta);
+	d->GetObject("genPT", genPT);
 	
 	d->GetObject("matchPercent", matchPercent);
 	d->GetObject("matchNumber", matchNumber);
@@ -97,6 +101,10 @@ void extractHistos(){
 	c->Print("matchDRPlusDPTDist.png");
 	c->Clear();
 	
+	matchPTdPTDist->Draw("COLZ");
+	c->Print("matchPTdPTDist.png");
+	c->Clear();
+	
 	genDR->Draw("HIST");
 	c->Print("genDR.png");
 	c->Clear();
@@ -107,6 +115,10 @@ void extractHistos(){
 	
 	genDEta->Draw("HIST");
 	c->Print("genDEta.png");
+	c->Clear();
+	
+	genPT->Draw("HIST");
+	c->Print("genPT.png");
 	c->Clear();
 	
 	
