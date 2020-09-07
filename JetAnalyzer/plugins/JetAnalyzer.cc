@@ -44,6 +44,7 @@ void JetAnalyzer::beginJob()
 	matchDRDPTDist = fs->make<TH2D>("matchDRDPTDist" , "DR vs DPT of all selected gen/reco combinations" , 100 , 0 , 0.25, 100, 0, 2);
 	matchDRPlusDPTDist = fs->make<TH1D>("matchDRPlusDPTDist" , "dPT + dR of all selected gen/reco combinations" , 100 , 0 , 5);
 	matchPTdPTDist = fs->make<TH2D>("matchPTdPTDist" , "PT vs DPT of all selected gen/reco combinations" , 100 , 0 , 10, 100, 0, 2);
+	genRecoPT- = fs->make<TH2D>("genRecoPT" , "PT vs DPT of all selected gen/reco combinations" , 300 , 0 , 10, 300, 0, 2);
 	genDR = fs->make<TH1D>("genDR" , "DR of all gen particles to gen jets" , 100 , 0 , 2);
 	genDPhi = fs->make<TH1D>("genDPhi" , "DPhi of all gen particles to gen jets" , 100 , 0 , 2);
 	genDEta = fs->make<TH1D>("genDEta" , "DEta of all gen particles to gen jets" , 100 , 0 , 2);
@@ -442,7 +443,8 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
             jetGenMatch = 1;
 
             const reco::GenJet* gj = j.genJet();
-            genJetPt = gj->pt();
+            genRecoPT->Fill(gj->pt(), j->pt());
+			genJetPt = gj->pt();
             genJetEta = gj->eta();
             genJetPhi = gj->phi();
             genJetMass = gj->mass();
@@ -497,12 +499,12 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 			
 			
             // Check if the PF was contained in the AK4 jet
-            if (pfMap.count(pfPointer)) {
+            /*if (pfMap.count(pfPointer)) {
                 //PF_fromAK4Jet[npfs] = 1;
             } else {
                 continue;
 		//PF_fromAK4Jet[npfs] = 0;
-            }
+            }*/
 			
             float dEta = (pf.eta()-j.eta());
             float dPhi = deltaPhi(pf.phi(),j.phi());
