@@ -37,11 +37,11 @@ void JetAnalyzer::beginJob()
 {
     // Create histograms
 	matchDR = fs->make<TH1D>("matchDR" , "DR of all gen/reco combinations" , 100 , 0 , 5);
-	matchDPT = fs->make<TH1D>("matchDPT" , "|(genPT-recoPT)|/genPT of all gen/reco combinations" , 100 , 0 , 5);
-	matchDRDPT = fs->make<TH2D>("matchDRDPT" , "DR of all gen/reco combinations" , 100 , 0 , 2, 100, 0, 1.5);
-	matchDRDist = fs->make<TH1D>("matchDRDist" , "DR of all selected gen/reco combinations" , 100 , 0 , 5);
-	matchDPTDist = fs->make<TH1D>("matchDPTDist" , "|(genPT-recoPT)|/genPT of all selected gen/reco combinations" , 100 , 0 , 5);
-	matchDRDPTDist = fs->make<TH2D>("matchDRDPTDist" , "DR of all selected gen/reco combinations" , 100 , 0 , 2, 100, 0, 1.5);
+	matchDPT = fs->make<TH1D>("matchDPT" , "(genPT-recoPT)/genPT of all gen/reco combinations" , 100 , 0 , 5);
+	matchDRDPT = fs->make<TH2D>("matchDRDPT" , "DR and DPT of all gen/reco combinations" , 100 , 0 , 2, 100, 0, 5);
+	matchDRDist = fs->make<TH1D>("matchDRDist" , "DR of all selected gen/reco combinations" , 100 , 0 , 2);
+	matchDPTDist = fs->make<TH1D>("matchDPTDist" , "(genPT-recoPT)/genPT of all selected gen/reco combinations" , 100 , 0 , 2);
+	matchDRDPTDist = fs->make<TH2D>("matchDRDPTDist" , "DR of all selected gen/reco combinations" , 100 , 0 , 0.25, 100, 0, 2);
 	matchDRPlusDPTDist = fs->make<TH1D>("matchDRPlusDPTDist" , "dPT + dR of all selected gen/reco combinations" , 100 , 0 , 5);
 	genDR = fs->make<TH1D>("genDR" , "DR of all gen particles to gen jets" , 100 , 0 , 2);
 	genDPhi = fs->make<TH1D>("genDPhi" , "DPhi of all gen particles to gen jets" , 100 , 0 , 2);
@@ -267,7 +267,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
         // Make selective cuts on the event level
         if (sortedJets.size() < 2) continue;
         //if (fabs(sortedJets[0].jet.eta()) > 2.5 || fabs(sortedJets[1].jet.eta()) > 2.5) continue;
-        //if (fabs(sortedJets[0].jet.pt()) < 30 || fabs(sortedJets[1].jet.pt()) < 30) continue;
+        if (fabs(sortedJets[0].jet.pt()) < 30 || fabs(sortedJets[1].jet.pt()) < 30) continue;
 
         JetIndexed idxJet = selectedJets[ptIdx];
         const pat::Jet j = idxJet.jet;
@@ -492,14 +492,15 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
             const pat::PackedCandidate &pf = (*pfs)[i];
             const pat::PackedCandidate* pfPointer = &pf;
 			
-			/*
+			
             // Check if the PF was contained in the AK4 jet
             if (pfMap.count(pfPointer)) {
-                PF_fromAK4Jet[npfs] = 1;
+                //PF_fromAK4Jet[npfs] = 1;
             } else {
-                PF_fromAK4Jet[npfs] = 0;
+                continue;
+		//PF_fromAK4Jet[npfs] = 0;
             }
-			*/
+			
             float dEta = (pf.eta()-j.eta());
             float dPhi = deltaPhi(pf.phi(),j.phi());
 
@@ -529,8 +530,9 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 			for(unsigned int y = 0; y < nPF; y++){
 				double dR = deltaR((genJetPF_Lorentz[x]-genJetPF_jetLorentz[x]).eta(), (genJetPF_Lorentz[x]-genJetPF_jetLorentz[x]).phi(),
 										(PF_Lorentz[y]-genJetPF_jetLorentz[x]).eta(), (PF_Lorentz[y]-genJetPF_jetLorentz[x]).phi());
-				double dPT = abs((genJetPF_Lorentz[x]-genJetPF_jetLorentz[x]).pt()-(PF_Lorentz[y]-genJetPF_jetLorentz[x]).pt())/(genJetPF_Lorentz[x]-genJetPF_jetLorentz[x]).pt();
-				if(dR+dPT < minDR + minDPT){
+				//double dPT = (genJetPF_Lorentz[x]-genJetPF_jetLorentz[x]).pt()-(PF_Lorentz[y]-genJetPF_jetLorentz[x]).pt()/(genJetPF_Lorentz[x]-genJetPF_jetLorentz[x]).pt();
+				double dPT = PF_Lorentz[x].pt()/genJetPF_Lorentz[x].pt();
+				if(dR+abs(1-dPT) < minDR + abs(1-minDPT)){// && dPT>-0.2){
 					minDR = dR;
 					minDPT = dPT;
 				}
@@ -541,7 +543,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 				matchDRDPT->Fill(dR*1.0, dPT*1.0);
 				
 				//if(dR*2 + dPT <0.2){// && dPT<0.1){
-				if(dR<0.4 && dPT <1){
+				if(dR<0.2){//&& dPT <1.2 && dPT>0.4){
 					matched++;
 				}
 			}
@@ -551,11 +553,12 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 			} else {
 				matchPercent->Fill(0.0);
 			}
-			matchDRDist->Fill(minDR);
-			matchDPTDist->Fill(minDPT);
-			matchDRPlusDPTDist->Fill(minDPT+minDR);
-			matchDRDPTDist->Fill(minDR, minDPT);
-		
+			if(minDR<0.2){//&& minDPT<1.2 && minDPT>0.4){
+				matchDRDist->Fill(minDR);
+				matchDPTDist->Fill(minDPT);
+				matchDRPlusDPTDist->Fill(abs(1-minDPT)+minDR);
+				matchDRDPTDist->Fill(minDR, minDPT);
+			}
 		}
 		
         // Save the jet in the tree
