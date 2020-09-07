@@ -46,69 +46,33 @@ using namespace std;
 using namespace reco;
 using namespace pat;
 
-
-// quick class used to compare objects of type reco::Candidate and reco::GenParticle
-/*
-class particle {
-		private:
-			Int_t pdgId;
-			UInt_t status;
-			Float_t pt;
-			Float_t eta;
-			Float_t phi;
-			Float_t mass;
-		public:
-			particle(reco::GenParticle newParticle);
-			particle(const reco::Candidate *newParticle);
-			Int_t get_pdgId() {
-					return pdgId;
-			}
-			UInt_t get_status() {
-					return status;
-			}
-			Float_t get_pt() {
-					return pt; 
-			}
-			Float_t get_eta() {
-					return eta;
-			}
-			Float_t get_phi() {
-					return phi;
-			}
-			Float_t get_mass() {
-					return mass;
-			}
-
-			bool operator==(particle rhs);
-};
-*/
-class JetAnalyzer : public edm::EDAnalyzer {
-    public:
+class JetAnalyzer: public edm::EDAnalyzer {
+public:
         explicit JetAnalyzer(const edm::ParameterSet&);
         virtual void beginJob();
         virtual void analyze(const edm::Event&, const edm::EventSetup&);
         ~JetAnalyzer();
 
-    private:
+private:
         // Tokens
         edm::EDGetTokenT<reco::VertexCollection> vtxToken_;
         edm::EDGetTokenT<pat::JetCollection> jetToken_;
         edm::EDGetTokenT<pat::PackedCandidateCollection> pfToken_;
-      	edm::EDGetTokenT<edm::View<pat::PackedGenParticle> > packedGenToken_;
+        edm::EDGetTokenT<edm::View<pat::PackedGenParticle>> packedGenToken_;
         edm::EDGetTokenT<reco::GenJetCollection> EDMGenJetsToken_;
         edm::EDGetTokenT<GenEventInfoProduct> genEventInfoToken_;
         edm::EDGetTokenT<std::vector<PileupSummaryInfo >> pileupInfoToken_;
-		edm::EDGetTokenT<reco::GenParticleCollection> genParticleToken_;
+        edm::EDGetTokenT<reco::GenParticleCollection> genParticleToken_;
 
         edm::EDGetTokenT<double> pfRhoAllToken_;
         edm::EDGetTokenT<double> pfRhoCentralToken_;
         edm::EDGetTokenT<double> pfRhoCentralNeutralToken_;
         edm::EDGetTokenT<double> pfRhoCentralChargedPileUpToken_;
 
-        edm::EDGetTokenT<edm::ValueMap<float> > qglToken_;
-        edm::EDGetTokenT<edm::ValueMap<float> > ptDToken_;
-        edm::EDGetTokenT<edm::ValueMap<float> > axis2Token_;
-        edm::EDGetTokenT<edm::ValueMap<int> > multToken_;
+        edm::EDGetTokenT<edm::ValueMap<float>> qglToken_;
+        edm::EDGetTokenT<edm::ValueMap<float>> ptDToken_;
+        edm::EDGetTokenT<edm::ValueMap<float>> axis2Token_;
+        edm::EDGetTokenT<edm::ValueMap<int>> multToken_;
 
         // Configurable vertex parameters
         double goodVtxNdof;
@@ -121,31 +85,27 @@ class JetAnalyzer : public edm::EDAnalyzer {
 
         TFile* outputFile;
         TTree* jetTree;
-		TTree* genPartTree;
+        TTree* genPartTree;
 
         // -------------------------
         // TTree variables
         // -------------------------
         static const UInt_t kMaxPF = 5000;
 
-		// GenParticle Variables
-		std::vector<Int_t> genPartPdgId;
-		std::vector<UInt_t> genPartStatus;
-		std::vector<Float_t> genPartPt;
-		std::vector<Float_t> genPartEta;
-		std::vector<Float_t> genPartPhi;
-		std::vector<Float_t> genPartM;
-		std::vector<Float_t> genPartPx;
-		std::vector<Float_t> genPartPy;
-		std::vector<Float_t> genPartPz;
-		std::vector<Float_t> genPartE;
-		std::vector<Float_t> genPartVx;
-		std::vector<Float_t> genPartVy;
-		std::vector<Float_t> genPartVz;
-		std::vector<std::vector<UInt_t>> motherIndices;
-		std::vector<std::vector<UInt_t>> daughterIndices;
-
-
+        // GenParticle Variables
+        std::vector<Int_t> genPartPdgId;
+        std::vector<UInt_t> genPartStatus;
+        std::vector<Float_t> genPartPt;
+        std::vector<Float_t> genPartEta;
+        std::vector<Float_t> genPartPhi;
+        std::vector<Float_t> genPartM;
+        std::vector<Float_t> genPartPx;
+        std::vector<Float_t> genPartPy;
+        std::vector<Float_t> genPartPz;
+        std::vector<Float_t> genPartE;
+        std::vector<Float_t> genPartVx;
+        std::vector<Float_t> genPartVy;
+        std::vector<Float_t> genPartVz;
 
         // Jet variables
         Float_t jetPt;
@@ -243,18 +203,19 @@ class JetAnalyzer : public edm::EDAnalyzer {
 
 // Define a struct for storing a jet with its index within the event (needed for QG likelihood variables)
 struct JetIndexed {
-	pat::Jet jet;
-	unsigned int eventIndex;
-	JetIndexed(pat::Jet j, unsigned int eIdx) : jet(j), eventIndex(eIdx) {}
+        pat::Jet jet;
+        unsigned int eventIndex;
+        JetIndexed(pat::Jet j, unsigned int eIdx) : jet(j), eventIndex(eIdx) {
+        }
 };
 
 // Define a sort function for JetIndexed pT-ordering
 struct higher_pT_sort
 {
-	inline bool operator() (const JetIndexed& jet1, const JetIndexed& jet2)
-	{
-		return ( jet1.jet.pt() > jet2.jet.pt() );
-	}
+        inline bool operator() (const JetIndexed &jet1, const JetIndexed &jet2)
+        {
+                return ( jet1.jet.pt() > jet2.jet.pt() );
+        }
 };
 
 #endif
