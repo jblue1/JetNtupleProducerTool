@@ -121,6 +121,7 @@ class JetAnalyzer : public edm::EDAnalyzer {
 
         TFile* outputFile;
         TTree* jetTree;
+		TTree* genPartTree;
 
         // -------------------------
         // TTree variables

@@ -46,7 +46,7 @@ process.AK4jets = cms.EDAnalyzer("JetAnalyzer",
 )
 
 # Choose how many events to process (-1 = all)
-process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(1) )
+process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(5) )
 
 # Report execution progress
 process.load("FWCore.MessageService.MessageLogger_cfi")

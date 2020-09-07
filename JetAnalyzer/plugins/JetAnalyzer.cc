@@ -57,22 +57,23 @@ void JetAnalyzer::beginJob()
 {
     // Create the ROOT tree and add all the branches to it
     jetTree = fs->make<TTree>("jetTree", "jetTree");
+	genPartTree = fs->make<TTree>("genPartTree", "genPartTree");
 
-	jetTree->Branch("genPartPdgId", &genPartPdgId);
-	jetTree->Branch("genPartStatus", &genPartStatus);
-	jetTree->Branch("genPartPt", &genPartPt);
-	jetTree->Branch("genPartEta", &genPartEta);
-	jetTree->Branch("genPartPhi", &genPartPhi);
-	jetTree->Branch("genPartM", &genPartM);
-	jetTree->Branch("genPartPx", &genPartPx);
-	jetTree->Branch("genPartPy", &genPartPy);
-	jetTree->Branch("genPartPz", &genPartPz);
-	jetTree->Branch("genPartE", &genPartE);
-	jetTree->Branch("genPartVx", &genPartVx);
-	jetTree->Branch("genPartVy", &genPartVy);
-	jetTree->Branch("genPartVz", &genPartVz);
-	jetTree->Branch("motherIndices", &motherIndices);
-	jetTree->Branch("daughterIndices", &daughterIndices);
+	genPartTree->Branch("genPartPdgId", &genPartPdgId);
+	genPartTree->Branch("genPartStatus", &genPartStatus);
+	genPartTree->Branch("genPartPt", &genPartPt);
+	genPartTree->Branch("genPartEta", &genPartEta);
+	genPartTree->Branch("genPartPhi", &genPartPhi);
+	genPartTree->Branch("genPartM", &genPartM);
+	genPartTree->Branch("genPartPx", &genPartPx);
+	genPartTree->Branch("genPartPy", &genPartPy);
+	genPartTree->Branch("genPartPz", &genPartPz);
+	genPartTree->Branch("genPartE", &genPartE);
+	genPartTree->Branch("genPartVx", &genPartVx);
+	genPartTree->Branch("genPartVy", &genPartVy);
+	genPartTree->Branch("genPartVz", &genPartVz);
+	genPartTree->Branch("motherIndices", &motherIndices);
+	genPartTree->Branch("daughterIndices", &daughterIndices);
 
     jetTree->Branch("jetPt", &jetPt, "jetPt/F");
     jetTree->Branch("jetEta", &jetEta, "jetEta/F");
@@ -589,6 +590,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
         // Save the jet in the tree
         jetTree->Fill();
     }
+	genPartTree->Fill();
 }
 
 // Define this as a plug-in
