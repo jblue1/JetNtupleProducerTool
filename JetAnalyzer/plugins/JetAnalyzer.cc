@@ -37,21 +37,43 @@ void JetAnalyzer::beginJob()
 {
     // Create histograms
 	matchDR = fs->make<TH1D>("matchDR" , "DR of all gen/reco combinations" , 100 , 0 , 5);
-	matchDPT = fs->make<TH1D>("matchDPT" , "(genPT-recoPT)/genPT of all gen/reco combinations" , 100 , 0 , 5);
+	
+	matchDPT = fs->make<TH1D>("matchDPT" , "recoPT/genPT of all gen/reco combinations" , 100 , 0 , 5);
+	
 	matchDRDPT = fs->make<TH2D>("matchDRDPT" , "DR and DPT of all gen/reco combinations" , 100 , 0 , 2, 100, 0, 5);
-	matchDRDist = fs->make<TH1D>("matchDRDist" , "DR of all selected gen/reco combinations" , 100 , 0 , 2);
-	matchDPTDist = fs->make<TH1D>("matchDPTDist" , "(genPT-recoPT)/genPT of all selected gen/reco combinations" , 100 , 0 , 2);
-	matchDRDPTDist = fs->make<TH2D>("matchDRDPTDist" , "DR vs DPT of all selected gen/reco combinations" , 100 , 0 , 0.25, 100, 0, 2);
-	matchDRPlusDPTDist = fs->make<TH1D>("matchDRPlusDPTDist" , "dPT + dR of all selected gen/reco combinations" , 100 , 0 , 5);
+	matchDRDPT->GetXaxis()-> SetTitle("dR");
+	matchDRDPT->GetYaxis()-> SetTitle("dPT");
+
+        matchDRDist = fs->make<TH1D>("matchDRDist" , "DR of all selected gen/reco combinations" , 100 , 0 , 2);
+
+	matchDPTDist = fs->make<TH1D>("matchDPTDist" , "recoPT/genPT of all selected gen/reco combinations" , 100 , 0 , 2);
+
+	matchDRDPTDist = fs->make<TH2D>("matchDRDPTDist" , "DR vs dPT of all selected gen/reco combinations" , 100 , 0 , 0.25, 100, 0, 2);
+	matchDRDPTDist->GetXaxis()-> SetTitle("dR (GeV)");
+	matchDRDPTDist->GetYaxis()-> SetTitle("dPT (GeV)");
+
+	matchDRPlusDPTDist = fs->make<TH1D>("matchDRPlusDPTDist" , "abs(1-dPT) + dR of all selected gen/reco combinations" , 100 , 0 , 5);
+
 	matchPTdPTDist = fs->make<TH2D>("matchPTdPTDist" , "PT vs DPT of all selected gen/reco combinations" , 100 , 0 , 10, 100, 0, 2);
-	genRecoPT- = fs->make<TH2D>("genRecoPT" , "PT vs DPT of all selected gen/reco combinations" , 300 , 0 , 10, 300, 0, 2);
-	genDR = fs->make<TH1D>("genDR" , "DR of all gen particles to gen jets" , 100 , 0 , 2);
+	matchPTdPTDist->GetXaxis()-> SetTitle("Pt (GeV)");
+        matchPTdPTDist->GetYaxis()-> SetTitle("dPT (GeV)");
+
+        genRecoPT = fs->make<TH2D>("genRecoPT" , "gen pt vs reco pt of all matched gen and reco jets" , 100 , 0 , 300, 100, 0, 300);
+	genRecoPT->GetXaxis()-> SetTitle("gen Pt (GeV)");
+        genRecoPT->GetYaxis()-> SetTitle("reco Pt (GeV)");
+
+        genDR = fs->make<TH1D>("genDR" , "DR of all gen particles to gen jets" , 100 , 0 , 2);
+
 	genDPhi = fs->make<TH1D>("genDPhi" , "DPhi of all gen particles to gen jets" , 100 , 0 , 2);
+
 	genDEta = fs->make<TH1D>("genDEta" , "DEta of all gen particles to gen jets" , 100 , 0 , 2);
+
 	genPT = fs->make<TH1D>("genPT" , "PT of all gen particles to gen jets" , 100 , 0 , 50);
 	
 	matchPercent = fs->make<TH1D>("matchPercent" , "percent of all gen jet particles which match something" , 100 , 0 , 2);
-	matchNumber = fs->make<TH1D>("matchNumber" , "distribution of number of matches per jet" , 21 , 0 , 20);
+
+	matchNumber = fs->make<TH1D>("matchNumber" , "distribution of number of matches per jet particle" , 21 , 0 , 20);
+
 	genNumber = fs->make<TH1D>("genNumber" , "distribution of number of particles per gen Jet" , 100 , 0 , 200);
 	
 	
@@ -443,7 +465,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
             jetGenMatch = 1;
 
             const reco::GenJet* gj = j.genJet();
-            genRecoPT->Fill(gj->pt(), j->pt());
+            genRecoPT->Fill(gj->pt(), j.pt());
 			genJetPt = gj->pt();
             genJetEta = gj->eta();
             genJetPhi = gj->phi();
@@ -463,7 +485,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 			genNumber->Fill(genParticlesSize);
             for (unsigned int i = 0; i != genParticlesSize; ++i) {
                 const pat::PackedGenParticle* genParticle = dynamic_cast<const pat::PackedGenParticle*>(genParticles[i]);
-
+		//if(!genParticle->fromHardProcessDecayed()) continue;
                 float dEta = (genParticle->eta()-gj->eta());
                 float dPhi = deltaPhi(genParticle->phi(), gj->phi());
 
@@ -499,7 +521,8 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 			
 			
             // Check if the PF was contained in the AK4 jet
-            /*if (pfMap.count(pfPointer)) {
+            //if(!pfMap.count(pfPointer)) continue;
+	    /*if (pfMap.count(pfPointer)) {
                 //PF_fromAK4Jet[npfs] = 1;
             } else {
                 continue;
