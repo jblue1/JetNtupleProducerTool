@@ -555,7 +555,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 		
 		std::ofstream myfile;
 		myfile.open ("mlData.txt", std::ios_base::app);
-		firstMatch=true;
+		bool firstMatch=true;
 		for(unsigned int x = 0; x < nGenJetPF;x++){ 
 			int matched = 0;
 			unsigned int matchY=nPF;
