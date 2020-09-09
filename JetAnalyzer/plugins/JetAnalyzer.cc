@@ -521,13 +521,11 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 			
 			
             // Check if the PF was contained in the AK4 jet
-            if(!pfMap.count(pfPointer)) continue;
-	    /*if (pfMap.count(pfPointer)) {
-                //PF_fromAK4Jet[npfs] = 1;
+            if (pfMap.count(pfPointer)) {
+                PF_fromAK4Jet[npfs] = 1;
             } else {
-                continue;
-		//PF_fromAK4Jet[npfs] = 0;
-            }*/
+                PF_fromAK4Jet[npfs] = 0;
+            }
 			
             float dEta = (pf.eta()-j.eta());
             float dPhi = deltaPhi(pf.phi(),j.phi());
@@ -550,20 +548,27 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
         }
         nPF = npfs;
 		
+		int recoMatch[nPF];
+		for(unsigned int y = 0; y < nPF; y++){
+			recoMatch[y]=0;
+		}
 		
+		std::ofstream myfile;
+		myfile.open ("mlData.txt", std::ios_base::app);
+		firstMatch=true;
 		for(unsigned int x = 0; x < nGenJetPF;x++){ 
 			int matched = 0;
+			unsigned int matchY=nPF;
 			double minDR=100;
 			double minDPT=100;
 			for(unsigned int y = 0; y < nPF; y++){
-				//if(PF_id[y]!=genJetPF_id[x]) continue;
 				double dR = deltaR((genJetPF_Lorentz[x]).eta(), (genJetPF_Lorentz[x]).phi(),
 										(PF_Lorentz[y]).eta(), (PF_Lorentz[y]).phi());
-				//double dPT = (genJetPF_Lorentz[x]-genJetPF_jetLorentz[x]).pt()-(PF_Lorentz[y]-genJetPF_jetLorentz[x]).pt()/(genJetPF_Lorentz[x]-genJetPF_jetLorentz[x]).pt();
 				double dPT = PF_Lorentz[y].pt()/genJetPF_Lorentz[x].pt();
-				if(dR+abs(1-dPT) < minDR + abs(1-minDPT)){// && dPT>-0.2){
+				if(dR+abs(1-dPT) < minDR + abs(1-minDPT)){
 					minDR = dR;
 					minDPT = dPT;
+					matchY = y;
 				}
 				
 				
@@ -571,8 +576,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 				matchDPT->Fill(dPT*1.0);
 				matchDRDPT->Fill(dR*1.0, dPT*1.0);
 				
-				//if(dR*2 + dPT <0.2){// && dPT<0.1){
-				if(dR<0.2){//&& dPT <1.2 && dPT>0.4){
+				if(dR<0.2){
 					matched++;
 				}
 			}
@@ -582,14 +586,62 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 			} else {
 				matchPercent->Fill(0.0);
 			}
-			if(minDR<0.2){//&& minDPT<1.2 && minDPT>0.4){
+			if(minDR<0.2){
+				recoMatch[matchY]=1;
+				
 				matchDRDist->Fill(minDR);
 				matchDPTDist->Fill(minDPT);
 				matchDRPlusDPTDist->Fill(abs(1-minDPT)+minDR);
 				matchDRDPTDist->Fill(minDR, minDPT);
 				matchPTdPTDist->Fill(genJetPF_Lorentz[x].pt(), minDPT);
+				
+				if(firstMatch){
+					myfile << 1 << "\t";
+					firstMatch=false;
+				} else {
+					myfile << 0 << "\t";
+				}
+				
+				myfile << genJetPF_Lorentz[x].Px() << "\t";
+				myfile << genJetPF_Lorentz[x].Py() << "\t";
+				myfile << genJetPF_Lorentz[x].Pz() << "\t";
+				myfile << genJetPF_Lorentz[x].E() << "\t";
+				myfile << genJetPF_id[x] << "\t";
+				
+				myfile << PF_Lorentz[matchY].Px() << "\t";
+				myfile << PF_Lorentz[matchY].Py() << "\t";
+				myfile << PF_Lorentz[matchY].Pz() << "\t";
+				myfile << PF_Lorentz[matchY].E() << "\t";
+				myfile << PF_id[matchY] << "\n";
+				
 			}
 		}
+		
+		for(unsigned int y = 0; y < nPF; y++){
+			if(recoMatch[y]==0){
+				if(firstMatch){
+					myfile << 1 << "\t";
+					firstMatch=false;
+				} else {
+					myfile << 0 << "\t";
+				}
+				
+				myfile << 0.0 << "\t";
+				myfile << 0.0 << "\t";
+				myfile << 0.0 << "\t";
+				myfile << 0.0 << "\t";
+				myfile << 0.0 << "\t";
+				
+				myfile << PF_Lorentz[y].Px() << "\t";
+				myfile << PF_Lorentz[y].Py() << "\t";
+				myfile << PF_Lorentz[y].Pz() << "\t";
+				myfile << PF_Lorentz[y].E() << "\t";
+				myfile << PF_id[y] << "\n";	
+			}
+		}
+		
+		
+		myfile.close();
 		
         // Save the jet in the tree
         jetTree->Fill();
