@@ -521,7 +521,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 			
 			
             // Check if the PF was contained in the AK4 jet
-            //if(!pfMap.count(pfPointer)) continue;
+            if(!pfMap.count(pfPointer)) continue;
 	    /*if (pfMap.count(pfPointer)) {
                 //PF_fromAK4Jet[npfs] = 1;
             } else {
@@ -556,7 +556,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 			double minDR=100;
 			double minDPT=100;
 			for(unsigned int y = 0; y < nPF; y++){
-				if(PF_id[y]!=genJetPF_id[x]) continue;
+				//if(PF_id[y]!=genJetPF_id[x]) continue;
 				double dR = deltaR((genJetPF_Lorentz[x]).eta(), (genJetPF_Lorentz[x]).phi(),
 										(PF_Lorentz[y]).eta(), (PF_Lorentz[y]).phi());
 				//double dPT = (genJetPF_Lorentz[x]-genJetPF_jetLorentz[x]).pt()-(PF_Lorentz[y]-genJetPF_jetLorentz[x]).pt()/(genJetPF_Lorentz[x]-genJetPF_jetLorentz[x]).pt();
