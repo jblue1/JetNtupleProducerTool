@@ -46,6 +46,17 @@ JetAnalyzer::JetAnalyzer(const edm::ParameterSet &iConfig)
 JetAnalyzer::~JetAnalyzer() {}
 
 void JetAnalyzer::beginJob() {
+  // Create the ROOT tree for genJet variables and add all branches
+
+  genJetTree = fs->make<TTree>("genJetTree", "genJetTree");
+
+  genJetTree->Branch("genJetPt", &genJetPtVec);
+  genJetTree->Branch("genJetEta", &genJetEtaVec);
+  genJetTree->Branch("genJetPhi", &genJetPhiVec);
+  genJetTree->Branch("genJetEvent", &genPartEvent);
+  genJetTree->Branch("genJetRun", &genPartRun);
+  genJetTree->Branch("genJetLumi", &genPartLumi);
+  
   // Create the ROOT tree for genParticle variables and add all
   // the branches to it
   genPartTree = fs->make<TTree>("genPartTree", "genPartTree");
@@ -377,6 +388,9 @@ void JetAnalyzer::analyze(const edm::Event &iEvent,
   iEvent.getByToken(multToken_, multHandle);
 
   // clear vectors
+  genJetPtVec.clear();
+  genJetEtaVec.clear();
+  genJetPhiVec.clear();
   genPartPdgId.clear();
   genPartStatus.clear();
   genPartPt.clear();
@@ -395,6 +409,14 @@ void JetAnalyzer::analyze(const edm::Event &iEvent,
   genPartEvent = iEvent.id().event();
   genPartRun = iEvent.id().run();
   genPartLumi = iEvent.id().luminosityBlock();
+  
+  // Loop over genJets
+  for (reco::GenJetCollection::const_iterator genJetIt = genJets->begin(); genJetIt != genJets->end(); genJetIt++) {
+		  const reco::GenJet &genJet = *genJetIt;
+		  genJetPtVec.push_back(genJet.pt());
+		  genJetEtaVec.push_back(genJet.eta());
+		  genJetPhiVec.push_back(genJet.phi());
+  }
 
 
   // Loop over genParticles and save information
@@ -434,7 +456,7 @@ void JetAnalyzer::analyze(const edm::Event &iEvent,
     ++iJetR;
     sortedJets.push_back(JetIndexed(jet, iJetR));
     // Select
-    if ((jet.pt() > 30)) {
+    if ((jet.pt() > 0)) {
       selectedJets.push_back(JetIndexed(jet, iJetR));
     }
   }
@@ -448,7 +470,7 @@ void JetAnalyzer::analyze(const edm::Event &iEvent,
     // Make selective cuts on the event level
     if (sortedJets.size() < 2)
       continue;
-    if (fabs(sortedJets[0].jet.pt()) < 30 || fabs(sortedJets[1].jet.pt()) < 30)
+    if (fabs(sortedJets[0].jet.pt()) < 0 || fabs(sortedJets[1].jet.pt()) < 0)
       continue;
 
     JetIndexed idxJet = selectedJets[ptIdx];
@@ -719,6 +741,7 @@ void JetAnalyzer::analyze(const edm::Event &iEvent,
     jetTree->Fill();
   }
   genPartTree->Fill();
+  genJetTree->Fill();
 }
 
 // Define this as a plug-in

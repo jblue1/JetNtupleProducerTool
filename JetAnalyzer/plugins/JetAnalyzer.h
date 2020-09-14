@@ -86,11 +86,17 @@ private:
         TFile* outputFile;
         TTree* jetTree;
         TTree* genPartTree;
+		TTree* genJetTree;
 
         // -------------------------
         // TTree variables
         // -------------------------
         static const UInt_t kMaxPF = 5000;
+
+		//genJet variables
+		std::vector<Float_t> genJetPtVec;
+		std::vector<Float_t> genJetEtaVec;
+		std::vector<Float_t> genJetPhiVec;
 
         // GenParticle Variables
         std::vector<Int_t> genPartPdgId;
