@@ -456,7 +456,7 @@ void JetAnalyzer::analyze(const edm::Event &iEvent,
     ++iJetR;
     sortedJets.push_back(JetIndexed(jet, iJetR));
     // Select
-    if ((jet.pt() > 0)) {
+    if ((jet.pt() > 30)) {
       selectedJets.push_back(JetIndexed(jet, iJetR));
     }
   }
@@ -470,7 +470,7 @@ void JetAnalyzer::analyze(const edm::Event &iEvent,
     // Make selective cuts on the event level
     if (sortedJets.size() < 2)
       continue;
-    if (fabs(sortedJets[0].jet.pt()) < 0 || fabs(sortedJets[1].jet.pt()) < 0)
+    if (fabs(sortedJets[0].jet.pt()) < 30 || fabs(sortedJets[1].jet.pt()) < 30)
       continue;
 
     JetIndexed idxJet = selectedJets[ptIdx];
