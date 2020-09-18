@@ -97,6 +97,10 @@ private:
 		std::vector<Float_t> genJetPtVec;
 		std::vector<Float_t> genJetEtaVec;
 		std::vector<Float_t> genJetPhiVec;
+		std::vector<Float_t> genJetPx;
+		std::vector<Float_t> genJetPy;
+		std::vector<Float_t> genJetPz;
+		std::vector<Float_t> genJetE;
 
         // GenParticle Variables
         std::vector<Int_t> genPartPdgId;

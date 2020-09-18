@@ -56,6 +56,11 @@ void JetAnalyzer::beginJob() {
   genJetTree->Branch("genJetEvent", &genPartEvent);
   genJetTree->Branch("genJetRun", &genPartRun);
   genJetTree->Branch("genJetLumi", &genPartLumi);
+  genJetTree->Branch("genJetPx", &genPartPx);
+  genJetTree->Branch("genJetPx", &genPartPx);
+  genJetTree->Branch("genJetPy", &genPartPy);
+  genJetTree->Branch("genJetPz", &genPartPz);
+  genJetTree->Branch("genJetE", &genPartE);
   
   // Create the ROOT tree for genParticle variables and add all
   // the branches to it
@@ -391,6 +396,10 @@ void JetAnalyzer::analyze(const edm::Event &iEvent,
   genJetPtVec.clear();
   genJetEtaVec.clear();
   genJetPhiVec.clear();
+  genJetPx.clear();
+  genJetPy.clear();
+  genJetPz.clear();
+  genJetE.clear();
   genPartPdgId.clear();
   genPartStatus.clear();
   genPartPt.clear();
@@ -416,6 +425,10 @@ void JetAnalyzer::analyze(const edm::Event &iEvent,
 		  genJetPtVec.push_back(genJet.pt());
 		  genJetEtaVec.push_back(genJet.eta());
 		  genJetPhiVec.push_back(genJet.phi());
+		  genJetPx.push_back(genJet.px());
+		  genJetPy.push_back(genJet.py());
+		  genJetPz.push_back(genJet.pz());
+		  genJetE.push_back(genJet.energy());
   }
 
 
