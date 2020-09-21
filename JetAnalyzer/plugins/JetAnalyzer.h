@@ -87,11 +87,22 @@ private:
         TTree* jetTree;
         TTree* genPartTree;
 		TTree* genJetTree;
+		TTree* pfCandTree;
 
         // -------------------------
         // TTree variables
         // -------------------------
         static const UInt_t kMaxPF = 5000;
+
+		//pfCandTree variables
+		std::vector<Float_t> pfCandPt;
+		std::vector<Float_t> pfCandEta;
+		std::vector<Float_t> pfCandPhi;
+		std::vector<Float_t> pfCandPx;
+		std::vector<Float_t> pfCandPy;
+		std::vector<Float_t> pfCandPz;
+		std::vector<Float_t> pfCandE;
+
 
 		//genJet variables
 		std::vector<Float_t> genJetPtVec;

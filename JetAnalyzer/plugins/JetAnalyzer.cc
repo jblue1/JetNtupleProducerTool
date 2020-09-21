@@ -6,6 +6,7 @@
 //  Based on previous work by: Petra-Maria Ekroos
 
 #include "JetAnalyzer.h"
+#include <iomanip>
 
 JetAnalyzer::JetAnalyzer(const edm::ParameterSet &iConfig)
     : vtxToken_(consumes<reco::VertexCollection>(
@@ -46,6 +47,18 @@ JetAnalyzer::JetAnalyzer(const edm::ParameterSet &iConfig)
 JetAnalyzer::~JetAnalyzer() {}
 
 void JetAnalyzer::beginJob() {
+  // Create the ROOT tree for pfCand variables
+  pfCandTree = fs->make<TTree>("pfCandTree", "pfCandTree");
+  pfCandTree->Branch("pfCandPt", &pfCandPt);
+  pfCandTree->Branch("pfCandEta", &pfCandEta);
+  pfCandTree->Branch("pfCandPhi", &pfCandPhi);
+  pfCandTree->Branch("pfCandPx", &pfCandPx);
+  pfCandTree->Branch("pfCandPx", &pfCandPx);
+  pfCandTree->Branch("pfCandPy", &pfCandPy);
+  pfCandTree->Branch("pfCandPz", &pfCandPz);
+  pfCandTree->Branch("pfCandE", &pfCandE);
+
+  
   // Create the ROOT tree for genJet variables and add all branches
 
   genJetTree = fs->make<TTree>("genJetTree", "genJetTree");
@@ -56,11 +69,11 @@ void JetAnalyzer::beginJob() {
   genJetTree->Branch("genJetEvent", &genPartEvent);
   genJetTree->Branch("genJetRun", &genPartRun);
   genJetTree->Branch("genJetLumi", &genPartLumi);
-  genJetTree->Branch("genJetPx", &genPartPx);
-  genJetTree->Branch("genJetPx", &genPartPx);
-  genJetTree->Branch("genJetPy", &genPartPy);
-  genJetTree->Branch("genJetPz", &genPartPz);
-  genJetTree->Branch("genJetE", &genPartE);
+  genJetTree->Branch("genJetPx", &genJetPx);
+  genJetTree->Branch("genJetPx", &genJetPx);
+  genJetTree->Branch("genJetPy", &genJetPy);
+  genJetTree->Branch("genJetPz", &genJetPz);
+  genJetTree->Branch("genJetE", &genJetE);
   
   // Create the ROOT tree for genParticle variables and add all
   // the branches to it
@@ -344,7 +357,7 @@ void JetAnalyzer::beginJob() {
                  "event; computed from all PF charged hadrons associated to "
                  "pileup vertices and with |eta| < 2.5");
   jetTree->GetBranch("PV_npvsGood")
-      ->SetTitle(
+			  ->SetTitle(
           "The number of good reconstructed primary vertices; selection: "
           "!isFake && ndof > 4 && abs(z) <= 24 && position.Rho < 2");
   jetTree->GetBranch("Pileup_nPU")
@@ -393,6 +406,13 @@ void JetAnalyzer::analyze(const edm::Event &iEvent,
   iEvent.getByToken(multToken_, multHandle);
 
   // clear vectors
+  pfCandPt.clear();
+  pfCandPhi.clear();
+  pfCandEta.clear();
+  pfCandPx.clear();
+  pfCandPy.clear();
+  pfCandPz.clear();
+  pfCandE.clear();
   genJetPtVec.clear();
   genJetEtaVec.clear();
   genJetPhiVec.clear();
@@ -419,6 +439,17 @@ void JetAnalyzer::analyze(const edm::Event &iEvent,
   genPartRun = iEvent.id().run();
   genPartLumi = iEvent.id().luminosityBlock();
   
+  // Loop over PfCands
+  for (pat::PackedCandidateCollection::const_iterator candIt = pfs->begin(); candIt != pfs->end(); candIt++){
+		  const pat::PackedCandidate &cand = *candIt;
+		  pfCandPt.push_back(cand.pt());
+		  pfCandEta.push_back(cand.eta());
+		  pfCandPhi.push_back(cand.phi());
+		  pfCandPx.push_back(cand.px());
+		  pfCandPy.push_back(cand.py());
+		  pfCandPz.push_back(cand.pz());
+		  pfCandE.push_back(cand.energy());
+  }
   // Loop over genJets
   for (reco::GenJetCollection::const_iterator genJetIt = genJets->begin(); genJetIt != genJets->end(); genJetIt++) {
 		  const reco::GenJet &genJet = *genJetIt;
@@ -496,6 +527,7 @@ void JetAnalyzer::analyze(const edm::Event &iEvent,
     jetPhi = j.phi();
     jetMass = j.mass();
     jetArea = j.jetArea();
+
 
     jetRawPt = j.correctedJet("Uncorrected").pt();
     jetRawMass = j.correctedJet("Uncorrected").mass();
@@ -755,6 +787,7 @@ void JetAnalyzer::analyze(const edm::Event &iEvent,
   }
   genPartTree->Fill();
   genJetTree->Fill();
+  pfCandTree->Fill();
 }
 
 // Define this as a plug-in
