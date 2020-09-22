@@ -102,6 +102,7 @@ private:
 		std::vector<Float_t> pfCandPy;
 		std::vector<Float_t> pfCandPz;
 		std::vector<Float_t> pfCandE;
+		std::vector<Int_t> pfCandPdgId;
 
 
 		//genJet variables
