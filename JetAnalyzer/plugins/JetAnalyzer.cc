@@ -620,7 +620,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 				myfile << PF_vx[matchY] << "\t";
 				myfile << PF_vy[matchY] << "\t";
 				myfile << PF_vz[matchY] << "\t";
-				myfile << PF_id[matchY] << "\t";
+				myfile << PF_id[matchY] << "\n";
 				
 				//myfile << j.genJet()->Px() << "\t";
 				//myfile << j.genJet()->Py() << "\t";
@@ -652,7 +652,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 				myfile << PF_vx[y] << "\t";
 				myfile << PF_vy[y] << "\t";
 				myfile << PF_vz[y] << "\t";
-				myfile << PF_id[y] << "\t";
+				myfile << PF_id[y] << "\n";
 				
 				//myfile << j.genJet()->Px() << "\t";
 				//myfile << j.genJet()->Py() << "\t";
