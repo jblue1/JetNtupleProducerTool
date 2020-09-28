@@ -543,6 +543,11 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
             PF_id[npfs] = pf.pdgId();
             PF_fromPV[npfs] =  pf.fromPV();
 			PF_Lorentz[npfs] = pf.p4();
+			PF_vx[npfs] = pf.vx();
+			PF_vy[npfs] = pf.vy();
+			PF_vz[npfs] = pf.vz();
+			
+			
             ++npfs;
 			
         }
@@ -612,6 +617,9 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 				myfile << PF_Lorentz[matchY].Py() << "\t";
 				myfile << PF_Lorentz[matchY].Pz() << "\t";
 				myfile << PF_Lorentz[matchY].E() << "\t";
+				myfile << PF_vx[matchY] << "\t";
+				myfile << PF_vy[matchY] << "\t";
+				myfile << PF_vz[matchY] << "\t";
 				myfile << PF_id[matchY] << "\t";
 				
 				myfile << j.genJet()->Px() << "\t";
@@ -641,6 +649,9 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 				myfile << PF_Lorentz[y].Py() << "\t";
 				myfile << PF_Lorentz[y].Pz() << "\t";
 				myfile << PF_Lorentz[y].E() << "\t";
+				myfile << PF_vx[y] << "\t";
+				myfile << PF_vy[y] << "\t";
+				myfile << PF_vz[y] << "\t";
 				myfile << PF_id[y] << "\t";
 				
 				myfile << j.genJet()->Px() << "\t";
