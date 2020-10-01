@@ -58,6 +58,9 @@ void JetAnalyzer::beginJob() {
   pfCandTree->Branch("pfCandPz", &pfCandPz);
   pfCandTree->Branch("pfCandE", &pfCandE);
   pfCandTree->Branch("pfCandPdgId", &pfCandPdgId);
+  pfCandTree->Branch("pfCandVx", &pfCandVx);
+  pfCandTree->Branch("pfCandVy", &pfCandVy);
+  pfCandTree->Branch("pfCandVz", &pfCandVz);
 
   
   // Create the ROOT tree for genJet variables and add all branches
@@ -415,6 +418,9 @@ void JetAnalyzer::analyze(const edm::Event &iEvent,
   pfCandPz.clear();
   pfCandE.clear();
   pfCandPdgId.clear();
+  pfCandVx.clear();
+  pfCandVy.clear();
+  pfCandVz.clear();
   
   genJetPtVec.clear();
   genJetEtaVec.clear();
@@ -454,6 +460,10 @@ void JetAnalyzer::analyze(const edm::Event &iEvent,
 		  pfCandPz.push_back(cand.pz());
 		  pfCandE.push_back(cand.energy());
 		  pfCandPdgId.push_back(cand.pdgId());
+		  pfCandVx.push_back(cand.vx());
+		  pfCandVy.push_back(cand.vy());
+		  pfCandVz.push_back(cand.vz());
+		  
   }
   // Loop over genJets
   for (reco::GenJetCollection::const_iterator genJetIt = genJets->begin(); genJetIt != genJets->end(); genJetIt++) {

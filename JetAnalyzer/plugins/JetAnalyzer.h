@@ -103,6 +103,10 @@ private:
 		std::vector<Float_t> pfCandPz;
 		std::vector<Float_t> pfCandE;
 		std::vector<Int_t> pfCandPdgId;
+		std::vector<Float_t> pfCandVx;
+		std::vector<Float_t> pfCandVy;
+		std::vector<Float_t> pfCandVz;
+
 
 
 		//genJet variables
