@@ -485,7 +485,7 @@ void JetAnalyzer::analyze(const edm::Event &iEvent,
     const reco::GenParticle &part = *particleIt;
 
     int statusCode = part.status();
-    if (statusCode > 70 && statusCode < 80) {
+    if (statusCode > 70 && statusCode < 80 && part.pt() < 5.0) {
       genPartPdgId.push_back(part.pdgId());
       genPartStatus.push_back(part.status());
       genPartPt.push_back(part.pt());
