@@ -689,10 +689,10 @@ void JetAnalyzer::endJob() {
 	long totalIncorrect = incorrectParticlesInReco + incorrectParticlesNotInReco;
 	long totalInReco = correctParticlesInReco + correctParticlesNotInReco;
 	long totalNotInReco = correctParticlesNotInReco + incorrectParticlesNotInReco;
-	accuracy = double(totalCorrect)/double(totalCorrect+totalIncorrect);
-	precision = double(correctParticlesInReco)/double(totalInReco);
-	recall = double(correctParticlesInReco)/double(totalCorrect);
-	f1 = 2/(1/recall + 1/precision);
+	double accuracy = double(totalCorrect)/double(totalCorrect+totalIncorrect);
+	double precision = double(correctParticlesInReco)/double(totalInReco);
+	double recall = double(correctParticlesInReco)/double(totalCorrect);
+	double f1 = 2/(1/recall + 1/precision);
 	
 	std::cout << "Confusion Matrix:" << std::endl;
 	std::cout << incorrectParticlesNotInReco << " | " << incorrectParticlesInReco << std::endl;
@@ -700,7 +700,7 @@ void JetAnalyzer::endJob() {
 	std::cout << correctParticlesNotInReco << " | " << correctParticlesInReco << std::endl;
 	std::cout << "Accuracy: " << accuracy << std::endl;
 	std::cout << "Precision: " << precision << std::endl;
-	std::cout << "Recall: " << recall << std::endl;
+	std::cout << "Recall: " << recall << sstd::endl;
 	std::cout << "f1: " << f1 << std::endl;
 	
 	
