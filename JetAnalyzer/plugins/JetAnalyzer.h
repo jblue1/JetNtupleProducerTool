@@ -219,6 +219,11 @@ class JetAnalyzer : public edm::EDAnalyzer {
         UInt_t Pileup_nPU;
         Float_t Pileup_nTrueInt;
 		
+		long correctParticlesInReco;
+		long correctParticlesNotInReco;
+		long incorrectParticlesInReco
+		long incorrectParticlesNotInReco;
+		
 };
 
 // Define a struct for storing a jet with its index within the event (needed for QG likelihood variables)

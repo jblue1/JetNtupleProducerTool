@@ -566,6 +566,8 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 			unsigned int matchY=nPF;
 			double minDR=100;
 			double minDPT=100;
+			UInt_t inReco = 0;
+			
 			for(unsigned int y = 0; y < nPF; y++){
 				double dR = deltaR((genJetPF_Lorentz[x]).eta(), (genJetPF_Lorentz[x]).phi(),
 										(PF_Lorentz[y]).eta(), (PF_Lorentz[y]).phi());
@@ -574,6 +576,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 					minDR = dR;
 					minDPT = dPT;
 					matchY = y;
+					inReco = PF_fromAK4Jet[y];
 				}
 				
 				
@@ -584,6 +587,11 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 				if(dR<0.2){
 					matched++;
 				}
+			}
+			if(inReco == 0){
+				correctParticlesInReco+=1;
+			} else {
+				correctParticlesNotInReco+=1;
 			}
 			matchNumber->Fill(matched);
 			if(matched > 0){
@@ -654,6 +662,12 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 				myfile << PF_vz[y] << "\t";
 				myfile << PF_id[y] << "\n";
 				
+				if(PF_fromAK4Jet[y] == 0){
+					incorrectParticlesNotInReco+=1;
+				} else {
+					incorrectParticlesInReco+=1;
+				}
+				
 				//myfile << j.genJet()->Px() << "\t";
 				//myfile << j.genJet()->Py() << "\t";
 				//myfile << j.genJet()->Pz() << "\t";
@@ -667,6 +681,31 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
         // Save the jet in the tree
         jetTree->Fill();
     }
+}
+
+
+void JetAnalyzer::endJob() {
+	long totalCorrect = correctParticlesInReco + correctParticlesNotInReco;
+	long totalIncorrect = incorrectParticlesInReco + incorrectParticlesNotInReco;
+	long totalInReco = correctParticlesInReco + correctParticlesNotInReco;
+	long totalNotInReco = correctParticlesNotInReco + incorrectParticlesNotInReco;
+	accuracy = double(totalCorrect)/double(totalCorrect+totalIncorrect);
+	precision = double(correctParticlesInReco)/double(totalInReco);
+	recall = double(correctParticlesInReco)/double(totalCorrect);
+	f1 = 2/(1/recall + 1/precision);
+	
+	std::cout << "Confusion Matrix:" << std::endl;
+	std::cout << incorrectParticlesNotInReco << " | " << incorrectParticlesInReco << std::endl;
+	std::cout << "_________________" << std::endl;
+	std::cout << correctParticlesNotInReco << " | " << correctParticlesInReco << std::endl;
+	std::cout << "Accuracy: " << accuracy << std::endl;
+	std::cout << "Precision: " << precision << std::endl;
+	std::cout << "Recall: " << recall << std::endl;
+	std::cout << "f1: " << f1 << std::endl;
+	
+	
+	
+	
 }
 
 
