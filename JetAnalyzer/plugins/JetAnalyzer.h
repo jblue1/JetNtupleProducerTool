@@ -52,6 +52,7 @@ class JetAnalyzer : public edm::EDAnalyzer {
         explicit JetAnalyzer(const edm::ParameterSet&);
         virtual void beginJob();
         virtual void analyze(const edm::Event&, const edm::EventSetup&);
+		virtual void endJob();
         ~JetAnalyzer();
 
     private:
@@ -221,7 +222,7 @@ class JetAnalyzer : public edm::EDAnalyzer {
 		
 		long correctParticlesInReco;
 		long correctParticlesNotInReco;
-		long incorrectParticlesInReco
+		long incorrectParticlesInReco;
 		long incorrectParticlesNotInReco;
 		
 };
