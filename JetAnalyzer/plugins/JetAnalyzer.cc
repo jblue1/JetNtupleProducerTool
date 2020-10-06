@@ -700,7 +700,7 @@ void JetAnalyzer::endJob() {
 	std::cout << correctParticlesNotInReco << " | " << correctParticlesInReco << std::endl;
 	std::cout << "Accuracy: " << accuracy << std::endl;
 	std::cout << "Precision: " << precision << std::endl;
-	std::cout << "Recall: " << recall << sstd::endl;
+	std::cout << "Recall: " << recall << std::endl;
 	std::cout << "f1: " << f1 << std::endl;
 	
 	
