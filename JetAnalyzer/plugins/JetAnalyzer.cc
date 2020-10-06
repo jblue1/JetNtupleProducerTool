@@ -232,6 +232,11 @@ void JetAnalyzer::beginJob()
     jetTree->GetBranch("PV_npvsGood")->SetTitle("The number of good reconstructed primary vertices; selection: !isFake && ndof > 4 && abs(z) <= 24 && position.Rho < 2");
     jetTree->GetBranch("Pileup_nPU")->SetTitle("The number of pileup interactions that have been added to the event in the current bunch crossing");
     jetTree->GetBranch("Pileup_nTrueInt")->SetTitle("The true mean number of the poisson distribution for this event from which the number of interactions in each bunch crossing has been sampled");
+
+	correctParticlesInReco=0;
+	correctParticlesNotInReco=0;
+	incorrectParticlesInReco=0;
+	incorrectParticlesNotInReco=0;
 }
 
 void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup) {
