@@ -593,7 +593,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 					matched++;
 				}
 			}
-			if(inReco == 0){
+			if(inReco == 1){
 				correctParticlesInReco+=1;
 			} else {
 				correctParticlesNotInReco+=1;
@@ -693,7 +693,7 @@ void JetAnalyzer::endJob() {
 	unsigned long long  totalCorrect = correctParticlesInReco + correctParticlesNotInReco;
 	unsigned long long  correctClassifications = correctParticlesInReco + incorrectParticlesNotInReco;
 	unsigned long long  totalIncorrect = incorrectParticlesInReco + incorrectParticlesNotInReco;
-	unsigned long long  totalInReco = correctParticlesInReco + correctParticlesNotInReco;
+	unsigned long long  totalInReco = correctParticlesInReco + incorrectParticlesInReco;
 	unsigned long long  totalNotInReco = correctParticlesNotInReco + incorrectParticlesNotInReco;
 	double accuracy = double(correctClassifications)/double(totalCorrect+totalIncorrect);
 	double precision = double(correctParticlesInReco)/double(totalInReco);
