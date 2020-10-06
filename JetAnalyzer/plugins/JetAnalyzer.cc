@@ -686,7 +686,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 
 void JetAnalyzer::endJob() {
 	unsigned long long  totalCorrect = correctParticlesInReco + correctParticlesNotInReco;
-	unsigned long long  correctClassifications = correctParticlesInReco + incorrectParticlesNotInReco
+	unsigned long long  correctClassifications = correctParticlesInReco + incorrectParticlesNotInReco;
 	unsigned long long  totalIncorrect = incorrectParticlesInReco + incorrectParticlesNotInReco;
 	unsigned long long  totalInReco = correctParticlesInReco + correctParticlesNotInReco;
 	unsigned long long  totalNotInReco = correctParticlesNotInReco + incorrectParticlesNotInReco;
