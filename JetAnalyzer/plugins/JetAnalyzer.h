@@ -220,10 +220,10 @@ class JetAnalyzer : public edm::EDAnalyzer {
         UInt_t Pileup_nPU;
         Float_t Pileup_nTrueInt;
 		
-		long correctParticlesInReco;
-		long correctParticlesNotInReco;
-		long incorrectParticlesInReco;
-		long incorrectParticlesNotInReco;
+		unsigned long long correctParticlesInReco;
+		unsigned long long  correctParticlesNotInReco;
+		unsigned long long  incorrectParticlesInReco;
+		unsigned long long  incorrectParticlesNotInReco;
 		
 };
 
