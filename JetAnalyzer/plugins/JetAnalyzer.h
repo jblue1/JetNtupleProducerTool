@@ -43,6 +43,8 @@
 #include "TH1D.h"
 #include "TH2D.h"
 
+#include "JetAnalyzer/interface/jetConstructor.h"
+
 using namespace std;
 using namespace reco;
 using namespace pat;
@@ -56,10 +58,10 @@ class JetAnalyzer : public edm::EDAnalyzer {
         ~JetAnalyzer();
 
     private:
-	
+
 		//Helper Functions
 		double dR2(double eta1, double eta2, double phi1, double phi2);
-		
+
 		//Histograms
 		TH1D* matchDR;
 		TH1D* matchDPT;
@@ -74,13 +76,13 @@ class JetAnalyzer : public edm::EDAnalyzer {
 		TH1D* genDR;
 		TH1D* genDPhi;
 		TH1D* genDEta;
-		
-		
+
+
 		TH1D* matchPercent;
 		TH1D* matchNumber;
 		TH1D* genNumber;
-		
-		
+
+
         // Tokens
         edm::EDGetTokenT<reco::VertexCollection> vtxToken_;
         edm::EDGetTokenT<pat::JetCollection> jetToken_;
@@ -111,6 +113,8 @@ class JetAnalyzer : public edm::EDAnalyzer {
 
         TFile* outputFile;
         TTree* jetTree;
+
+        jetConstructor constructJets = jetConstructor();
 
         // -------------------------
         // TTree variables
@@ -219,12 +223,12 @@ class JetAnalyzer : public edm::EDAnalyzer {
         UInt_t PV_npvsGood;
         UInt_t Pileup_nPU;
         Float_t Pileup_nTrueInt;
-		
+
 		unsigned long long correctParticlesInReco;
 		unsigned long long  correctParticlesNotInReco;
 		unsigned long long  incorrectParticlesInReco;
 		unsigned long long  incorrectParticlesNotInReco;
-		
+
 };
 
 // Define a struct for storing a jet with its index within the event (needed for QG likelihood variables)
