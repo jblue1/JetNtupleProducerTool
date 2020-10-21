@@ -6,8 +6,8 @@
 
 class jetConstructor {
     public:
-        jetConstructor();
-        virtual ~jetConstructor();
+        //jetConstructor();
+        //virtual ~jetConstructor();
         int run(float ** particles, int particleCount, float ** outputJets);
 
     protected:
@@ -16,8 +16,8 @@ class jetConstructor {
         float dR2(float eta1, float eta2, float phi1, float phi2);
         float dPhi(float phi1, float phi2);
 
-        regression regressionNet = regression("/home/brkronheim/Honors/algorithm/jetAlgorithm/data/regression");
-		classifier classifierNet = classifier("/home/brkronheim/Honors/algorithm/jetAlgorithm/data/classification");
+        regression regressionNet = regression("/home/cmsusr/CMSSW_10_6_8_patch1/src/JetNtupleProducer/JetAnalyzer/data/regression");
+		classifier classifierNet = classifier("/home/cmsurs/CMSSW_10_6_8_patch1/src/JetNtupleProducer/JetAnalyzer/data/classification");
 
 };
 

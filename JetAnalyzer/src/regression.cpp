@@ -5,7 +5,7 @@
 #include <sstream>
 #include <string>
 
-#include "JetAnalyzer/interface/regression.h"
+#include "JetNtupleProducerTool/JetAnalyzer/interface/regression.h"
 
 regression::regression(std::string fileName)
 {

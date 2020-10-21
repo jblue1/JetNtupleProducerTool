@@ -43,7 +43,7 @@
 #include "TH1D.h"
 #include "TH2D.h"
 
-#include "JetAnalyzer/interface/jetConstructor.h"
+#include "JetNtupleProducerTool/JetAnalyzer/interface/jetConstructor.h"
 
 using namespace std;
 using namespace reco;

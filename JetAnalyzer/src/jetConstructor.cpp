@@ -1,21 +1,26 @@
-#include "JetAnalyzer/interface/jetConstructor.h"
+#include "JetNtupleProducerTool/JetAnalyzer/interface/jetConstructor.h"
+#include "JetNtupleProducerTool/JetAnalyzer/interface/regression.h"
+#include "JetNtupleProducerTool/JetAnalyzer/interface/classifier.h"
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <string>
 
 
-jetConstructor::jetConstructor() {
+/*jetConstructor::jetConstructor() {
+     regressionNet = regression("/home/cmsusr/CMSSW_10_6_8_patch1/src/JetNtupleProducer/JetAnalyzer/data/regression");
+     classifierNet = classifier("/home/cmsurs/CMSSW_10_6_8_patch1/src/JetNtupleProducer/JetAnalyzer/data/classification");
 
-}
+}*/
 
-jetConstructor::~jetConstructor() {
-    //dtor
-}
+//jetConstructor::~jetConstructor() {
+//    //dtor
+//}
 
 int jetConstructor::run(float ** particles, int particleCount, float ** outputJets){ //
     int jetCount = 0;
-    int matchedParticles = 0;
+    //int matchedParticles = 0;
     int remainingParticles = particleCount;
     float inputVector[29];
     float regressionOutput[1];
