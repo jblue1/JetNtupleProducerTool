@@ -1,5 +1,5 @@
-#ifndef REGRESSION_H
-#define REGRESSION_H
+//#ifndef REGRESSION_H
+//#define REGRESSION_H
 
 
 
@@ -58,4 +58,4 @@ class regression {
 		void unnormalize(float * a, int dim1, int dim2);
 };
 
-#endif // REGRESSION_H
+//#endif // REGRESSION_H
