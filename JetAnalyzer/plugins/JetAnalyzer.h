@@ -116,12 +116,12 @@ class JetAnalyzer : public edm::EDAnalyzer {
         TFile* outputFile;
         TTree* jetTree;
 
-        //jetConstructor constructJets = jetConstructor();
-		std::string strRegression = "/home/cmsusr/CMSSW_10_6_8_patch1/src/JetNtupleProducer/JetAnalyzer/data/regression";
-     	std::string strClassifier = "/home/cmsusr/CMSSW_10_6_8_patch1/src/JetNtupleProducer/JetAnalyzer/data/classification";
+        jetConstructor constructJets = jetConstructor();
+		//std::string strRegression = "/home/cmsusr/CMSSW_10_6_8_patch1/src/JetNtupleProducer/JetAnalyzer/data/regression";
+     	//std::string strClassifier = "/home/cmsusr/CMSSW_10_6_8_patch1/src/JetNtupleProducer/JetAnalyzer/data/classification";
 	
-        regression regressionNet = regression(strRegression);
-	    classifier classifierNet = classifier(strClassifier);
+        //regression regressionNet = regression(strRegression);
+	    //classifier classifierNet = classifier(strClassifier);
 
 
         // -------------------------
