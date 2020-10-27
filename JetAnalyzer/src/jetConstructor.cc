@@ -1,6 +1,7 @@
 #include "JetNtupleProducerTool/JetAnalyzer/interface/jetConstructor.h"
-//#include "JetNtupleProducerTool/JetAnalyzer/interface/regression.h"
-//#include "JetNtupleProducerTool/JetAnalyzer/interface/classifier.h"
+#include "JetNtupleProducerTool/JetAnalyzer/interface/regression.h"
+#include "JetNtupleProducerTool/JetAnalyzer/interface/classifier.h"
+//#include "classifier.h"
 
 #include <iostream>
 #include <fstream>
@@ -8,11 +9,11 @@
 #include <string>
 
 
-/*jetConstructor::jetConstructor() {
-     regressionNet = regression("/home/cmsusr/CMSSW_10_6_8_patch1/src/JetNtupleProducer/JetAnalyzer/data/regression");
-     classifierNet = classifier("/home/cmsurs/CMSSW_10_6_8_patch1/src/JetNtupleProducer/JetAnalyzer/data/classification");
-
-}*/
+jetConstructor::jetConstructor() {
+     //regression regressionNet = regression("/home/cmsusr/CMSSW_10_6_8_patch1/src/JetNtupleProducer/JetAnalyzer/data/regression");
+     //classifier classifierNet = classifier("/home/cmsurs/CMSSW_10_6_8_patch1/src/JetNtupleProducer/JetAnalyzer/data/classification");
+     std::cout << "Making jetConstructor" << std::endl;
+}
 
 //jetConstructor::~jetConstructor() {
 //    //dtor

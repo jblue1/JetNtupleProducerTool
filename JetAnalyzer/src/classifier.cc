@@ -10,6 +10,7 @@
 
 classifier::classifier(std::string fileName)
 {
+    std::cout << "Making classifier" << std::endl;
     extractMatrix(fileName+"/normInfo1.txt", &normInfo[0][0], 2);
 
 	extractMatrix(fileName+"/weights_0.txt", &weight0[0][0], 29);

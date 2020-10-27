@@ -9,6 +9,7 @@
 
 regression::regression(std::string fileName)
 {
+    std::cout << "Making regression" << std::endl;
     extractMatrix(fileName+"/normInfo1.txt", &normInfo1[0][0], 2);
 
     /*for(int x = 0; x<58; x++){

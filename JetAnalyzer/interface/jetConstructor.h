@@ -1,12 +1,13 @@
-//#ifndef JETCONSTRUCTOR_H
-//#define JETCONSTRUCTOR_H
+#ifndef JETCONSTRUCTOR_H
+#define JETCONSTRUCTOR_H
 
 #include "classifier.h"
 #include "regression.h"
+#include <string>
 
 class jetConstructor {
     public:
-        //jetConstructor();
+        jetConstructor();
         //virtual ~jetConstructor();
         int run(float ** particles, int particleCount, float ** outputJets);
 
@@ -16,9 +17,13 @@ class jetConstructor {
         float dR2(float eta1, float eta2, float phi1, float phi2);
         float dPhi(float phi1, float phi2);
 
-        regression regressionNet = regression("/home/cmsusr/CMSSW_10_6_8_patch1/src/JetNtupleProducer/JetAnalyzer/data/regression");
-		classifier classifierNet = classifier("/home/cmsurs/CMSSW_10_6_8_patch1/src/JetNtupleProducer/JetAnalyzer/data/classification");
+
+        std::string strRegression = "/home/cmsusr/CMSSW_10_6_8_patch1/src/JetNtupleProducer/JetAnalyzer/data/regression";
+	std::string strClassifier = "/home/cmsusr/CMSSW_10_6_8_patch1/src/JetNtupleProducer/JetAnalyzer/data/classification";
+	
+        regression regressionNet = regression(strRegression);
+	classifier classifierNet = classifier(strClassifier);
 
 };
 
-//#endif // JETCONSTRUCTOR_H
+#endif // JETCONSTRUCTOR_H

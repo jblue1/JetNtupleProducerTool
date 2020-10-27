@@ -1,5 +1,5 @@
-//#ifndef CLASSIFIER_H
-//#define CLASSIFIER_H
+#ifndef CLASSIFIER_H
+#define CLASSIFIER_H
 
 #include <list>
 #include <string>
@@ -44,4 +44,4 @@ class classifier {
 		void normalize(float * a, int dim1, int dim2);
 };
 
-//#endif // CLASSIFIER_H
+#endif // CLASSIFIER_H

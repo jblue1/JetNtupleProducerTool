@@ -4,6 +4,12 @@
 <use name="FWCore/ParameterSet"/>
 <use name="FWCore/ServiceRegistry"/>
 <use name="PhysicsTools/UtilAlgos"/>
-<flags EDM_PLUGIN="1"/>
 <use name="DataFormats/VertexReco"/>
 <use name="DataFormats/PatCandidates"/>
+<use name="JetNtupleProducerTool/JetAnalyzer"/>
+
+<flags EDM_PLUGIN="1"/>
+<flags ADD_SUBDIR="1"/>
+<export>
+     <lib name="JetNtupleProducerTool/JetAnalyzer"/>
+</export>
