@@ -518,7 +518,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
         if (!(kMaxPF < pfs->size()))
         assert(kMaxPF > pfs->size());
         int npfs = 0;
-		nPFR = 0'
+		nPFR = 0';
 
         unsigned int pfsSize = pfs->size();
         for (unsigned int i = 0; i != pfsSize; ++i) {
@@ -539,38 +539,29 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 			// Check if the PF was contained in the AK4 jet
             if (pfMap.count(pfPointer)) {
                 PF_fromAK4Jet[npfs] = 1;
-				if(firstRecoMatch == true){
-					float firstPt = pf.pt();
-					float firstEta = pf.eta();
-					float firstPhi = pf.phi();
-					float firstE = pf.p4().E();
-					float firstVx = pf.vx();
-					float firstVy = pf.vy();
-					float firstVz = pf.vz();
-					firstRecoMatch = false;
-				}
+
 				
-				int pdgIDReco = pf.pdgID();
+				int pdgIDReco = pf.pdgId();
 				
 				
-				PFR_Matrix[nPFR] [0]= pf.pt();
-				PFR_Matrix[nPFR] [1] = pf.eta();
-				PFR_Matrix[nPFR] [2] = pf.phi();
-				PFR_Matrix[nPFR] [3] = pf.p4().E();
-				PFR_Matrix[nPFR] [4] = pf.vx();
-				PFR_Matrix[nPFR] [5] = pf.vy();
-				PFR_Matrix[nPFR] [6] = pf.vz();
-				PFR_Matrix[nPFR] [7] = 0.0;
-				PFR_Matrix[nPFR] [8] = 0.0;
-				PFR_Matrix[nPFR] [9] = 0.0;
-				PFR_Matrix[nPFR] [10] = 0.0;
-				PFR_Matrix[nPFR] [11] = 0.0;
-				PFR_Matrix[nPFR] [12] = 0.0;
-				PFR_Matrix[nPFR] [13] = 0.0;
-				PFR_Matrix[nPFR] [14] = 0.0;
-				PFR_Matrix[nPFR] [15] = 0.0;
-				PFR_Matrix[nPFR] [16] = 0.0;
-				PFR_Matrix[nPFR] [17] = 0.0;
+				PFR_matrix[nPFR] [0]= pf.pt();
+				PFR_matrix[nPFR] [1] = pf.eta();
+				PFR_matrix[nPFR] [2] = pf.phi();
+				PFR_matrix[nPFR] [3] = pf.p4().E();
+				PFR_matrix[nPFR] [4] = pf.vx();
+				PFR_matrix[nPFR] [5] = pf.vy();
+				PFR_matrix[nPFR] [6] = pf.vz();
+				PFR_matrix[nPFR] [7] = 0.0;
+				PFR_matrix[nPFR] [8] = 0.0;
+				PFR_matrix[nPFR] [9] = 0.0;
+				PFR_matrix[nPFR] [10] = 0.0;
+				PFR_matrix[nPFR] [11] = 0.0;
+				PFR_matrix[nPFR] [12] = 0.0;
+				PFR_matrix[nPFR] [13] = 0.0;
+				PFR_matrix[nPFR] [14] = 0.0;
+				PFR_matrix[nPFR] [15] = 0.0;
+				PFR_matrix[nPFR] [16] = 0.0;
+				PFR_matrix[nPFR] [17] = 0.0;
 				
 				if(pdgIDReco == -11){
 					PFR_Matrix[nPFR] [7] = 1.0;
@@ -596,8 +587,8 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 					PFR_Matrix[nPFR] [17] = 1.0;
 				} 
 				
-				algorithm_data[x] = &PFR_Matrix[0][0] + 18*nPFR;
-                algorithm_output[x] = &PFR_output[0][0] + 4*nPFR;
+				algorithm_data[nPFR] = &PFR_Matrix[0][0] + 18*nPFR;
+                algorithm_output[nPFR] = &PFR_output[0][0] + 4*nPFR;
 				
 				
 				nPFR++;
@@ -607,14 +598,14 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
                 PF_fromAK4Jet[npfs] = 0;
 			}
 			
-            int jetCount = algorithm.run(&PFR_Matrix[0], nPFR, &PFR_output[0]);
+            int jetCount = constructJets.run(&PFR_matrix[0], nPFR, &PFR_output[0]);
 			std::cout << jetCount << " jets found."<< std::endl;
 
 			for(int x =0; x<jetCount; x++){
 				std::cout << *(PFR_output[x]) << ", " << *(PFR_output[x]+1) << ", " << *(PFR_output[x]+2) << ", " << *(PFR_output[x]+3) << std::endl;
 			}
 			
-			constructJets(&PFR_Matrix[0][0], nPFR, &PFR_output[0][0])
+			constructJets(&PFR_matrix[0][0], nPFR, &PFR_output[0][0])
 			
             PF_pT[npfs] = pf.pt();
             PF_dR[npfs] = deltaR(j.eta(), j.phi(), pf.eta(), pf.phi());
