@@ -45,7 +45,7 @@
 
 #include "JetNtupleProducerTool/JetAnalyzer/interface/jetConstructor.h"
 #include "JetNtupleProducerTool/JetAnalyzer/interface/regression.h"
-#include "JetNtupleProducerTool/JetAnalyzer/interface/classifer.h"
+#include "JetNtupleProducerTool/JetAnalyzer/interface/classifier.h"
 
 using namespace std;
 using namespace reco;
