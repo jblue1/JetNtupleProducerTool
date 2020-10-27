@@ -187,6 +187,14 @@ class JetAnalyzer : public edm::EDAnalyzer {
 		Float_t PF_vy[kMaxPF];
 		Float_t PF_vz[kMaxPF];
 
+		// Reco PF variables
+		UInt_t nPFR;
+		float PFR_matrix[kMaxPF][18];
+		float PFR_output[kMaxPF][4];
+		
+		float * algorithm_data[kMaxPF];
+        float * algorithm_output[kMaxPF];
+
         // Generator level jet variables
         Float_t genJetPt;
         Float_t genJetEta;
