@@ -1,5 +1,5 @@
-#ifndef JetAnalyzer_h
-#define JetAnalyzer_h
+#ifndef JetAnalyzer_included
+#define JetAnalyzer_included 1
 
 #include <memory>
 #include <vector>
@@ -255,4 +255,6 @@ struct higher_pT_sort
 	}
 };
 
+// Define this as a plug-in
+DEFINE_FWK_MODULE(JetAnalyzer);
 #endif

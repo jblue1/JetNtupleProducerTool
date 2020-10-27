@@ -694,7 +694,7 @@ void JetAnalyzer::endJob() {
 	unsigned long long  correctClassifications = correctParticlesInReco + incorrectParticlesNotInReco;
 	unsigned long long  totalIncorrect = incorrectParticlesInReco + incorrectParticlesNotInReco;
 	unsigned long long  totalInReco = correctParticlesInReco + incorrectParticlesInReco;
-	unsigned long long  totalNotInReco = correctParticlesNotInReco + incorrectParticlesNotInReco;
+	//unsigned long long  totalNotInReco = correctParticlesNotInReco + incorrectParticlesNotInReco;
 	double accuracy = double(correctClassifications)/double(totalCorrect+totalIncorrect);
 	double precision = double(correctParticlesInReco)/double(totalInReco);
 	double recall = double(correctParticlesInReco)/double(totalCorrect);
@@ -715,5 +715,4 @@ void JetAnalyzer::endJob() {
 }
 
 
-// Define this as a plug-in
-DEFINE_FWK_MODULE(JetAnalyzer);
+
