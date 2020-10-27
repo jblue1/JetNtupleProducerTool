@@ -18,8 +18,8 @@ class jetConstructor {
         float dPhi(float phi1, float phi2);
 
 
-        std::string strRegression = "/home/cmsusr/CMSSW_10_6_8_patch1/src/JetNtupleProducer/JetAnalyzer/data/regression";
-	std::string strClassifier = "/home/cmsusr/CMSSW_10_6_8_patch1/src/JetNtupleProducer/JetAnalyzer/data/classification";
+        std::string strRegression = "/home/cmsusr/CMSSW_10_6_8_patch1/src/JetNtupleProducerTool/JetAnalyzer/data/regression";
+	std::string strClassifier = "/home/cmsusr/CMSSW_10_6_8_patch1/src/JetNtupleProducerTool/JetAnalyzer/data/classification";
 	
         regression regressionNet = regression(strRegression);
 	classifier classifierNet = classifier(strClassifier);
