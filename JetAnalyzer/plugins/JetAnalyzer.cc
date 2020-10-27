@@ -598,12 +598,6 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
                 PF_fromAK4Jet[npfs] = 0;
 			}
 			
-            int jetCount = constructJets.run(&algorithm_data[0], nPFR, &algorithm_output[0]);
-			std::cout << jetCount << " jets found."<< std::endl;
-
-			for(int x =0; x<jetCount; x++){
-				std::cout << *(algorithm_output[x]) << ", " << *(algorithm_output[x]+1) << ", " << *(algorithm_output[x]+2) << ", " << *(algorithm_output[x]+3) << std::endl;
-			}
 			
 			//constructJets(&PFR_matrix[0][0], nPFR, &PFR_output[0][0]);
 			
@@ -634,7 +628,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 		for(int x =0; x<jetCount; x++){
 			std::cout << *(algorithm_output[x]) << ", " << *(algorithm_output[x]+1) << ", " << *(algorithm_output[x]+2) << ", " << *(algorithm_output[x]+3) << std::endl;
 		}
-		std::cout << << std::endl;
+		std::cout << std::endl;
 		
 		int recoMatch[nPF];
 		for(unsigned int y = 0; y < nPF; y++){
