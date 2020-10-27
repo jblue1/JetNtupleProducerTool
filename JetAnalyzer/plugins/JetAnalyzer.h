@@ -44,6 +44,8 @@
 #include "TH2D.h"
 
 #include "JetNtupleProducerTool/JetAnalyzer/interface/jetConstructor.h"
+#include "JetNtupleProducerTool/JetAnalyzer/interface/regression.h"
+#include "JetNtupleProducerTool/JetAnalyzer/interface/classifer.h"
 
 using namespace std;
 using namespace reco;
@@ -114,7 +116,13 @@ class JetAnalyzer : public edm::EDAnalyzer {
         TFile* outputFile;
         TTree* jetTree;
 
-        jetConstructor constructJets = jetConstructor();
+        //jetConstructor constructJets = jetConstructor();
+		std::string strRegression = "/home/cmsusr/CMSSW_10_6_8_patch1/src/JetNtupleProducer/JetAnalyzer/data/regression";
+     	std::string strClassifier = "/home/cmsusr/CMSSW_10_6_8_patch1/src/JetNtupleProducer/JetAnalyzer/data/classification";
+	
+        regression regressionNet = regression(strRegression);
+	    classifier classifierNet = classifier(strClassifier);
+
 
         // -------------------------
         // TTree variables
