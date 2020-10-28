@@ -24,8 +24,8 @@ int jetConstructor::run(float ** particles, int particleCount, float ** outputJe
     //int matchedParticles = 0;
     int remainingParticles = particleCount;
     float inputVector[29];
-    float regressionOutput[1];
-    float classificationOutput[4];
+    float regressionOutput[4];
+    float classificationOutput[1];
     float * rootParticle = nullptr;
     float * currentParticle = nullptr;
     float * currentJet = nullptr;
