@@ -434,7 +434,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 
         // Loop over the PF candidates contained inside the jet, first sorting them in pT order
         std::vector<reco::CandidatePtr> pfCands = j.daughterPtrVector();
-        std::sort(pfCands.begin(), pfCands.end(), [](const reco::CandidatePtr &p1, const reco::CandidatePtr &p2) {return p1.pt() > p2.pt(); });
+        std::sort(pfCands.begin(), pfCands.end(), [](const reco::CandidatePtr &p1, const reco::CandidatePtr &p2) {return p1->pt() > p2->pt(); });
         int njetpf = 0;
 
         // Create a PF map for easier matching later
@@ -591,7 +591,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
         int npfs = 0;
 		
 		//sort pf particles
-		std::sort(pfs->begin(), pfs->end(), [](const pat::PackedCandidate &p1, const pat::PackedCandidate &p2) {return p1->pt() > p2->pt(); });
+		std::sort(pfs->begin(), pfs->end(), [](const pat::PackedCandidate &p1, const pat::PackedCandidate &p2) {return p1.pt() > p2.pt(); });
 		nPFR=0;
         unsigned int pfsSize = pfs->size();
         for (unsigned int i = 0; i != pfsSize; ++i) {
