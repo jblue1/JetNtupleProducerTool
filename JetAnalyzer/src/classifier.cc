@@ -165,10 +165,10 @@ void classifier::leakyReLU(float * a, int dim1, int dim2){
 
 //Apply the sigmoid activation function
 void classifier::sigmoid(float * a, int dim1, int dim2){
-	std::cout << "Sigmoid" << std::endl;
+	//std::cout << "Sigmoid" << std::endl;
 	for(int x=0; x<dim1; x++){
         for(int y=0; y<dim2; y++){
-			std::cout << *(a + y + (x * dim2)) << "->";
+			//std::cout << *(a + y + (x * dim2)) << "->";
 			if(*(a + y + (x * dim2)) <-1000){
                 *(a + y + (x * dim2)) = 0.0;
 			} else if(*(a + y + (x * dim2)) > 1000){
@@ -176,23 +176,23 @@ void classifier::sigmoid(float * a, int dim1, int dim2){
 			} else {
                 *(a + y + (x * dim2)) = 1/(1 + exp(- *(a + y + (x * dim2))));
 			}
-			std::cout <<  *(a + y + (x * dim2)) << std::endl;
+			//std::cout <<  *(a + y + (x * dim2)) << std::endl;
 		}
 	}
 }
 
 //Round predictions to 0 or 1
 void classifier::roundPredictions(float * a, int dim1, int dim2){
-    std::cout << "Round" << std::endl;
+    //std::cout << "Round" << std::endl;
 	for(int x=0; x<dim1; x++){
         for(int y=0; y<dim2; y++){
-			std::cout << *(a + y + (x * dim2)) << "->";
+			//std::cout << *(a + y + (x * dim2)) << "->";
             if(*(a + y + (x * dim2))<0.5){
                 *(a + y + (x * dim2)) = 0.0;
 			} else {
                 *(a + y + (x * dim2)) = 1.0;
 			}
-			std::cout <<  *(a + y + (x * dim2)) << std::endl;
+			//std::cout <<  *(a + y + (x * dim2)) << std::endl;
 		}
 	}
 }

@@ -520,7 +520,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 		}
 		std::cout << std::endl;
 		std::cout << "Reco jet: "<< j.p4() << std::endl;
-		
+		std::cout << "Reco jet: " << j.pt() << ", " << j.eta() << ", " << j.phi() << ", "<< j.p4().E()   << std::endl;
 
         // Generator level jet variables and its constituents
         jetGenMatch = 0;
@@ -535,7 +535,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
             jetGenMatch = 1;
             const reco::GenJet* gj = j.genJet();
 			
-			std::cout << "Gen jet: "<< gj->p4() << std::endl;
+			std::cout << "Gen jet: " << gj->pt() << ", " << gj->eta() << ", " << gj->phi() << ", "<< gj->p4().E()   << std::endl;
 			
             genRecoPT->Fill(gj->pt(), j.pt());
 			genJetPt = gj->pt();
