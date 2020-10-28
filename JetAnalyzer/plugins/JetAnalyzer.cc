@@ -535,7 +535,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
             jetGenMatch = 1;
             const reco::GenJet* gj = j.genJet();
 			
-			std::cout << "Gen jet: "<< gj.p4() << std::endl;
+			std::cout << "Gen jet: "<< gj->p4() << std::endl;
 			
             genRecoPT->Fill(gj->pt(), j.pt());
 			genJetPt = gj->pt();
