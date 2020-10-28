@@ -590,7 +590,9 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
         assert(kMaxPF > pfs->size());
         int npfs = 0;
 		
-
+		//sort pf particles
+		std::sort(pfs.begin(), pfs.end(), [](const pat::PackedCandidate &p1, const pat::PackedCandidate &p2) {return p1->pt() > p2->pt(); });
+		nPFR=0;
         unsigned int pfsSize = pfs->size();
         for (unsigned int i = 0; i != pfsSize; ++i) {
             const pat::PackedCandidate &pf = (*pfs)[i];
@@ -606,7 +608,62 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
             // Only save the PF candidates within the desired area
             if ( (fabs(dEta) > 1.0) || (fabs(dPhi) > 1.0) ) continue;
 				
+			
+			int pdgIDReco = pf.pdgId();
 				
+			//std::cout << pf.pt() << std::endl;
+			
+			PFR_matrix[nPFR] [0]= pf.pt();
+			PFR_matrix[nPFR] [1] = pf.eta();
+			PFR_matrix[nPFR] [2] = pf.phi();
+			PFR_matrix[nPFR] [3] = pf.p4().E();
+			PFR_matrix[nPFR] [4] = pf.vx();
+			PFR_matrix[nPFR] [5] = pf.vy();
+			PFR_matrix[nPFR] [6] = pf.vz();
+			PFR_matrix[nPFR] [7] = 0.0;
+			PFR_matrix[nPFR] [8] = 0.0;
+			PFR_matrix[nPFR] [9] = 0.0;
+			PFR_matrix[nPFR] [10] = 0.0;
+			PFR_matrix[nPFR] [11] = 0.0;
+			PFR_matrix[nPFR] [12] = 0.0;
+			PFR_matrix[nPFR] [13] = 0.0;
+			PFR_matrix[nPFR] [14] = 0.0;
+			PFR_matrix[nPFR] [15] = 0.0;
+			PFR_matrix[nPFR] [16] = 0.0;
+			PFR_matrix[nPFR] [17] = 0.0;
+			
+			if(pdgIDReco == -11){
+				PFR_matrix[nPFR] [7] = 1.0;
+			} else if(pdgIDReco == -13){
+				PFR_matrix[nPFR] [9] = 1.0;
+			} else if (pdgIDReco == -211){
+				PFR_matrix[nPFR] [9] = 1.0;
+			} else if (pdgIDReco == 22){
+				PFR_matrix[nPFR] [10] = 1.0;
+			} else if (pdgIDReco == 1){
+				PFR_matrix[nPFR] [12] = 1.0;
+			} else if (pdgIDReco == 0){
+				PFR_matrix[nPFR] [12] = 1.0;
+			} else if (pdgIDReco == 2){
+				PFR_matrix[nPFR] [13] = 1.0;
+			} else if (pdgIDReco == 130){
+				PFR_matrix[nPFR] [14] = 1.0;
+			} else if (pdgIDReco == 211){
+				PFR_matrix[nPFR] [15] = 1.0;
+			} else if (pdgIDReco == 13){
+				PFR_matrix[nPFR] [16] = 1.0;
+			} else if (pdgIDReco == 11){
+				PFR_matrix[nPFR] [17] = 1.0;
+			} 
+			
+			algorithm_data[nPFR] = &PFR_matrix[0][0] + 18*nPFR;
+			algorithm_output[nPFR] = &PFR_output[0][0] + 4*nPFR;
+			
+			
+			nPFR++;
+
+
+			
 			// Check if the PF was contained in the AK4 jet
             if (pfMap.count(pfPointer)) {
                 PF_fromAK4Jet[npfs] = 1;

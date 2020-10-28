@@ -30,12 +30,12 @@ int jetConstructor::run(float ** particles, int particleCount, float ** outputJe
     float * currentParticle = nullptr;
     float * currentJet = nullptr;
 
-    for(int x = 0; x<particleCount; x++){
+    /*for(int x = 0; x<particleCount; x++){
         for(int y = 0; y<18; y++){
             std::cout << *( *(particles+x) + y) << ", ";
         }
         std::cout << std::endl;
-    }
+    }*/
 
 
     while(remainingParticles > 0){
@@ -74,7 +74,7 @@ int jetConstructor::run(float ** particles, int particleCount, float ** outputJe
 
             float dR2Val = dR2(*(inputVector+8),*(inputVector+12),*(inputVector+9),*(inputVector+13));
             //std::cout << dR2Val << std::endl;
-            if(dR2Val < 2){
+            if(true || dR2Val < 2){
                 classifierNet.predict(&inputVector[0], &classificationOutput[0], 1);
                 if(classificationOutput[0]==1.0){
                     regressionNet.predict(&inputVector[0], &regressionOutput[0], 1);
