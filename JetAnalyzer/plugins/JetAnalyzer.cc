@@ -538,7 +538,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 			std::cout << "Gen jet: " << gj->pt() << ", " << gj->eta() << ", " << gj->phi() << ", "<< gj->p4().E()   << std::endl;
 			std::cout << "Gen Reco dR:" << deltaR(j.eta(), j.phi(),
 										gj->eta(), gj->phi()) << std::endl;
-			std::cout << "Gen New dR:" << deltaR((*(algorithm_output[0]+1) , *(algorithm_output[0]+2), 
+			std::cout << "Gen New dR:" << deltaR(*(algorithm_output[0]+1) , *(algorithm_output[0]+2), 
 										gj->eta(), gj->phi())  << std::endl;
 			
             genRecoPT->Fill(gj->pt(), j.pt());
