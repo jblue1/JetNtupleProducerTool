@@ -442,12 +442,67 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 
         // Here the jet girth is also calculated
         jetGirth = 0;
-
+		nPFR = 0;
         unsigned int pfCandsSize = pfCands.size();
         for (unsigned int i = 0; i < pfCandsSize; ++i) {
             const pat::PackedCandidate &pf = dynamic_cast<const pat::PackedCandidate &>(*pfCands[i]);
             const pat::PackedCandidate* pfPointer = &pf;
             pfMap.insert(std::pair <const pat::PackedCandidate*, const pat::PackedCandidate> (pfPointer, pf));
+
+			int pdgIDReco = pf.pdgId();
+				
+			std::cout << pf.pt() << std::endl;
+			
+			PFR_matrix[nPFR] [0]= pf.pt();
+			PFR_matrix[nPFR] [1] = pf.eta();
+			PFR_matrix[nPFR] [2] = pf.phi();
+			PFR_matrix[nPFR] [3] = pf.p4().E();
+			PFR_matrix[nPFR] [4] = pf.vx();
+			PFR_matrix[nPFR] [5] = pf.vy();
+			PFR_matrix[nPFR] [6] = pf.vz();
+			PFR_matrix[nPFR] [7] = 0.0;
+			PFR_matrix[nPFR] [8] = 0.0;
+			PFR_matrix[nPFR] [9] = 0.0;
+			PFR_matrix[nPFR] [10] = 0.0;
+			PFR_matrix[nPFR] [11] = 0.0;
+			PFR_matrix[nPFR] [12] = 0.0;
+			PFR_matrix[nPFR] [13] = 0.0;
+			PFR_matrix[nPFR] [14] = 0.0;
+			PFR_matrix[nPFR] [15] = 0.0;
+			PFR_matrix[nPFR] [16] = 0.0;
+			PFR_matrix[nPFR] [17] = 0.0;
+			
+			if(pdgIDReco == -11){
+				PFR_matrix[nPFR] [7] = 1.0;
+			} else if(pdgIDReco == -13){
+				PFR_matrix[nPFR] [9] = 1.0;
+			} else if (pdgIDReco == -211){
+				PFR_matrix[nPFR] [9] = 1.0;
+			} else if (pdgIDReco == 22){
+				PFR_matrix[nPFR] [10] = 1.0;
+			} else if (pdgIDReco == 1){
+				PFR_matrix[nPFR] [12] = 1.0;
+			} else if (pdgIDReco == 0){
+				PFR_matrix[nPFR] [12] = 1.0;
+			} else if (pdgIDReco == 2){
+				PFR_matrix[nPFR] [13] = 1.0;
+			} else if (pdgIDReco == 130){
+				PFR_matrix[nPFR] [14] = 1.0;
+			} else if (pdgIDReco == 211){
+				PFR_matrix[nPFR] [15] = 1.0;
+			} else if (pdgIDReco == 13){
+				PFR_matrix[nPFR] [16] = 1.0;
+			} else if (pdgIDReco == 11){
+				PFR_matrix[nPFR] [17] = 1.0;
+			} 
+			
+			algorithm_data[nPFR] = &PFR_matrix[0][0] + 18*nPFR;
+			algorithm_output[nPFR] = &PFR_output[0][0] + 4*nPFR;
+			
+			
+			nPFR++;
+
+
 
             float dPhi = deltaPhi(pf.phi(), j.phi());
             float dY = pf.rapidity() - j.rapidity();
@@ -456,6 +511,16 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
             ++njetpf;
         }
         jetMult = njetpf;
+
+		int jetCount = constructJets.run(&algorithm_data[0], nPFR, &algorithm_output[0]);
+		std::cout << jetCount << " jets found from "<< nPFR << " particles" << std::endl;
+
+		for(int x =0; x<jetCount; x++){
+			std::cout << *(algorithm_output[x]) << ", " << *(algorithm_output[x]+1) << ", " << *(algorithm_output[x]+2) << ", " << *(algorithm_output[x]+3) << std::endl;
+		}
+		std::cout << std::endl;
+		std::cout << "Reco jet: "<< j.p4() << std::endl;
+		
 
         // Generator level jet variables and its constituents
         jetGenMatch = 0;
@@ -468,8 +533,10 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
         // Check if the jet has a matching generator level jet
         if(j.genJet()) {
             jetGenMatch = 1;
-
             const reco::GenJet* gj = j.genJet();
+			
+			std::cout << "Gen jet: "<< gj.p4() << std::endl;
+			
             genRecoPT->Fill(gj->pt(), j.pt());
 			genJetPt = gj->pt();
             genJetEta = gj->eta();
@@ -518,7 +585,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
         if (!(kMaxPF < pfs->size()))
         assert(kMaxPF > pfs->size());
         int npfs = 0;
-		nPFR = 0;
+		
 
         unsigned int pfsSize = pfs->size();
         for (unsigned int i = 0; i != pfsSize; ++i) {
@@ -541,58 +608,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
                 PF_fromAK4Jet[npfs] = 1;
 
 				
-				int pdgIDReco = pf.pdgId();
 				
-				std::cout << pf.pt() << std::endl;
-				
-				PFR_matrix[nPFR] [0]= pf.pt();
-				PFR_matrix[nPFR] [1] = pf.eta();
-				PFR_matrix[nPFR] [2] = pf.phi();
-				PFR_matrix[nPFR] [3] = pf.p4().E();
-				PFR_matrix[nPFR] [4] = pf.vx();
-				PFR_matrix[nPFR] [5] = pf.vy();
-				PFR_matrix[nPFR] [6] = pf.vz();
-				PFR_matrix[nPFR] [7] = 0.0;
-				PFR_matrix[nPFR] [8] = 0.0;
-				PFR_matrix[nPFR] [9] = 0.0;
-				PFR_matrix[nPFR] [10] = 0.0;
-				PFR_matrix[nPFR] [11] = 0.0;
-				PFR_matrix[nPFR] [12] = 0.0;
-				PFR_matrix[nPFR] [13] = 0.0;
-				PFR_matrix[nPFR] [14] = 0.0;
-				PFR_matrix[nPFR] [15] = 0.0;
-				PFR_matrix[nPFR] [16] = 0.0;
-				PFR_matrix[nPFR] [17] = 0.0;
-				
-				if(pdgIDReco == -11){
-					PFR_matrix[nPFR] [7] = 1.0;
-				} else if(pdgIDReco == -13){
-					PFR_matrix[nPFR] [9] = 1.0;
-				} else if (pdgIDReco == -211){
-					PFR_matrix[nPFR] [9] = 1.0;
-				} else if (pdgIDReco == 22){
-					PFR_matrix[nPFR] [10] = 1.0;
-				} else if (pdgIDReco == 1){
-					PFR_matrix[nPFR] [12] = 1.0;
-				} else if (pdgIDReco == 0){
-					PFR_matrix[nPFR] [12] = 1.0;
-				} else if (pdgIDReco == 2){
-					PFR_matrix[nPFR] [13] = 1.0;
-				} else if (pdgIDReco == 130){
-					PFR_matrix[nPFR] [14] = 1.0;
-				} else if (pdgIDReco == 211){
-					PFR_matrix[nPFR] [15] = 1.0;
-				} else if (pdgIDReco == 13){
-					PFR_matrix[nPFR] [16] = 1.0;
-				} else if (pdgIDReco == 11){
-					PFR_matrix[nPFR] [17] = 1.0;
-				} 
-				
-				algorithm_data[nPFR] = &PFR_matrix[0][0] + 18*nPFR;
-                algorithm_output[nPFR] = &PFR_output[0][0] + 4*nPFR;
-				
-				
-				nPFR++;
 				
 				
             } else {
@@ -623,8 +639,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
         }
         nPF = npfs;
 		
-		int jetCount = constructJets.run(&algorithm_data[0], nPFR, &algorithm_output[0]);
-		std::cout << jetCount << " jets found."<< std::endl;
+
 
 		for(int x =0; x<jetCount; x++){
 			std::cout << *(algorithm_output[x]) << ", " << *(algorithm_output[x]+1) << ", " << *(algorithm_output[x]+2) << ", " << *(algorithm_output[x]+3) << std::endl;

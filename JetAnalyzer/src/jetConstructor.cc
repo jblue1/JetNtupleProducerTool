@@ -78,9 +78,9 @@ int jetConstructor::run(float ** particles, int particleCount, float ** outputJe
                 classifierNet.predict(&inputVector[0], &classificationOutput[0], 1);
                 if(classificationOutput[0]==1.0){
                     regressionNet.predict(&inputVector[0], &regressionOutput[0], 1);
-                    for(int y = 0; y<4; y++){
-                        std::cout << regressionOutput[y] << ", ";
-                    }
+                    //for(int y = 0; y<4; y++){
+                    //    std::cout << regressionOutput[y] << ", ";
+                    //}
                     std::cout << std::endl;
                     *(currentJet+0) = regressionOutput[0];
                     *(currentJet+1) = regressionOutput[1];
