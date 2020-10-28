@@ -451,7 +451,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 
 			int pdgIDReco = pf.pdgId();
 				
-			std::cout << pf.pt() << std::endl;
+			//std::cout << pf.pt() << std::endl;
 			
 			PFR_matrix[nPFR] [0]= pf.pt();
 			PFR_matrix[nPFR] [1] = pf.eta();
@@ -519,7 +519,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 			std::cout << *(algorithm_output[x]) << ", " << *(algorithm_output[x]+1) << ", " << *(algorithm_output[x]+2) << ", " << *(algorithm_output[x]+3) << std::endl;
 		}
 		std::cout << std::endl;
-		std::cout << "Reco jet: "<< j.p4() << std::endl;
+		//std::cout << "Reco jet: "<< j.p4() << std::endl;
 		std::cout << "Reco jet: " << j.pt() << ", " << j.eta() << ", " << j.phi() << ", "<< j.p4().E()   << std::endl;
 
         // Generator level jet variables and its constituents
@@ -536,6 +536,10 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
             const reco::GenJet* gj = j.genJet();
 			
 			std::cout << "Gen jet: " << gj->pt() << ", " << gj->eta() << ", " << gj->phi() << ", "<< gj->p4().E()   << std::endl;
+			std::cout << "Gen Reco dR:" << deltaR(j.eta(), j.phi(),
+										gj->eta(), gj->phi());<< std::endl;
+			std::cout << "Gen New dR:" << deltaR((*(algorithm_output[x]+1) , *(algorithm_output[x]+2), 
+										gj->eta(), gj->phi()); << std::endl;
 			
             genRecoPT->Fill(gj->pt(), j.pt());
 			genJetPt = gj->pt();
