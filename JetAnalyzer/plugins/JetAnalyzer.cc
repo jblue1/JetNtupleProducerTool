@@ -432,6 +432,8 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
         rhoCentralNeutral = *pfRhoCentralNeutralHandle;
         rhoCentralChargedPileUp = *pfRhoCentralChargedPileUpHandle;
 
+     	std::cout << typeid(pfCands).name() std::endl;
+
         // Loop over the PF candidates contained inside the jet, first sorting them in pT order
         std::vector<reco::CandidatePtr> pfCands = j.daughterPtrVector();
         std::sort(pfCands.begin(), pfCands.end(), [](const reco::CandidatePtr &p1, const reco::CandidatePtr &p2) {return p1->pt() > p2->pt(); });
@@ -593,14 +595,14 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 		//sort pf particles
 		
 		
-		struct {
+		/*struct {
 			bool operator()(pat::PackedCandidate &p1, pat::PackedCandidate &p2) const {   
 				return p1.pt() < p2.pt();
 			}   
-        } customLess;
+        } customLess;*/
 		
-		
-		std::sort(pfs->begin(), pfs->end(), customLess);
+		std::cout << typeid(pfs).name() std::endl;
+		//std::sort(pfs->begin(), pfs->end(), customLess);
 		nPFR=0;
         unsigned int pfsSize = pfs->size();
         for (unsigned int i = 0; i != pfsSize; ++i) {
