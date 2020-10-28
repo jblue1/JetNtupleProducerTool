@@ -591,7 +591,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
         int npfs = 0;
 		
 		//sort pf particles
-		std::sort(pfs->begin(), pfs->end(), [](pat::PackedCandidate &p1, pat::PackedCandidate &p2) {return p1.pt() > p2.pt(); });
+		std::sort(pfs->begin(), pfs->end(), [](pat::PackedCandidate p1, pat::PackedCandidate p2) {return p1.pt() > p2.pt(); });
 		nPFR=0;
         unsigned int pfsSize = pfs->size();
         for (unsigned int i = 0; i != pfsSize; ++i) {
