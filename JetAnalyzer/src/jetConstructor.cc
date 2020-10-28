@@ -81,7 +81,7 @@ int jetConstructor::run(float ** particles, int particleCount, float ** outputJe
                     //for(int y = 0; y<4; y++){
                     //    std::cout << regressionOutput[y] << ", ";
                     //}
-                    std::cout << std::endl;
+                    //std::cout << std::endl;
                     *(currentJet+0) = regressionOutput[0];
                     *(currentJet+1) = regressionOutput[1];
                     *(currentJet+2) = regressionOutput[2];

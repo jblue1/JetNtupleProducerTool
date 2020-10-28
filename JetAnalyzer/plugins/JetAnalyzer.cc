@@ -603,7 +603,12 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 			}   
         } customLess;*/
 		
+		
+		const std::vector<pat::PackedCandidate> pfsVector =  dynamic_cast<const std::vector<pat::PackedCandidate>(pfs);
+		
 		std::cout << typeid(pfs).name() << std::endl;
+		std::cout << typeid(pfsVector).name() << std::endl;
+		
 		//std::sort(pfs->begin(), pfs->end(), customLess);
 		nPFR=0;
         unsigned int pfsSize = pfs->size();
@@ -715,10 +720,14 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 		
 
 
+		int jetCount = constructJets.run(&algorithm_data[0], nPFR, &algorithm_output[0]);
+		std::cout << jetCount << " jets found from "<< nPFR << " particles" << std::endl;
+
 		for(int x =0; x<jetCount; x++){
 			std::cout << *(algorithm_output[x]) << ", " << *(algorithm_output[x]+1) << ", " << *(algorithm_output[x]+2) << ", " << *(algorithm_output[x]+3) << std::endl;
 		}
 		std::cout << std::endl;
+		
 		
 		int recoMatch[nPF];
 		for(unsigned int y = 0; y < nPF; y++){
