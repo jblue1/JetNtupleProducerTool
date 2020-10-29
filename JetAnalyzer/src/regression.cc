@@ -63,8 +63,53 @@ regression::regression(std::string fileName)
 //Make predictions with the neural net
 void regression::predict(float * inputVal, float * outputVal, int dim){
 
-    //std::cout << "enter predict" << std::endl;
+	firstPT
+firstEta
+firstPhi
+firstE
+firstVx
+firstVy
+firstVz
+jetPT
+jetEta
+jetPhi
+jetE
+particlePT
+particleEta
+particlePhi
+particleE
+particleVx
+partilceVy
+particleVz
+pdgId(11)
 
+
+	float jetPT = *(inputVal + 7) ;
+	float jetEta = *(inputVal + 8) ;
+	float jetPhi = *(inputVal + 9) ;
+	float jetE = *(inputVal + 10) ;
+	float particlePT = *(inputVal + 11) ;
+	float particleEta = *(inputVal + 12) ;
+	float particlePhi = *(inputVal + 13) ;
+	float particleE = *(inputVal + 14) ;
+	
+	float newPx = jetPT * cos(jetPhi) + particlePT * cos(particlePhi);
+	float newPy = jetPT * sin(jetPhi) + particlePT * sin(particlePhi);
+	float newPz = jetPT * sinh(jetEta) + particlePT * sinh(particleEta);
+	
+	
+	float newPT = sqrt(newPx*newPx + newPy*newPy);
+	float newEta = asinh(newPz/newPT);
+	float newPhi = asin(newPy/newPT);
+	float newE = jetE + particleE;
+	
+	*(outputVal + 0) = newPT;
+	*(outputVal + 1) = newEta;
+	*(outputVal + 2) = newPhi;
+	*(outputVal + 3) = newE;
+
+    //std::cout << "enter predict" << std::endl;
+	/*
     int inputDim = 29;
     int outputDim = 4;
     int hiddenLayers = 5;
@@ -78,9 +123,7 @@ void regression::predict(float * inputVal, float * outputVal, int dim){
 	//Copy input to a new array and normalize the contents
 	copyMatrix(inputVal, &inputCopy[0][0], dim, inputDim);
 	//std::cout << "C" << std::endl;
-	/*for(int x = 0; x<8; x++){
-        std::cout << *(&normInfo2[0][0] + x) << std::endl;
-    }*/
+
 
 	normalize(&normInfo1[0][0],&inputCopy[0][0], inputDim, dim);
 
@@ -108,6 +151,7 @@ void regression::predict(float * inputVal, float * outputVal, int dim){
 	copyMatrix(&innerVal1[0][0], outputVal, outputDim, dim);
 	//Round predictions to 0.0 or 1.0
 	unnormalize(outputVal, outputDim, dim);
+	*/
 
 
 }
