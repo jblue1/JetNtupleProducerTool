@@ -187,7 +187,7 @@ void classifier::roundPredictions(float * a, int dim1, int dim2){
 	for(int x=0; x<dim1; x++){
         for(int y=0; y<dim2; y++){
 			//std::cout << *(a + y + (x * dim2)) << "->";
-            if(*(a + y + (x * dim2))<0.5){
+            if(*(a + y + (x * dim2))<0.4){
                 *(a + y + (x * dim2)) = 0.0;
 			} else {
                 *(a + y + (x * dim2)) = 1.0;
