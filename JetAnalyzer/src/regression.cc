@@ -63,25 +63,6 @@ regression::regression(std::string fileName)
 //Make predictions with the neural net
 void regression::predict(float * inputVal, float * outputVal, int dim){
 
-	firstPT
-firstEta
-firstPhi
-firstE
-firstVx
-firstVy
-firstVz
-jetPT
-jetEta
-jetPhi
-jetE
-particlePT
-particleEta
-particlePhi
-particleE
-particleVx
-partilceVy
-particleVz
-pdgId(11)
 
 
 	float jetPT = *(inputVal + 7) ;
