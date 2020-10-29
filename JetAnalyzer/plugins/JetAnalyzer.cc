@@ -605,7 +605,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 		
 		//pfs->castObject(std::vector<pat::PackedCandidate>);
 		
-		const std::vector<pat::PackedCandidate> pfsVector = *pfs;
+		std::vector<pat::PackedCandidate> pfsVector = *pfs;
 		
 		const std::vector<pat::PackedGenParticle> &pfsParticleVector = dynamic_cast<std::vector<const pat::PackedGenParticle>&>(pfsVector);
 		
