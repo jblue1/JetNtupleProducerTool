@@ -61,22 +61,22 @@ int jetConstructor::run(float ** particles, int particleCount, float ** outputJe
         int particlesAdded=0;
         //std::cout << std::endl;
         for(int x = 0; x<remainingParticles; x++){
-			std::cout << "Particle "<< x+1 << std::endl;
+			//std::cout << "Particle "<< x+1 << std::endl;
             currentParticle = *(particles + jetCount + x);
 
             //Extract necesary information from currentParticle, add it to inputVector
             //std::copy(inputVector+11, inputVector + 29, currentParticle);
             std::copy(currentParticle, currentParticle + 18, inputVector+11);
-            for(int y = 0; y<18; y++){
-                std::cout << *( inputVector + y) << ", ";
-            }
+            //for(int y = 0; y<18; y++){
+            //    std::cout << *( inputVector + y) << ", ";
+            //}
             //std::cout << std::endl;
 
             float dR2Val = dR2(*(inputVector+8),*(inputVector+12),*(inputVector+9),*(inputVector+13));
             //std::cout << dR2Val << std::endl;
             if(true || dR2Val < 2){
                 classifierNet.predict(&inputVector[0], &classificationOutput[0], 1);
-                if(true || classificationOutput[0]==1.0){
+                if(false || classificationOutput[0]==1.0){
                     regressionNet.predict(&inputVector[0], &regressionOutput[0], 1);
                     //for(int y = 0; y<4; y++){
                     //    std::cout << regressionOutput[y] << ", ";
