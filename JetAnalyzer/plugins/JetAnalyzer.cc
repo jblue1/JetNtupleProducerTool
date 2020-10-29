@@ -597,22 +597,24 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 		//sort pf particles
 		
 		
-		/*struct {
+		struct {
 			bool operator()(pat::PackedCandidate &p1, pat::PackedCandidate &p2) const {   
 				return p1.pt() < p2.pt();
 			}   
-        } customLess;*/
+        } customLess;
 		
 		//pfs->castObject(std::vector<pat::PackedCandidate>);
 		
 		const std::vector<pat::PackedCandidate> pfsVector = *pfs;
 		
-		//const std::vector<pat::PackedGenParticle> *pfsParticleVector = dynamic_cast<std::vector<const pat::PackedGenParticle>*>(pfsVector);
+		const std::vector<pat::PackedGenParticle> *pfsParticleVector = dynamic_cast<std::vector<const pat::PackedGenParticle>*>(pfsVector);
+		
+
 		
 		std::cout << typeid(pfs).name() << std::endl;
 		std::cout << typeid(pfsVector).name() << std::endl;
 		
-		std::sort(pfsVector.begin(), pfsVector.end(), [](pat::PackedCandidate &p1, pat::PackedCandidate &p2) {return p1.pt() > p2.pt(); });
+		std::sort(pfsVector.begin(), pfsVector.end(), customLess);//[](pat::PackedCandidate &p1, pat::PackedCandidate &p2) {return p1.pt() > p2.pt(); });
 		nPFR=0;
         unsigned int pfsSize = pfsVector.size();
         for (unsigned int i = 0; i != pfsSize; ++i) {
