@@ -62,7 +62,7 @@ int jetConstructor::run(float ** particles, int particleCount, float ** outputJe
         int particlesAdded=0;
         //std::cout << std::endl;
         for(int x = 0; x<remainingParticles; x++){
-			std::cout << "Current particle number"<< particles + jetCount + x << std::endl;
+			std::cout << "Current particle number"<< jetCount + x << std::endl;
             currentParticle = *(particles + jetCount + x);
 
             //Extract necesary information from currentParticle, add it to inputVector
