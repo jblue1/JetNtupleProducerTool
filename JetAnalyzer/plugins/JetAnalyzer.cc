@@ -455,14 +455,14 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 
 			int pdgIDReco = pf.pdgId();
 				
-			std::cout << pf.px() << std::endl;
+			//std::cout << pf.px() << std::endl;
 			
-			/*PFR_matrix[nPFR] [0]= pf.pt();
+			PFR_matrix[nPFR] [0]= pf.pt();
 			PFR_matrix[nPFR] [1] = pf.eta();
-			PFR_matrix[nPFR] [2] = pf.phi();*/
-			PFR_matrix[nPFR] [0]= pf.px();
+			PFR_matrix[nPFR] [2] = pf.phi();
+			/*PFR_matrix[nPFR] [0]= pf.px();
 			PFR_matrix[nPFR] [1] = pf.py();
-			PFR_matrix[nPFR] [2] = pf.pz();
+			PFR_matrix[nPFR] [2] = pf.pz();*/
 			PFR_matrix[nPFR] [3] = pf.p4().E();
 			PFR_matrix[nPFR] [4] = pf.vx();
 			PFR_matrix[nPFR] [5] = pf.vy();
@@ -527,8 +527,8 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 		}
 		std::cout << std::endl;
 		//std::cout << "Reco jet: "<< j.p4() << std::endl;
-		//std::cout << "Reco jet: " << j.pt() << ", " << j.eta() << ", " << j.phi() << ", "<< j.p4().E()   << std::endl;
-		std::cout << "Reco jet: " << j.px() << ", " << j.py() << ", " << j.pz() << ", "<< j.p4().E()   << std::endl;
+		std::cout << "Reco jet: " << j.pt() << ", " << j.eta() << ", " << j.phi() << ", "<< j.p4().E()   << std::endl;
+		//std::cout << "Reco jet: " << j.px() << ", " << j.py() << ", " << j.pz() << ", "<< j.p4().E()   << std::endl;
 
         // Generator level jet variables and its constituents
         jetGenMatch = 0;
@@ -543,8 +543,8 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
             jetGenMatch = 1;
             const reco::GenJet* gj = j.genJet();
 			
-			//std::cout << "Gen jet: " << gj->pt() << ", " << gj->eta() << ", " << gj->phi() << ", "<< gj->p4().E()   << std::endl;
-			std::cout << "Gen jet: " << gj->px() << ", " << gj->py() << ", " << gj->pz() << ", "<< gj->p4().E()   << std::endl;
+			std::cout << "Gen jet: " << gj->pt() << ", " << gj->eta() << ", " << gj->phi() << ", "<< gj->p4().E()   << std::endl;
+			//std::cout << "Gen jet: " << gj->px() << ", " << gj->py() << ", " << gj->pz() << ", "<< gj->p4().E()   << std::endl;
 			std::cout << "Gen Reco dR:" << deltaR(j.eta(), j.phi(),
 										gj->eta(), gj->phi()) << std::endl;
 			std::cout << "Gen New dR:" << deltaR(*(algorithm_output[0]+1) , *(algorithm_output[0]+2), 
