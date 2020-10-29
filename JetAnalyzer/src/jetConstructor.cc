@@ -44,7 +44,7 @@ int jetConstructor::run(float ** particles, int particleCount, float ** outputJe
         currentJet = *(particles + jetCount);
         //remainingParticles-=1;
         //std::copy(inputVector, inputVector + 5, rootParticle);
-		if(*(rootParticle)<1){
+		if(*(rootParticle)<5){
 			remainingParticles-=1;
 			*(outputJets + jetCount) = currentJet;
 			jetCount++;
