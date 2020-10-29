@@ -455,7 +455,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 
 			int pdgIDReco = pf.pdgId();
 				
-			//std::cout << pf.pt() << std::endl;
+			std::cout << pf.px() << std::endl;
 			
 			/*PFR_matrix[nPFR] [0]= pf.pt();
 			PFR_matrix[nPFR] [1] = pf.eta();
