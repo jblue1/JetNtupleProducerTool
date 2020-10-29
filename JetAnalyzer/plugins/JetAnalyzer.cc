@@ -603,8 +603,9 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 			}   
         } customLess;*/
 		
+		pfs->castObject(std::vector<pat::PackedCandidate>);
 		
-		const std::vector<pat::PackedCandidate> pfsVector =  pfs->castObject(std::vector<pat::PackedCandidate>);
+		//const std::vector<pat::PackedCandidate> pfsVector;
 		
 		std::cout << typeid(pfs).name() << std::endl;
 		std::cout << typeid(pfsVector).name() << std::endl;
