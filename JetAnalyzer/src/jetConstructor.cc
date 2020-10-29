@@ -62,14 +62,15 @@ int jetConstructor::run(float ** particles, int particleCount, float ** outputJe
         int particlesAdded=0;
         //std::cout << std::endl;
         for(int x = 0; x<remainingParticles; x++){
+			std::cout << "Particle "<< x+1 << std::endl;
             currentParticle = *(particles + jetCount + x);
 
             //Extract necesary information from currentParticle, add it to inputVector
             //std::copy(inputVector+11, inputVector + 29, currentParticle);
             std::copy(currentParticle, currentParticle + 18, inputVector+11);
-            //for(int y = 7; y<15; y++){
-            //    std::cout << *( inputVector + y) << ", ";
-            //}
+            for(int y = 0; y<29; y++){
+                std::cout << *( inputVector + y) << ", ";
+            }
             //std::cout << std::endl;
 
             float dR2Val = dR2(*(inputVector+8),*(inputVector+12),*(inputVector+9),*(inputVector+13));

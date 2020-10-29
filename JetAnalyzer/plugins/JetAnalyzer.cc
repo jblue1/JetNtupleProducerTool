@@ -724,7 +724,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
         nPF = npfs;
 		
 
-
+		/*
 		jetCount = constructJets.run(&algorithm_data[0], nPFR, &algorithm_output[0]);
 		std::cout << jetCount << " jets found from "<< nPFR << " particles" << std::endl;
 
@@ -732,7 +732,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 			std::cout << *(algorithm_output[x]) << ", " << *(algorithm_output[x]+1) << ", " << *(algorithm_output[x]+2) << ", " << *(algorithm_output[x]+3) << std::endl;
 		}
 		std::cout << std::endl;
-		
+		*/
 		
 		int recoMatch[nPF];
 		for(unsigned int y = 0; y < nPF; y++){
