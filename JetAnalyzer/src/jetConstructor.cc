@@ -20,7 +20,8 @@ jetConstructor::jetConstructor() {
 //}
 
 int jetConstructor::run(float ** particles, int particleCount, float ** outputJets){ //
-    int jetCount = 0;
+    std::cout << "Number of particles given:" << particleCount << std::endl;
+	int jetCount = 0;
     //int matchedParticles = 0;
     int remainingParticles = particleCount;
     float inputVector[29];
@@ -61,7 +62,7 @@ int jetConstructor::run(float ** particles, int particleCount, float ** outputJe
         int particlesAdded=0;
         //std::cout << std::endl;
         for(int x = 0; x<remainingParticles; x++){
-			//std::cout << "Particle "<< x+1 << std::endl;
+			std::cout << "Current particle number"<< particles + jetCount + x << std::endl;
             currentParticle = *(particles + jetCount + x);
 
             //Extract necesary information from currentParticle, add it to inputVector
