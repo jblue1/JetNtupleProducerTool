@@ -247,12 +247,12 @@ void regression::copyMatrix(float * a, float * b, int dim1, int dim2){
 
 //Normalize the input array
 void regression::normalize(float * norm, float * a, int dim1, int dim2){
-    //std::cout << "Normalize" << std::endl;
+    std::cout << "Normalize" << std::endl;
 	for(int x=0; x<dim1; x++){
         for(int y=0; y<dim2; y++){
-            //std::cout << *(a + y + (x * dim2)) << "->";
+            std::cout << *(a + y + (x * dim2)) << "->";
             *(a + y + (x * dim2)) = (*(a + y + (x * dim2)) - normInfo1[x][0])/normInfo1[x][1];
-			//std::cout <<  *(a + y + (x * dim2)) << std::endl;
+			std::cout <<  *(a + y + (x * dim2)) << std::endl;
 		}
 	}
 	//std::cout << "Done Normalizing" << std::endl;
@@ -260,12 +260,12 @@ void regression::normalize(float * norm, float * a, int dim1, int dim2){
 
 //Unnormalize the output array
 void regression::unnormalize(float * a, int dim1, int dim2){
-	//std::cout << "Unnormalize" << std::endl;
+	std::cout << "Unnormalize" << std::endl;
 	for(int x=0; x<dim1; x++){
         for(int y=0; y<dim2; y++){
-			//std::cout << *(a + y + (x * dim2)) << "->";
+			std::cout << *(a + y + (x * dim2)) << "->";
             *(a + y + (x * dim2)) = (*(a + y + (x * dim2))*normInfo1[x][1] + normInfo1[x][0]);
-			//std::cout <<  *(a + y + (x * dim2)) << std::endl;
+			std::cout <<  *(a + y + (x * dim2)) << std::endl;
 		}
 	}
 }
