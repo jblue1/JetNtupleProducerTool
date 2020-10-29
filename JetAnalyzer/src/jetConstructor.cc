@@ -41,7 +41,7 @@ int jetConstructor::run(float ** particles, int particleCount, float ** outputJe
     while(remainingParticles > 0){
         rootParticle = *(particles + jetCount);
         currentJet = *(particles + jetCount);
-        remainingParticles-=1;
+        //remainingParticles-=1;
         //std::copy(inputVector, inputVector + 5, rootParticle);
 
         //Extract the 4-vec and vertex information from the root Particle and give it to inputVector

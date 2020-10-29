@@ -65,7 +65,7 @@ void regression::predict(float * inputVal, float * outputVal, int dim){
 
 
 
-	float jetPT = *(inputVal + 7) ;
+	/*float jetPT = *(inputVal + 7) ;
 	float jetEta = *(inputVal + 8) ;
 	float jetPhi = *(inputVal + 9) ;
 	float jetE = *(inputVal + 10) ;
@@ -87,7 +87,11 @@ void regression::predict(float * inputVal, float * outputVal, int dim){
 	*(outputVal + 0) = newPT;
 	*(outputVal + 1) = newEta;
 	*(outputVal + 2) = newPhi;
-	*(outputVal + 3) = newE;
+	*(outputVal + 3) = newE; */
+	*(outputVal + 0) = *(inputVal + 7)  + *(inputVal + 11) ;
+	*(outputVal + 1) = *(inputVal + 8)  + *(inputVal + 12) ;
+	*(outputVal + 2) = *(inputVal + 9)  + *(inputVal + 13) ;
+	*(outputVal + 3) = *(inputVal + 10)  + *(inputVal + 14) ;
 
     //std::cout << "enter predict" << std::endl;
 	/*
