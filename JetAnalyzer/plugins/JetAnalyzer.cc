@@ -610,11 +610,11 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 		std::cout << typeid(pfs).name() << std::endl;
 		std::cout << typeid(pfsVector).name() << std::endl;
 		
-		//std::sort(pfs->begin(), pfs->end(), customLess);
+		std::sort(pfsVector.begin(), pfsVector.end(), [](const pat::PackedCandidate &p1, const pat::PackedCandidate &p2) {return p1->pt() > p2->pt(); });
 		nPFR=0;
-        unsigned int pfsSize = pfs->size();
+        unsigned int pfsSize = pfsVector.size();
         for (unsigned int i = 0; i != pfsSize; ++i) {
-            const pat::PackedCandidate &pf = (*pfs)[i];
+            const pat::PackedCandidate &pf = (pfsVector)[i];
             const pat::PackedCandidate* pfPointer = &pf;
 			
 			
