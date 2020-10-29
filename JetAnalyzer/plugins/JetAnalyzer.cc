@@ -519,7 +519,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 		int jetCount = constructJets.run(&algorithm_data[0], nPFR, &algorithm_output[0]);
 		std::cout << jetCount << " jets found from "<< nPFR << " particles" << std::endl;
 
-		for(int x =0; x<jetCount; x++){
+		for(int x =0; x<std::min(jetCount,5); x++){
 			std::cout << *(algorithm_output[x]) << ", " << *(algorithm_output[x]+1) << ", " << *(algorithm_output[x]+2) << ", " << *(algorithm_output[x]+3) << std::endl;
 		}
 		std::cout << std::endl;
@@ -611,8 +611,8 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 		
 
 		
-		std::cout << typeid(pfs).name() << std::endl;
-		std::cout << typeid(pfsVector).name() << std::endl;
+		//std::cout << typeid(pfs).name() << std::endl;
+		//std::cout << typeid(pfsVector).name() << std::endl;
 		
 		std::sort(pfsVector.begin(), pfsVector.end(), [](pat::PackedCandidate &p1, pat::PackedCandidate &p2) {return p1.pt() > p2.pt(); });
 		nPFR=0;
@@ -728,7 +728,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 		jetCount = constructJets.run(&algorithm_data[0], nPFR, &algorithm_output[0]);
 		std::cout << jetCount << " jets found from "<< nPFR << " particles" << std::endl;
 
-		for(int x =0; x<jetCount; x++){
+		for(int x =0; x<std::min(jetCount,5); x++){
 			std::cout << *(algorithm_output[x]) << ", " << *(algorithm_output[x]+1) << ", " << *(algorithm_output[x]+2) << ", " << *(algorithm_output[x]+3) << std::endl;
 		}
 		std::cout << std::endl;
