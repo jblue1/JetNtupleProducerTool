@@ -41,7 +41,6 @@ int jetConstructor::run(float ** particles, int particleCount, float ** outputJe
     while(remainingParticles > 0){
         rootParticle = *(particles + jetCount);
         currentJet = *(particles + jetCount);
-        jetCount+=1;
         remainingParticles-=1;
         //std::copy(inputVector, inputVector + 5, rootParticle);
 
@@ -68,7 +67,7 @@ int jetConstructor::run(float ** particles, int particleCount, float ** outputJe
             //Extract necesary information from currentParticle, add it to inputVector
             //std::copy(inputVector+11, inputVector + 29, currentParticle);
             std::copy(currentParticle, currentParticle + 18, inputVector+11);
-            for(int y = 0; y<29; y++){
+            for(int y = 0; y<18; y++){
                 std::cout << *( inputVector + y) << ", ";
             }
             //std::cout << std::endl;
@@ -97,18 +96,18 @@ int jetConstructor::run(float ** particles, int particleCount, float ** outputJe
                     particlesAdded++;
                 } else {
                     //Shift the rejected particle back
-                    *(particles + jetCount + x - particlesAdded) = *(particles + jetCount + x);
+                    *(particles + jetCount + 1 + x - particlesAdded) = *(particles + jetCount + x);
                 }
 
             } else {
                 //Shift the rejected particle back
-                *(particles + jetCount + x - particlesAdded) = *(particles + jetCount + x);
+                *(particles + jetCount + 1 + x - particlesAdded) = *(particles + jetCount + x);
             }
 
         }
         remainingParticles-=particlesAdded;
-        *(outputJets + jetCount - 1 ) = currentJet;
-
+        *(outputJets + jetCount) = currentJet;
+		jetCount++;
     }
     return(jetCount);
 
