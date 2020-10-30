@@ -772,11 +772,12 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 
 		for(int x =0; x<std::min(jetCount,5); x++){
 			double dR = deltaR(*(algorithm_output[x]+1), *(algorithm_output[x]+2),
-										genJetEta, genJetPhi);
-			double dPT = *(algorithm_output[x]+0)/genJetPt;
+										j.eta(), j.phi());
+			double dPT = *(algorithm_output[x]+0)/j.pt();
 			if(dR+abs(1-dPT) < fullAlgdR + abs(1-fullAlgdPT)){
-					fullAlgdR = dR;
-					fullAlgdPT = dPT;
+					fullAlgdR =  deltaR(*(algorithm_output[x]+1), *(algorithm_output[x]+2),
+										genJetEta, genJetPhi);
+					fullAlgdPT = *(algorithm_output[x]+0)/genJetPt;
 					fullAlgPT = *(algorithm_output[x]);
 			}
 			//std::cout << *(algorithm_output[x]) << ", " << *(algorithm_output[x]+1) << ", " << *(algorithm_output[x]+2) << ", " << *(algorithm_output[x]+3) << std::endl;
