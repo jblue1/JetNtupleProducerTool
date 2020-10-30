@@ -806,7 +806,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 				if(j.pt()>=50 and j.pt()<100){
 					fullAlgJetPT50_100->Fill(fullAlgPT);
 				} else if(j.pt()>=100 and j.pt()<=150){
-					gullAlgJetPT100_150->Fill(fullAlgPT);
+					fullAlgJetPT100_150->Fill(fullAlgPT);
 				}
 		}
 		
