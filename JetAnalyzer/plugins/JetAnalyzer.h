@@ -89,6 +89,17 @@ class JetAnalyzer : public edm::EDAnalyzer {
 		TH1D* algJetPT;
 		TH1D* fullAlgJetPT;
 		
+		TH1D* genJetPT50_100;
+		TH1D* recoJetPT50_100;
+		TH1D* algJetPT50_100;
+		TH1D* fullAlgJetPT50_100;
+		
+		TH1D* genJetPT100_150;
+		TH1D* recoJetPT100_150;
+		TH1D* algJetPT100_150;
+		TH1D* fullAlgJetPT100_150;
+		
+		
 
 
         // Tokens

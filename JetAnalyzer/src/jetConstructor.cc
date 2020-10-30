@@ -38,16 +38,17 @@ int jetConstructor::run(float ** particles, int particleCount, float ** outputJe
         std::cout << std::endl;
     }*/
 
-
-    while(remainingParticles > 0){
+	bool notEnd = true;
+    while(notEnd && remainingParticles > 0){
         rootParticle = *(particles + jetCount);
         currentJet = *(particles + jetCount);
         //remainingParticles-=1;
         //std::copy(inputVector, inputVector + 5, rootParticle);
 		if(*(rootParticle)<5){
 			remainingParticles-=1;
-			*(outputJets + jetCount) = currentJet;
-			jetCount++;
+			//*(outputJets + jetCount) = currentJet;
+			//jetCount++;
+			notEnd = false;
 			continue;
 		}
 

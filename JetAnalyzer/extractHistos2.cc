@@ -24,27 +24,61 @@ void extractHistos2(){
 	TH1D * algJetPT = nullptr;
 	TH1D *  fullAlgJetPT = nullptr;
 
+	TH1D * genJetPT50_100 = nullptr;
+	TH1D * recoJetPT50_100 = nullptr;
+	TH1D * algJetPT50_100 = nullptr;
+	TH1D *  fullAlgJetPT50_100 = nullptr;
 	
-	d->GetObject("genJetPT", genJetPT);
-	d->GetObject("recoJetPT", recoJetPT);
-	d->GetObject("algJetPT", algJetPT);
-	d->GetObject("fullAlgJetPT", fullAlgJetPT);
+	TH1D * genJetPT100_150 = nullptr;
+	TH1D * recoJetPT100_150 = nullptr;
+	TH1D * algJetPT100_150 = nullptr;
+	TH1D *  fullAlgJetPT100_150 = nullptr;
+
 
 	
-	genJetPT->Draw("HIST");
-	c->Print("genJetPT.png");
+	d->GetObject("genJetPT50_100", genJetPT50_100);
+	d->GetObject("recoJetPT50_100", recoJetPT50_100);
+	d->GetObject("algJetPT50_100", algJetPT50_100);
+	d->GetObject("fullAlgJetPT50_100", fullAlgJetPT50_100);
+
+	
+	genJetPT-50_100>Draw("HIST");
+	c->Print("genJetPT50_100.png");
 	c->Clear();
 
-	recoJetPT->Draw("HIST");
-	c->Print("recoJetPT.png");
+	recoJetPT50_100->Draw("HIST");
+	c->Print("recoJetPT50_100.png");
 	c->Clear();
 	
-	algJetPT->Draw("HIST");
-	c->Print("algJetPT.png");
+	algJetPT50_100->Draw("HIST");
+	c->Print("algJetPT50_100.png");
 	c->Clear();
 	
-	fullAlgJetPT->Draw("HIST");
-	c->Print("fullAlgJetPT.png");
+	fullAlgJetPT50_100->Draw("HIST");
+	c->Print("fullAlgJetPT50_100.png");
+	c->Clear();
+	
+	
+	d->GetObject("genJetPT100_150", genJetPT100_150);
+	d->GetObject("recoJetPT100_150", recoJetPT100_150);
+	d->GetObject("algJetPT100_150", algJetPT100_150);
+	d->GetObject("fullAlgJetPT100_150", fullAlgJetPT100_150);
+
+	
+	genJetPT100_150 ->Draw("HIST");
+	c->Print("genJetPT100_150.png");
+	c->Clear();
+
+	recoJetPT100_150 ->Draw("HIST");
+	c->Print("recoJetPT100_150.png");
+	c->Clear();
+	
+	algJetPT100_150 ->Draw("HIST");
+	c->Print("algJetPT100_150.png");
+	c->Clear();
+	
+	fullAlgJetPT100_150 ->Draw("HIST");
+	c->Print("fullAlgJetPT100_150.png");
 	c->Clear();
 	
 	

@@ -82,6 +82,16 @@ void JetAnalyzer::beginJob()
 	algJetPT = fs->make<TH1D>("algJetPT" , "PT of all algorithm from reco jets" , 100 , 0 , 1000);
 	fullAlgJetPT = fs->make<TH1D>("fullAlgJetPT" , "PT of all full algorithm jets" , 100 , 0 , 1000);
 	
+	genJetPT50_100 = fs->make<TH1D>("genJetPT50_100" , "PT of all gen jets" , 100 , 0 , 250);
+	recoJetPT50_100 = fs->make<TH1D>("recoJetPT50_100" , "PT of all reco jets" , 100 , 0 , 250);
+	algJetPT50_100 = fs->make<TH1D>("algJetPT50_100" , "PT of all algorithm from reco jets" , 100 , 0 , 250);
+	fullAlgJetPT50_100 = fs->make<TH1D>("fullAlgJetPT50_100" , "PT of all full algorithm jets" , 100 , 0 , 250);
+	
+	genJetPT100_150 = fs->make<TH1D>("genJetPT" , "PT of all gen jets" , 100 , 0 , 250);
+	recoJetPT100_150 = fs->make<TH1D>("recoJetPT" , "PT of all reco jets" , 100 , 0 , 250);
+	algJetPT100_150 = fs->make<TH1D>("algJetPT" , "PT of all algorithm from reco jets" , 100 , 0 , 250);
+	fullAlgJetPT100_150 = fs->make<TH1D>("fullAlgJetPT" , "PT of all full algorithm jets" , 100 , 0 , 250);
+	
 	
 	// Create the ROOT tree and add all the branches to it
     jetTree = fs->make<TTree>("jetTree", "jetTree");
@@ -585,6 +595,15 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 				genJetPT->Fill(genJetPt);
 				recoJetPT->Fill(j.pt());
 				algJetPT->Fill(AlgPT);
+				if(j.pt()>=50 and j.pt()<100){
+					genJetPT50_100->Fill(genJetPt);
+					recoJetPT50_100->Fill(j.pt());
+					algJetPT50_100->Fill(AlgPT);
+				} else if(j.pt()>=100 and j.pt()<=150){
+					genJetPT100_150->Fill(genJetPt);
+					recoJetPT100_150->Fill(j.pt());
+					algJetPT100_150->Fill(AlgPT);
+				}
 			}
 			
 
@@ -784,6 +803,11 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 		}
 		if(jetGenMatch==1){
 				fullAlgJetPT->Fill(fullAlgPT);
+				if(j.pt()>=50 and j.pt()<100){
+					fullAlgJetPT50_100->Fill(fullAlgPT);
+				} else if(j.pt()>=100 and j.pt()<=150){
+					gullAlgJetPT100_150->Fill(fullAlgPT);
+				}
 		}
 		
 		//std::cout << std::endl;
@@ -819,6 +843,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 				matchDR->Fill(dR*1.0);
 				matchDPT->Fill(dPT*1.0);
 				matchDRDPT->Fill(dR*1.0, dPT*1.0);
+				
 				
 				if(dR<0.2){
 					matched++;
