@@ -83,6 +83,12 @@ class JetAnalyzer : public edm::EDAnalyzer {
 		TH1D* matchPercent;
 		TH1D* matchNumber;
 		TH1D* genNumber;
+		
+		TH1D* genJetPT;
+		TH1D* recoJetPT;
+		TH1D* algJetPT;
+		TH1D* fullAlgJetPT;
+		
 
 
         // Tokens

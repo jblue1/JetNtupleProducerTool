@@ -77,6 +77,12 @@ void JetAnalyzer::beginJob()
 	genNumber = fs->make<TH1D>("genNumber" , "distribution of number of particles per gen Jet" , 100 , 0 , 200);
 	
 	
+	genJetPT = fs->make<TH1D>("genJetPT" , "PT of all gen jets" , 100 , 0 , 1000);
+	recoJetPT = fs->make<TH1D>("recoJetPT" , "PT of all reco jets" , 100 , 0 , 1000);
+	algJetPT = fs->make<TH1D>("algJetPT" , "PT of all algorithm from reco jets" , 100 , 0 , 1000);
+	fullAlgJetPT = fs->make<TH1D>("fullAlgJetPT" , "PT of all full algorithm jets" , 100 , 0 , 1000);
+	
+	
 	// Create the ROOT tree and add all the branches to it
     jetTree = fs->make<TTree>("jetTree", "jetTree");
 
@@ -520,14 +526,14 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
         jetMult = njetpf;
 
 		int jetCount = constructJets.run(&algorithm_data[0], nPFR, &algorithm_output[0]);
-		std::cout << jetCount << " jets found from "<< nPFR << " particles" << std::endl;
+		//std::cout << jetCount << " jets found from "<< nPFR << " particles" << std::endl;
 
-		for(int x =0; x<std::min(jetCount,5); x++){
-			std::cout << *(algorithm_output[x]) << ", " << *(algorithm_output[x]+1) << ", " << *(algorithm_output[x]+2) << ", " << *(algorithm_output[x]+3) << std::endl;
-		}
-		std::cout << std::endl;
+		//for(int x =0; x<std::min(jetCount,5); x++){
+		//	std::cout << *(algorithm_output[x]) << ", " << *(algorithm_output[x]+1) << ", " << *(algorithm_output[x]+2) << ", " << *(algorithm_output[x]+3) << std::endl;
+		//}
+		//std::cout << std::endl;
 		//std::cout << "Reco jet: "<< j.p4() << std::endl;
-		std::cout << "Reco jet: " << j.pt() << ", " << j.eta() << ", " << j.phi() << ", "<< j.p4().E()   << std::endl;
+		//std::cout << "Reco jet: " << j.pt() << ", " << j.eta() << ", " << j.phi() << ", "<< j.p4().E()   << std::endl;
 		//std::cout << "Reco jet: " << j.px() << ", " << j.py() << ", " << j.pz() << ", "<< j.p4().E()   << std::endl;
 
         // Generator level jet variables and its constituents
@@ -538,23 +544,49 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
         genJetMass = 0;
         int ng = 0;
 
+		float AlgdR = 100;
+		float AlgdPT = 100;
+		float AlgPT = -10000;
+
         // Check if the jet has a matching generator level jet
         if(j.genJet()) {
             jetGenMatch = 1;
             const reco::GenJet* gj = j.genJet();
 			
-			std::cout << "Gen jet: " << gj->pt() << ", " << gj->eta() << ", " << gj->phi() << ", "<< gj->p4().E()   << std::endl;
+			//std::cout << "Gen jet: " << gj->pt() << ", " << gj->eta() << ", " << gj->phi() << ", "<< gj->p4().E()   << std::endl;
 			//std::cout << "Gen jet: " << gj->px() << ", " << gj->py() << ", " << gj->pz() << ", "<< gj->p4().E()   << std::endl;
-			std::cout << "Gen Reco dR:" << deltaR(j.eta(), j.phi(),
-										gj->eta(), gj->phi()) << std::endl;
-			std::cout << "Gen New dR:" << deltaR(*(algorithm_output[0]+1) , *(algorithm_output[0]+2), 
-										gj->eta(), gj->phi())  << std::endl;
+			//std::cout << "Gen Reco dR:" << deltaR(j.eta(), j.phi(),
+			//							gj->eta(), gj->phi()) << std::endl;
+			//std::cout << "Gen New dR:" << deltaR(*(algorithm_output[0]+1) , *(algorithm_output[0]+2), 
+			//							gj->eta(), gj->phi())  << std::endl;
 			
             genRecoPT->Fill(gj->pt(), j.pt());
 			genJetPt = gj->pt();
             genJetEta = gj->eta();
             genJetPhi = gj->phi();
             genJetMass = gj->mass();
+			
+			float AlgdR = 100;
+			float AlgdPT = 100;
+			float AlgPT = -10000;
+			
+
+			for(int x =0; x<std::min(jetCount,5); x++){
+				double dR = deltaR(*(algorithm_output[x]+1), *(algorithm_output[x]+2),
+											j.eta(),j.phi());
+				double dPT = *(algorithm_output[x]+0)/j.pt();
+				if(dR+abs(1-dPT) < AlgdR + abs(1-AlgdPT)){
+						AlgdR = deltaR(*(algorithm_output[x]+1), *(algorithm_output[x]+2),
+											genJetEta, genJetPhi);
+						AlgdPT = *(algorithm_output[x]+0)/genJetPt; 
+						AlgPT = *(algorithm_output[x]);
+				}
+				//std::cout << *(algorithm_output[x]) << ", " << *(algorithm_output[x]+1) << ", " << *(algorithm_output[x]+2) << ", " << *(algorithm_output[x]+3) << std::endl;
+				genJetPT->Fill(genJetPT);
+				recoJetPT->Fill(j.pt())
+				algJetPT->Fill(AlgPT)
+			}
+			
 
             // Loop over the genjet's constituents
             std::vector<const pat::PackedGenParticle*> genParticles;
@@ -731,12 +763,29 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 
 		
 		jetCount = constructJets.run(&algorithm_data[0], nPFR, &algorithm_output[0]);
-		std::cout << jetCount << " jets found from "<< nPFR << " particles" << std::endl;
+		//std::cout << jetCount << " jets found from "<< nPFR << " particles" << std::endl;
+
+		float fullAlgdR = 100;
+		float fullAlgdPT = 100;
+		float fullAlgPT = -10000;
+		
 
 		for(int x =0; x<std::min(jetCount,5); x++){
-			std::cout << *(algorithm_output[x]) << ", " << *(algorithm_output[x]+1) << ", " << *(algorithm_output[x]+2) << ", " << *(algorithm_output[x]+3) << std::endl;
+			double dR = deltaR(*(algorithm_output[x]+1), *(algorithm_output[x]+2),
+										genJetEta, genJetPhi);
+			double dPT = *(algorithm_output[x]+0)/genJetPt;
+			if(dR+abs(1-dPT) < fullAlgdR + abs(1-fullAlgdPT)){
+					fullAlgdR = dR;
+					fullAlgdPT = dPT;
+					fullAlgPT = *(algorithm_output[x]);
+			}
+			//std::cout << *(algorithm_output[x]) << ", " << *(algorithm_output[x]+1) << ", " << *(algorithm_output[x]+2) << ", " << *(algorithm_output[x]+3) << std::endl;
 		}
-		std::cout << std::endl;
+		if(genJetMatch==1){
+				fullAlgJetPT->Fill(fullAlgPT);
+		}
+		
+		//std::cout << std::endl;
 		
 		
 		int recoMatch[nPF];
