@@ -582,9 +582,9 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 						AlgPT = *(algorithm_output[x]);
 				}
 				//std::cout << *(algorithm_output[x]) << ", " << *(algorithm_output[x]+1) << ", " << *(algorithm_output[x]+2) << ", " << *(algorithm_output[x]+3) << std::endl;
-				genJetPT->Fill(genJetPT);
-				recoJetPT->Fill(j.pt())
-				algJetPT->Fill(AlgPT)
+				genJetPT->Fill(genJetPt);
+				recoJetPT->Fill(j.pt());
+				algJetPT->Fill(AlgPT);
 			}
 			
 
@@ -781,7 +781,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 			}
 			//std::cout << *(algorithm_output[x]) << ", " << *(algorithm_output[x]+1) << ", " << *(algorithm_output[x]+2) << ", " << *(algorithm_output[x]+3) << std::endl;
 		}
-		if(genJetMatch==1){
+		if(jetGenMatch==1){
 				fullAlgJetPT->Fill(fullAlgPT);
 		}
 		
