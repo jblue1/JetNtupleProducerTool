@@ -40,11 +40,11 @@ void extractHistos2(){
 
 	recoJetPT->SetLineColor(kRed);
 	recoJetPT->SetStats(0);
-	recoJetPT->Draw("SAME HIST");
+	recoJetPT->Draw("HIST");
 
 	genJetPT->SetLineColor(kBlue);
 	genJetPT->SetStats(0);
-	genJetPT->Draw("HIST");
+	genJetPT->Draw("SAME HIST");
 	
 
 	
@@ -79,11 +79,11 @@ void extractHistos2(){
 	
 	recoJetPT0_50->SetLineColor(kRed);
 	recoJetPT0_50->SetStats(0);
-	recoJetPT0_50->Draw("SAME HIST");
+	recoJetPT0_50->Draw("HIST");
 	
 	genJetPT0_50->SetLineColor(kBlue);
 	genJetPT0_50->SetStats(0);
-	genJetPT0_50->Draw("HIST");
+	genJetPT0_50->Draw("SAME HIST");
 	
 	
 	
@@ -115,12 +115,12 @@ void extractHistos2(){
 	
 	recoJetPT50_100->SetLineColor(kRed);
 	recoJetPT50_100->SetStats(0);
-	recoJetPT50_100->Draw("SAME HIST");	
+	recoJetPT50_100->Draw("HIST");	
 
 
 	genJetPT50_100->SetLineColor(kBlue);
 	genJetPT50_100->SetStats(0);
-	genJetPT50_100->Draw("HIST");
+	genJetPT50_100->Draw("SAME HIST");
 	
 
 	
@@ -156,11 +156,11 @@ void extractHistos2(){
 	
 	recoJetPT100_150->SetLineColor(kRed);
 	recoJetPT100_150->SetStats(0);
-	recoJetPT100_150->Draw("SAME HIST");
+	recoJetPT100_150->Draw("HIST");
 	
 	genJetPT100_150->SetLineColor(kBlue);
 	genJetPT100_150->SetStats(0);
-	genJetPT100_150->Draw("HIST");
+	genJetPT100_150->Draw("SAME HIST");
 	
 	
 	
@@ -197,11 +197,11 @@ void extractHistos2(){
 	
 	recoJetPT150_200->SetLineColor(kRed);
 	recoJetPT150_200->SetStats(0);
-	recoJetPT150_200->Draw("SAME HIST");
+	recoJetPT150_200->Draw("HIST");
 	
 	genJetPT150_200->SetLineColor(kBlue);
 	genJetPT150_200->SetStats(0);
-	genJetPT150_200->Draw("HIST");
+	genJetPT150_200->Draw("SAME HIST");
 	
 	
 	
