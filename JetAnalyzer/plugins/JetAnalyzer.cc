@@ -77,20 +77,30 @@ void JetAnalyzer::beginJob()
 	genNumber = fs->make<TH1D>("genNumber" , "distribution of number of particles per gen Jet" , 100 , 0 , 200);
 	
 	
-	genJetPT = fs->make<TH1D>("genJetPT" , "PT of all gen jets" , 100 , 0 , 1000);
-	recoJetPT = fs->make<TH1D>("recoJetPT" , "PT of all reco jets" , 100 , 0 , 1000);
-	algJetPT = fs->make<TH1D>("algJetPT" , "PT of all algorithm from reco jets" , 100 , 0 , 1000);
-	fullAlgJetPT = fs->make<TH1D>("fullAlgJetPT" , "PT of all full algorithm jets" , 100 , 0 , 1000);
+	genJetPT = fs->make<TH1D>("genJetPT" , "PT of all jets" , 100 , 0 , 1000);
+	recoJetPT = fs->make<TH1D>("recoJetPT" , "PT of all jets" , 100 , 0 , 1000);
+	algJetPT = fs->make<TH1D>("algJetPT" , "PT of all jets" , 100 , 0 , 1000);
+	fullAlgJetPT = fs->make<TH1D>("fullAlgJetPT" , "PT of all jets" , 100 , 0 , 1000);
 	
-	genJetPT50_100 = fs->make<TH1D>("genJetPT50_100" , "PT of all gen jets" , 100 , 0 , 250);
-	recoJetPT50_100 = fs->make<TH1D>("recoJetPT50_100" , "PT of all reco jets" , 100 , 0 , 250);
-	algJetPT50_100 = fs->make<TH1D>("algJetPT50_100" , "PT of all algorithm from reco jets" , 100 , 0 , 250);
-	fullAlgJetPT50_100 = fs->make<TH1D>("fullAlgJetPT50_100" , "PT of all full algorithm jets" , 100 , 0 , 250);
+	genJetPT0_50 = fs->make<TH1D>("genJetPT0_50" , "PT of jets with uncorrected reco PT between 0 and 50" , 100 , 0 , 300);
+	recoJetPT0_50 = fs->make<TH1D>("recoJetPT0_50" , "PT of jets with uncorrected reco PT between 0 and 50" , 100 , 0 , 300);
+	algJetPT0_50 = fs->make<TH1D>("algJetPT0_50" , "PT of jets with uncorrected reco PT between 0 and 50" , 100 , 0 , 300);
+	fullAlgJetPT0_50 = fs->make<TH1D>("fullAlgJetPT0_50" , "PT of jets with uncorrected reco PT between 0 and 50" , 100 , 0 , 300);
 	
-	genJetPT100_150 = fs->make<TH1D>("genJetPT" , "PT of all gen jets" , 100 , 0 , 250);
-	recoJetPT100_150 = fs->make<TH1D>("recoJetPT" , "PT of all reco jets" , 100 , 0 , 250);
-	algJetPT100_150 = fs->make<TH1D>("algJetPT" , "PT of all algorithm from reco jets" , 100 , 0 , 250);
-	fullAlgJetPT100_150 = fs->make<TH1D>("fullAlgJetPT" , "PT of all full algorithm jets" , 100 , 0 , 250);
+	genJetPT50_100 = fs->make<TH1D>("genJetPT50_100" , "PT of jets with uncorrected reco PT between 50 and 100" , 100 , 0 , 300);
+	recoJetPT50_100 = fs->make<TH1D>("recoJetPT50_100" , "PT of jets with uncorrected reco PT between 50 and 100" , 100 , 0 , 300);
+	algJetPT50_100 = fs->make<TH1D>("algJetPT50_100" , "PT of jets with uncorrected reco PT between 50 and 100" , 100 , 0 , 300);
+	fullAlgJetPT50_100 = fs->make<TH1D>("fullAlgJetPT50_100" , "PT of jets with uncorrected reco PT between 50 and 100" , 100 , 0 , 300);
+	
+	genJetPT100_150 = fs->make<TH1D>("genJetPT100_150" , "PT of jets with uncorrected reco PT between 100 and 150" , 100 , 0 , 300);
+	recoJetPT100_150 = fs->make<TH1D>("recoJetPT100_150" , "PT of jets with uncorrected reco PT between 100 and 150" , 100 , 0 , 300);
+	algJetPT100_150 = fs->make<TH1D>("algJetPT100_150" , "PT of jets with uncorrected reco PT between 100 and 150" , 100 , 0 , 300);
+	fullAlgJetPT100_150 = fs->make<TH1D>("fullAlgJetPT100_150" , "PT of jets with uncorrected reco PT between 100 and 150" , 100 , 0 , 300);
+	
+	genJetPT150_200 = fs->make<TH1D>("genJetPT150_200" , "PT of jets with uncorrected reco PT between 150 and 200" , 100 , 0 , 300);
+	recoJetPT150_200 = fs->make<TH1D>("recoJetPT150_200" , "PT of jets with uncorrected reco PT between 150 and 200" , 100 , 0 , 300);
+	algJetPT150_200 = fs->make<TH1D>("algJetPT150_200" , "PT of jets with uncorrected reco PT between 150 and 200" , 100 , 0 , 300);
+	fullAlgJetPT150_200 = fs->make<TH1D>("fullAlgJetPT150_200" , "PT of jets with uncorrected reco PT between 150 and 200" , 100 , 0 , 300);
 	
 	
 	// Create the ROOT tree and add all the branches to it
@@ -308,6 +318,9 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
     std::sort(sortedJets.begin(), sortedJets.end(), higher_pT_sort());
     std::sort(selectedJets.begin(), selectedJets.end(), higher_pT_sort());
 
+
+	math::XYZTLorentzVector rawRecoP4(0,0,0,0);
+
     // Loop over the pT-ordered selected jets and save them to file
     for (unsigned int ptIdx = 0; ptIdx < selectedJets.size(); ++ptIdx) {
         // Make selective cuts on the event level
@@ -471,6 +484,8 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 
 			int pdgIDReco = pf.pdgId();
 				
+			rawRecoP4 += pf.p4();
+				
 			//std::cout << pf.px() << std::endl;
 			
 			PFR_matrix[nPFR] [0]= pf.pt();
@@ -583,8 +598,8 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 
 			for(int x =0; x<std::min(jetCount,5); x++){
 				double dR = deltaR(*(algorithm_output[x]+1), *(algorithm_output[x]+2),
-											j.eta(),j.phi());
-				double dPT = *(algorithm_output[x]+0)/j.pt();
+											rawRecoP4.eta(),rawRecoP4.phi());
+				double dPT = *(algorithm_output[x]+0)/rawRecoP4.pt();
 				if(dR+abs(1-dPT) < AlgdR + abs(1-AlgdPT)){
 						AlgdR = deltaR(*(algorithm_output[x]+1), *(algorithm_output[x]+2),
 											genJetEta, genJetPhi);
@@ -593,16 +608,24 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 				}
 				//std::cout << *(algorithm_output[x]) << ", " << *(algorithm_output[x]+1) << ", " << *(algorithm_output[x]+2) << ", " << *(algorithm_output[x]+3) << std::endl;
 				genJetPT->Fill(genJetPt);
-				recoJetPT->Fill(j.pt());
+				recoJetPT->Fill(rawRecoP4.pt());
 				algJetPT->Fill(AlgPT);
-				if(j.pt()>=50 and j.pt()<100){
+				if(j.pt()>=0 and j.pt()<50){
+					genJetPT0_50->Fill(genJetPt);
+					recoJetPT0_50->Fill(rawRecoP4.pt());
+					algJetPT0_50->Fill(AlgPT);
+				} else if(j.pt()>=50 and j.pt()<100){
 					genJetPT50_100->Fill(genJetPt);
-					recoJetPT50_100->Fill(j.pt());
+					recoJetPT50_100->Fill(rawRecoP4.pt());
 					algJetPT50_100->Fill(AlgPT);
-				} else if(j.pt()>=100 and j.pt()<=150){
+				} else if(rawRecoP4.pt()>=100 and rawRecoP4.pt()<=150){
 					genJetPT100_150->Fill(genJetPt);
-					recoJetPT100_150->Fill(j.pt());
+					recoJetPT100_150->Fill(rawRecoP4.pt());
 					algJetPT100_150->Fill(AlgPT);
+				} else if(rawRecoP4.pt()>=150 and rawRecoP4.pt()<=200){
+					genJetPT150_200->Fill(genJetPt);
+					recoJetPT150_200->Fill(rawRecoP4.pt());
+					algJetPT150_200->Fill(AlgPT);
 				}
 			}
 			
@@ -791,8 +814,8 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 
 		for(int x =0; x<std::min(jetCount,5); x++){
 			double dR = deltaR(*(algorithm_output[x]+1), *(algorithm_output[x]+2),
-										j.eta(), j.phi());
-			double dPT = *(algorithm_output[x]+0)/j.pt();
+										rawRecoP4.eta(), rawRecoP4.phi());
+			double dPT = *(algorithm_output[x]+0)/rawRecoP4.pt();
 			if(dR+abs(1-dPT) < fullAlgdR + abs(1-fullAlgdPT)){
 					fullAlgdR =  deltaR(*(algorithm_output[x]+1), *(algorithm_output[x]+2),
 										genJetEta, genJetPhi);
@@ -803,10 +826,14 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 		}
 		if(jetGenMatch==1){
 				fullAlgJetPT->Fill(fullAlgPT);
-				if(j.pt()>=50 and j.pt()<100){
+				if(rawRecoP4.pt()>=0 and rawRecoP4.pt()<50){
+					fullAlgJetPT0_50->Fill(fullAlgPT);
+				} else if(rawRecoP4.pt()>=50 and rawRecoP4.pt()<100){
 					fullAlgJetPT50_100->Fill(fullAlgPT);
-				} else if(j.pt()>=100 and j.pt()<=150){
+				} else if(rawRecoP4.pt()>=100 and rawRecoP4.pt()<=150){
 					fullAlgJetPT100_150->Fill(fullAlgPT);
+				} else if(rawRecoP4.pt()>=150 and rawRecoP4.pt()<=200){
+					fullAlgJetPT150_200->Fill(fullAlgPT);
 				}
 		}
 		
