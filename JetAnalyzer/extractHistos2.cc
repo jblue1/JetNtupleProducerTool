@@ -72,6 +72,11 @@ void extractHistos2(){
 	TH1D * algJetPT0_50 = nullptr;
 	TH1D *  fullAlgJetPT0_50 = nullptr;
 	
+	d->GetObject("genJetPT0_50", genJetPT0_50);
+	d->GetObject("recoJetPT0_50", recoJetPT0_50);
+	d->GetObject("algJetPT0_50", algJetPT0_50);
+	d->GetObject("fullAlgJetPT0_50", fullAlgJetPT0_50);
+	
 	recoJetPT0_50->SetLineColor(kRed);
 	recoJetPT0_50->SetStats(0);
 	recoJetPT0_50->Draw("SAME HIST");
@@ -106,6 +111,7 @@ void extractHistos2(){
 	d->GetObject("algJetPT50_100", algJetPT50_100);
 	d->GetObject("fullAlgJetPT50_100", fullAlgJetPT50_100);
 
+	
 	
 	recoJetPT50_100->SetLineColor(kRed);
 	recoJetPT50_100->SetStats(0);
@@ -176,16 +182,18 @@ void extractHistos2(){
 	c->Print("JetPT100_150.png");
 	c->Clear();
 	
-	d->GetObject("genJetPT100_150", genJetPT100_150);
-	d->GetObject("recoJetPT100_150", recoJetPT100_150);
-	d->GetObject("algJetPT100_150", algJetPT100_150);
-	d->GetObject("fullAlgJetPT100_150", fullAlgJetPT100_150);
+	
 
 	
 	TH1D * genJetPT150_200 = nullptr;
 	TH1D * recoJetPT150_200 = nullptr;
 	TH1D * algJetPT150_200 = nullptr;
 	TH1D *  fullAlgJetPT150_200 = nullptr;
+	
+	d->GetObject("genJetPT150_200", genJetPT150_200);
+	d->GetObject("recoJetPT150_200", recoJetPT150_200);
+	d->GetObject("algJetPT150_200", algJetPT150_200);
+	d->GetObject("fullAlgJetPT150_200", fullAlgJetPT150_200);
 	
 	recoJetPT150_200->SetLineColor(kRed);
 	recoJetPT150_200->SetStats(0);
