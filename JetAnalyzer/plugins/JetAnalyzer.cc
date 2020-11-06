@@ -610,11 +610,11 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 				genJetPT->Fill(genJetPt);
 				recoJetPT->Fill(rawRecoP4.pt());
 				algJetPT->Fill(AlgPT);
-				if(j.pt()>=0 and j.pt()<50){
+				if(rawRecoP4.pt()>=0 and rawRecoP4.pt()<50){
 					genJetPT0_50->Fill(genJetPt);
 					recoJetPT0_50->Fill(rawRecoP4.pt());
 					algJetPT0_50->Fill(AlgPT);
-				} else if(j.pt()>=50 and j.pt()<100){
+				} else if(rawRecoP4.pt()>=50 and rawRecoP4.pt()<100){
 					genJetPT50_100->Fill(genJetPt);
 					recoJetPT50_100->Fill(rawRecoP4.pt());
 					algJetPT50_100->Fill(AlgPT);

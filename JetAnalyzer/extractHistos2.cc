@@ -52,15 +52,15 @@ void extractHistos2(){
 	algJetPT->SetStats(0);
 	algJetPT->Draw("SAME HIST");
 	
-	fullAlgJetPT->SetLineColor(kBlack);
-	fullAlgJetPT->SetStats(0);
-	fullAlgJetPT->Draw("SAME HIST");
+	//fullAlgJetPT->SetLineColor(kBlack);
+	//fullAlgJetPT->SetStats(0);
+	//fullAlgJetPT->Draw("SAME HIST");
 	
 	TLegend * legendJetPT = new TLegend();
 	legendJetPT->AddEntry(genJetPT, "gen", "L");
 	legendJetPT->AddEntry(recoJetPT, "reco", "L");
 	legendJetPT->AddEntry(algJetPT, "algorithm", "L");
-	legendJetPT->AddEntry(fullAlgJetPT, "full algorithm", "L");
+	//legendJetPT->AddEntry(fullAlgJetPT, "full algorithm", "L");
 	legendJetPT->Draw();
 	
 	c->Print("JetPT.png");
@@ -91,15 +91,15 @@ void extractHistos2(){
 	algJetPT0_50->SetStats(0);
 	algJetPT0_50->Draw("SAME HIST");
 	
-	fullAlgJetPT0_50->SetLineColor(kBlack);
-	fullAlgJetPT0_50->SetStats(0);
-	fullAlgJetPT0_50->Draw("SAME HIST");
+	//fullAlgJetPT0_50->SetLineColor(kBlack);
+	//fullAlgJetPT0_50->SetStats(0);
+	//fullAlgJetPT0_50->Draw("SAME HIST");
 	
 	TLegend * legendJetPT0_50 = new TLegend();
 	legendJetPT0_50->AddEntry(genJetPT0_50, "gen", "L");
 	legendJetPT0_50->AddEntry(recoJetPT0_50, "reco", "L");
 	legendJetPT0_50->AddEntry(algJetPT0_50, "algorithm", "L");
-	legendJetPT0_50->AddEntry(fullAlgJetPT0_50, "full algorithm", "L");
+	//legendJetPT0_50->AddEntry(fullAlgJetPT0_50, "full algorithm", "L");
 	legendJetPT0_50->Draw();
 	
 	c->Print("JetPT0_50.png");
@@ -128,15 +128,15 @@ void extractHistos2(){
 	algJetPT50_100->SetStats(0);
 	algJetPT50_100->Draw("SAME HIST");
 	
-	fullAlgJetPT50_100->SetLineColor(kBlack);
-	fullAlgJetPT50_100->SetStats(0);
-	fullAlgJetPT50_100->Draw("SAME HIST");
+	//fullAlgJetPT50_100->SetLineColor(kBlack);
+	//fullAlgJetPT50_100->SetStats(0);
+	//fullAlgJetPT50_100->Draw("SAME HIST");
 	
 	TLegend * legendJetPT50_100 = new TLegend();
 	legendJetPT50_100->AddEntry(genJetPT50_100, "gen", "L");
 	legendJetPT50_100->AddEntry(recoJetPT50_100, "reco", "L");
 	legendJetPT50_100->AddEntry(algJetPT50_100, "algorithm", "L");
-	legendJetPT50_100->AddEntry(fullAlgJetPT50_100, "full algorithm", "L");
+	//legendJetPT50_100->AddEntry(fullAlgJetPT50_100, "full algorithm", "L");
 	legendJetPT50_100->Draw();
 	
 	c->Print("JetPT50_100.png");
@@ -168,15 +168,15 @@ void extractHistos2(){
 	algJetPT100_150->SetStats(0);
 	algJetPT100_150->Draw("SAME HIST");
 	
-	fullAlgJetPT100_150->SetLineColor(kBlack);
-	fullAlgJetPT100_150->SetStats(0);
-	fullAlgJetPT100_150->Draw("SAME HIST");
+	//fullAlgJetPT100_150->SetLineColor(kBlack);
+	//fullAlgJetPT100_150->SetStats(0);
+	//fullAlgJetPT100_150->Draw("SAME HIST");
 	
 	TLegend * legendJetPT100_150 = new TLegend();
 	legendJetPT100_150->AddEntry(genJetPT100_150, "gen", "L");
 	legendJetPT100_150->AddEntry(recoJetPT100_150, "reco", "L");
 	legendJetPT100_150->AddEntry(algJetPT100_150, "algorithm", "L");
-	legendJetPT100_150->AddEntry(fullAlgJetPT100_150, "full algorithm", "L");
+	//legendJetPT100_150->AddEntry(fullAlgJetPT100_150, "full algorithm", "L");
 	legendJetPT100_150->Draw();
 	
 	c->Print("JetPT100_150.png");
@@ -209,15 +209,15 @@ void extractHistos2(){
 	algJetPT150_200->SetStats(0);
 	algJetPT150_200->Draw("SAME HIST");
 	
-	fullAlgJetPT150_200->SetLineColor(kBlack);
-	fullAlgJetPT150_200->SetStats(0);
-	fullAlgJetPT150_200->Draw("SAME HIST");
+	//fullAlgJetPT150_200->SetLineColor(kBlack);
+	//fullAlgJetPT150_200->SetStats(0);
+	//fullAlgJetPT150_200->Draw("SAME HIST");
 	
 	TLegend * legendJetPT150_200 = new TLegend();
 	legendJetPT150_200->AddEntry(genJetPT150_200, "gen", "L");
 	legendJetPT150_200->AddEntry(recoJetPT150_200, "reco", "L");
 	legendJetPT150_200->AddEntry(algJetPT150_200, "algorithm", "L");
-	legendJetPT150_200->AddEntry(fullAlgJetPT150_200, "full algorithm", "L");
+	//legendJetPT150_200->AddEntry(fullAlgJetPT150_200, "full algorithm", "L");
 	legendJetPT150_200->Draw();
 	
 	c->Print("JetPT150_200.png");
