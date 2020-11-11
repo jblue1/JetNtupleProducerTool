@@ -643,7 +643,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 				myfile << gj->phi() << "\t";
 				myfile << gj->p4().E() << "\n"; 
 				
-				myfile.close()
+				myfile.close();
 				
 				
 				genJetPT->Fill(genJetPt);
