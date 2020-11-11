@@ -578,6 +578,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
             jetGenMatch = 1;
             const reco::GenJet* gj = j.genJet();
 			
+			
 			//std::cout << "Gen jet: " << gj->pt() << ", " << gj->eta() << ", " << gj->phi() << ", "<< gj->p4().E()   << std::endl;
 			//std::cout << "Gen jet: " << gj->px() << ", " << gj->py() << ", " << gj->pz() << ", "<< gj->p4().E()   << std::endl;
 			//std::cout << "Gen Reco dR:" << deltaR(j.eta(), j.phi(),
@@ -594,42 +595,77 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 			float AlgdR = 100;
 			float AlgdPT = 100;
 			float AlgPT = -10000;
-			
+			float AlgEta = -10000;
+			float AlgPhi = -10000;
+			float AlgE = -10000;
+			bool matchedAlg = false;
 
 			for(int x =0; x<std::min(jetCount,5); x++){
 				double dR = deltaR(*(algorithm_output[x]+1), *(algorithm_output[x]+2),
 											rawRecoP4.eta(),rawRecoP4.phi());
 				double dPT = *(algorithm_output[x]+0)/rawRecoP4.pt();
 				if(dR+abs(1-dPT) < AlgdR + abs(1-AlgdPT)){
+						atchedAlg = true;
 						AlgdR = deltaR(*(algorithm_output[x]+1), *(algorithm_output[x]+2),
 											genJetEta, genJetPhi);
 						AlgdPT = *(algorithm_output[x]+0)/genJetPt; 
 						AlgPT = *(algorithm_output[x]);
+						AlgEta = *(algorithm_output[x]+1);
+						AlgPhi = *(algorithm_output[x]+2);
+						AlgE = *(algorithm_output[x]+3);
 				}
 				//std::cout << *(algorithm_output[x]) << ", " << *(algorithm_output[x]+1) << ", " << *(algorithm_output[x]+2) << ", " << *(algorithm_output[x]+3) << std::endl;
+				
+				
+				
+			}
+			if(matchedAlg){
+			
+				myfile << AlgPT << "\t";
+				myfile << AlgEta << "\t";
+				myfile << AlgPhi << "\t";
+				myfile << AlgE << "\t"; 
+			
+				myfile << rawRecoP4.pt() << "\t";
+				myfile << rawRecoP4.eta() << "\t";
+				myfile << rawRecoP4.phi() << "\t";
+				myfile << rawRecoP4.E() << "\t"; 
+				
+				myfile << j.pt() << "\t";
+				myfile << j.eta() << "\t";
+				myfile << j.phi() << "\t";
+				myfile << j.p4().E() << "\t"; 
+				
+				myfile << gj->pt() << "\t";
+				myfile << gj->eta() << "\t";
+				myfile << gj->phi() << "\t";
+				myfile << gj->p4().E() << "\n"; 
+				
+				
+				
+				
 				genJetPT->Fill(genJetPt);
 				recoJetPT->Fill(rawRecoP4.pt());
 				algJetPT->Fill(AlgPT);
-				if(rawRecoP4.pt()>=0 and rawRecoP4.pt()<50){
+				if(rawRecoP4.pt()>=0 and rawRecoP4.pt()<25){
 					genJetPT0_50->Fill(genJetPt);
 					recoJetPT0_50->Fill(rawRecoP4.pt());
 					algJetPT0_50->Fill(AlgPT);
-				} else if(rawRecoP4.pt()>=50 and rawRecoP4.pt()<100){
+				} else if(rawRecoP4.pt()>=50 and rawRecoP4.pt()<55){
 					genJetPT50_100->Fill(genJetPt);
 					recoJetPT50_100->Fill(rawRecoP4.pt());
 					algJetPT50_100->Fill(AlgPT);
-				} else if(rawRecoP4.pt()>=100 and rawRecoP4.pt()<=150){
+				} else if(rawRecoP4.pt()>=100 and rawRecoP4.pt()<=105){
 					genJetPT100_150->Fill(genJetPt);
 					recoJetPT100_150->Fill(rawRecoP4.pt());
 					algJetPT100_150->Fill(AlgPT);
-				} else if(rawRecoP4.pt()>=150 and rawRecoP4.pt()<=200){
+				} else if(rawRecoP4.pt()>=150 and rawRecoP4.pt()<=155){
 					genJetPT150_200->Fill(genJetPt);
 					recoJetPT150_200->Fill(rawRecoP4.pt());
 					algJetPT150_200->Fill(AlgPT);
 				}
 			}
-			
-
+				
             // Loop over the genjet's constituents
             std::vector<const pat::PackedGenParticle*> genParticles;
             for (unsigned int i = 0; i < gj->numberOfDaughters(); ++i) {
@@ -811,12 +847,14 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 		float fullAlgdPT = 100;
 		float fullAlgPT = -10000;
 		
+		matchedAlg = false;
 
 		for(int x =0; x<std::min(jetCount,5); x++){
 			double dR = deltaR(*(algorithm_output[x]+1), *(algorithm_output[x]+2),
 										rawRecoP4.eta(), rawRecoP4.phi());
 			double dPT = *(algorithm_output[x]+0)/rawRecoP4.pt();
 			if(dR+abs(1-dPT) < fullAlgdR + abs(1-fullAlgdPT)){
+					matchedAlg = true;
 					fullAlgdR =  deltaR(*(algorithm_output[x]+1), *(algorithm_output[x]+2),
 										genJetEta, genJetPhi);
 					fullAlgdPT = *(algorithm_output[x]+0)/genJetPt;
@@ -824,7 +862,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 			}
 			//std::cout << *(algorithm_output[x]) << ", " << *(algorithm_output[x]+1) << ", " << *(algorithm_output[x]+2) << ", " << *(algorithm_output[x]+3) << std::endl;
 		}
-		if(jetGenMatch==1){
+		if(jetGenMatch==1 && matchedAlg){
 				fullAlgJetPT->Fill(fullAlgPT);
 				if(rawRecoP4.pt()>=0 and rawRecoP4.pt()<50){
 					fullAlgJetPT0_50->Fill(fullAlgPT);
@@ -896,7 +934,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 				matchDRDPTDist->Fill(minDR, minDPT);
 				matchPTdPTDist->Fill(genJetPF_Lorentz[x].pt(), minDPT);
 				
-				if(firstMatch){
+				/*if(firstMatch){
 					myfile << 1 << "\t";
 					firstMatch=false;
 				} else {
@@ -916,12 +954,8 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 				myfile << PF_vx[matchY] << "\t";
 				myfile << PF_vy[matchY] << "\t";
 				myfile << PF_vz[matchY] << "\t";
-				myfile << PF_id[matchY] << "\n";
-				
-				//myfile << j.genJet()->Px() << "\t";
-				//myfile << j.genJet()->Py() << "\t";
-				//myfile << j.genJet()->Pz() << "\t";
-				//myfile << j.genJet()->E() << "\n";
+				myfile << PF_id[matchY] << "\n"; */
+
 				
 			}
 		}
@@ -929,7 +963,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 		
 		for(unsigned int y = 0; y < nPF; y++){
 			if(recoMatch[y]==0){
-				if(firstMatch){
+				/*if(firstMatch){
 					myfile << 1 << "\t";
 					firstMatch=false;
 				} else {
@@ -949,7 +983,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 				myfile << PF_vx[y] << "\t";
 				myfile << PF_vy[y] << "\t";
 				myfile << PF_vz[y] << "\t";
-				myfile << PF_id[y] << "\n";
+				myfile << PF_id[y] << "\n"; */
 				
 				if(PF_fromAK4Jet[y] == 0){
 					incorrectParticlesNotInReco+=1;
@@ -957,10 +991,6 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 					incorrectParticlesInReco+=1;
 				}
 				
-				//myfile << j.genJet()->Px() << "\t";
-				//myfile << j.genJet()->Py() << "\t";
-				//myfile << j.genJet()->Pz() << "\t";
-				//myfile << j.genJet()->E() << "\n";	
 			}
 		}
 		
