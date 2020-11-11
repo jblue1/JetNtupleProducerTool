@@ -605,7 +605,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 											rawRecoP4.eta(),rawRecoP4.phi());
 				double dPT = *(algorithm_output[x]+0)/rawRecoP4.pt();
 				if(dR+abs(1-dPT) < AlgdR + abs(1-AlgdPT)){
-						atchedAlg = true;
+						matchedAlg = true;
 						AlgdR = deltaR(*(algorithm_output[x]+1), *(algorithm_output[x]+2),
 											genJetEta, genJetPhi);
 						AlgdPT = *(algorithm_output[x]+0)/genJetPt; 
@@ -620,6 +620,8 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 				
 			}
 			if(matchedAlg){
+				std::ofstream myfile;
+				myfile.open ("mlData.txt", std::ios_base::app);
 			
 				myfile << AlgPT << "\t";
 				myfile << AlgEta << "\t";
@@ -641,7 +643,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 				myfile << gj->phi() << "\t";
 				myfile << gj->p4().E() << "\n"; 
 				
-				
+				myfile.close()
 				
 				
 				genJetPT->Fill(genJetPt);
@@ -847,7 +849,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 		float fullAlgdPT = 100;
 		float fullAlgPT = -10000;
 		
-		matchedAlg = false;
+		bool matchedAlg = false;
 
 		for(int x =0; x<std::min(jetCount,5); x++){
 			double dR = deltaR(*(algorithm_output[x]+1), *(algorithm_output[x]+2),
@@ -995,7 +997,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 		}
 		
 		
-		myfile.close();
+		//myfile.close();
 		
         // Save the jet in the tree
         jetTree->Fill();
