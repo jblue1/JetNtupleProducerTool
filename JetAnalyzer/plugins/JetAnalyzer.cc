@@ -567,6 +567,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
         genJetEta = 0;
         genJetPhi = 0;
         genJetMass = 0;
+		float genJetE = 0;
         int ng = 0;
 
 		float AlgdR = 100;
@@ -591,6 +592,8 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
             genJetEta = gj->eta();
             genJetPhi = gj->phi();
             genJetMass = gj->mass();
+			genJetE = gj->p4().E();
+			
 			
 			float AlgdR = 100;
 			float AlgdPT = 100;
@@ -852,7 +855,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 				std::ofstream myfile;
 				myfile.open ("mlData.txt", std::ios_base::app);
 			
-				myfile << fulllgPT << "\t";
+				myfile << fullAlgPT << "\t";
 				myfile << fullAlgEta << "\t";
 				myfile << fullAlgPhi << "\t";
 				myfile << fullAlgE << "\t"; 
@@ -867,10 +870,10 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 				myfile << j.phi() << "\t";
 				myfile << j.p4().E() << "\t"; 
 				
-				myfile << gj->pt() << "\t";
-				myfile << gj->eta() << "\t";
-				myfile << gj->phi() << "\t";
-				myfile << gj->p4().E() << "\n"; 
+				myfile << genJetPt << "\t";
+				myfile << genJetEta << "\t";
+				myfile << genJetPhi << "\t";
+				myfile << genJetE << "\n"; 
 				
 				myfile.close();
 				
