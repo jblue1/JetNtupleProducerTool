@@ -82,25 +82,25 @@ void JetAnalyzer::beginJob()
 	algJetPT = fs->make<TH1D>("algJetPT" , "PT of all jets" , 100 , 0 , 1000);
 	fullAlgJetPT = fs->make<TH1D>("fullAlgJetPT" , "PT of all jets" , 100 , 0 , 1000);
 	
-	genJetPT0_50 = fs->make<TH1D>("genJetPT0_50" , "PT of jets with uncorrected reco PT between 0 and 50" , 100 , 0 , 300);
-	recoJetPT0_50 = fs->make<TH1D>("recoJetPT0_50" , "PT of jets with uncorrected reco PT between 0 and 50" , 100 , 0 , 300);
-	algJetPT0_50 = fs->make<TH1D>("algJetPT0_50" , "PT of jets with uncorrected reco PT between 0 and 50" , 100 , 0 , 300);
-	fullAlgJetPT0_50 = fs->make<TH1D>("fullAlgJetPT0_50" , "PT of jets with uncorrected reco PT between 0 and 50" , 100 , 0 , 300);
+	genJetPT0_50 = fs->make<TH1D>("genJetPT0_50" , "PT of jets with uncorrected reco PT between 0 and 25" , 100 , 0 , 300);
+	recoJetPT0_50 = fs->make<TH1D>("recoJetPT0_50" , "PT of jets with uncorrected reco PT between 0 and 25" , 100 , 0 , 300);
+	algJetPT0_50 = fs->make<TH1D>("algJetPT0_50" , "PT of jets with uncorrected reco PT between 0 and 25" , 100 , 0 , 300);
+	fullAlgJetPT0_50 = fs->make<TH1D>("fullAlgJetPT0_50" , "PT of jets with uncorrected reco PT between 0 and 25" , 100 , 0 , 300);
 	
-	genJetPT50_100 = fs->make<TH1D>("genJetPT50_100" , "PT of jets with uncorrected reco PT between 50 and 100" , 100 , 0 , 300);
-	recoJetPT50_100 = fs->make<TH1D>("recoJetPT50_100" , "PT of jets with uncorrected reco PT between 50 and 100" , 100 , 0 , 300);
-	algJetPT50_100 = fs->make<TH1D>("algJetPT50_100" , "PT of jets with uncorrected reco PT between 50 and 100" , 100 , 0 , 300);
-	fullAlgJetPT50_100 = fs->make<TH1D>("fullAlgJetPT50_100" , "PT of jets with uncorrected reco PT between 50 and 100" , 100 , 0 , 300);
+	genJetPT50_100 = fs->make<TH1D>("genJetPT50_100" , "PT of jets with uncorrected reco PT between 50 and 55" , 100 , 0 , 300);
+	recoJetPT50_100 = fs->make<TH1D>("recoJetPT50_100" , "PT of jets with uncorrected reco PT between 50 and 55" , 100 , 0 , 300);
+	algJetPT50_100 = fs->make<TH1D>("algJetPT50_100" , "PT of jets with uncorrected reco PT between 50 and 55" , 100 , 0 , 300);
+	fullAlgJetPT50_100 = fs->make<TH1D>("fullAlgJetPT50_100" , "PT of jets with uncorrected reco PT between 50 and 55" , 100 , 0 , 300);
 	
-	genJetPT100_150 = fs->make<TH1D>("genJetPT100_150" , "PT of jets with uncorrected reco PT between 100 and 150" , 100 , 0 , 300);
-	recoJetPT100_150 = fs->make<TH1D>("recoJetPT100_150" , "PT of jets with uncorrected reco PT between 100 and 150" , 100 , 0 , 300);
-	algJetPT100_150 = fs->make<TH1D>("algJetPT100_150" , "PT of jets with uncorrected reco PT between 100 and 150" , 100 , 0 , 300);
-	fullAlgJetPT100_150 = fs->make<TH1D>("fullAlgJetPT100_150" , "PT of jets with uncorrected reco PT between 100 and 150" , 100 , 0 , 300);
+	genJetPT100_150 = fs->make<TH1D>("genJetPT100_150" , "PT of jets with uncorrected reco PT between 100 and 105" , 100 , 0 , 300);
+	recoJetPT100_150 = fs->make<TH1D>("recoJetPT100_150" , "PT of jets with uncorrected reco PT between 100 and 105" , 100 , 0 , 300);
+	algJetPT100_150 = fs->make<TH1D>("algJetPT100_150" , "PT of jets with uncorrected reco PT between 100 and 105" , 100 , 0 , 300);
+	fullAlgJetPT100_150 = fs->make<TH1D>("fullAlgJetPT100_150" , "PT of jets with uncorrected reco PT between 100 and 105" , 100 , 0 , 300);
 	
-	genJetPT150_200 = fs->make<TH1D>("genJetPT150_200" , "PT of jets with uncorrected reco PT between 150 and 200" , 100 , 0 , 300);
-	recoJetPT150_200 = fs->make<TH1D>("recoJetPT150_200" , "PT of jets with uncorrected reco PT between 150 and 200" , 100 , 0 , 300);
-	algJetPT150_200 = fs->make<TH1D>("algJetPT150_200" , "PT of jets with uncorrected reco PT between 150 and 200" , 100 , 0 , 300);
-	fullAlgJetPT150_200 = fs->make<TH1D>("fullAlgJetPT150_200" , "PT of jets with uncorrected reco PT between 150 and 200" , 100 , 0 , 300);
+	genJetPT150_200 = fs->make<TH1D>("genJetPT150_200" , "PT of jets with uncorrected reco PT between 150 and 155" , 100 , 0 , 300);
+	recoJetPT150_200 = fs->make<TH1D>("recoJetPT150_200" , "PT of jets with uncorrected reco PT between 150 and 155" , 100 , 0 , 300);
+	algJetPT150_200 = fs->make<TH1D>("algJetPT150_200" , "PT of jets with uncorrected reco PT between 150 and 155" , 100 , 0 , 300);
+	fullAlgJetPT150_200 = fs->make<TH1D>("fullAlgJetPT150_200" , "PT of jets with uncorrected reco PT between 150 and 155" , 100 , 0 , 300);
 	
 	
 	// Create the ROOT tree and add all the branches to it
@@ -620,30 +620,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 				
 			}
 			if(matchedAlg){
-				std::ofstream myfile;
-				myfile.open ("mlData.txt", std::ios_base::app);
-			
-				myfile << AlgPT << "\t";
-				myfile << AlgEta << "\t";
-				myfile << AlgPhi << "\t";
-				myfile << AlgE << "\t"; 
-			
-				myfile << rawRecoP4.pt() << "\t";
-				myfile << rawRecoP4.eta() << "\t";
-				myfile << rawRecoP4.phi() << "\t";
-				myfile << rawRecoP4.E() << "\t"; 
 				
-				myfile << j.pt() << "\t";
-				myfile << j.eta() << "\t";
-				myfile << j.phi() << "\t";
-				myfile << j.p4().E() << "\t"; 
-				
-				myfile << gj->pt() << "\t";
-				myfile << gj->eta() << "\t";
-				myfile << gj->phi() << "\t";
-				myfile << gj->p4().E() << "\n"; 
-				
-				myfile.close();
 				
 				
 				genJetPT->Fill(genJetPt);
@@ -651,11 +628,11 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 				algJetPT->Fill(AlgPT);
 				if(rawRecoP4.pt()>=0 and rawRecoP4.pt()<25){
 					genJetPT0_50->Fill(genJetPt);
-					recoJetPT0_50->Fill(rawRecoP4.pt());
+					recoJetPT0_50->Fill(j.pt());
 					algJetPT0_50->Fill(AlgPT);
 				} else if(rawRecoP4.pt()>=50 and rawRecoP4.pt()<55){
 					genJetPT50_100->Fill(genJetPt);
-					recoJetPT50_100->Fill(rawRecoP4.pt());
+					recoJetPT50_100->Fill(j.pt());
 					algJetPT50_100->Fill(AlgPT);
 				} else if(rawRecoP4.pt()>=100 and rawRecoP4.pt()<=105){
 					genJetPT100_150->Fill(genJetPt);
@@ -663,7 +640,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 					algJetPT100_150->Fill(AlgPT);
 				} else if(rawRecoP4.pt()>=150 and rawRecoP4.pt()<=155){
 					genJetPT150_200->Fill(genJetPt);
-					recoJetPT150_200->Fill(rawRecoP4.pt());
+					recoJetPT150_200->Fill(j.pt());
 					algJetPT150_200->Fill(AlgPT);
 				}
 			}
@@ -848,6 +825,9 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 		float fullAlgdR = 100;
 		float fullAlgdPT = 100;
 		float fullAlgPT = -10000;
+		float fullAlgEta = -10000;
+		float fullAlgPhi = -10000;
+		float fullAlgE = -10000;
 		
 		bool matchedAlg = false;
 
@@ -861,18 +841,48 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 										genJetEta, genJetPhi);
 					fullAlgdPT = *(algorithm_output[x]+0)/genJetPt;
 					fullAlgPT = *(algorithm_output[x]);
+					fullAlgEta = *(algorithm_output[x]+1);
+					fullAlgPhi = *(algorithm_output[x]+2);
+					fullAlgE = *(algorithm_output[x]+3);
 			}
 			//std::cout << *(algorithm_output[x]) << ", " << *(algorithm_output[x]+1) << ", " << *(algorithm_output[x]+2) << ", " << *(algorithm_output[x]+3) << std::endl;
 		}
 		if(jetGenMatch==1 && matchedAlg){
+				
+				std::ofstream myfile;
+				myfile.open ("mlData.txt", std::ios_base::app);
+			
+				myfile << fulllgPT << "\t";
+				myfile << fullAlgEta << "\t";
+				myfile << fullAlgPhi << "\t";
+				myfile << fullAlgE << "\t"; 
+			
+				myfile << rawRecoP4.pt() << "\t";
+				myfile << rawRecoP4.eta() << "\t";
+				myfile << rawRecoP4.phi() << "\t";
+				myfile << rawRecoP4.E() << "\t"; 
+				
+				myfile << j.pt() << "\t";
+				myfile << j.eta() << "\t";
+				myfile << j.phi() << "\t";
+				myfile << j.p4().E() << "\t"; 
+				
+				myfile << gj->pt() << "\t";
+				myfile << gj->eta() << "\t";
+				myfile << gj->phi() << "\t";
+				myfile << gj->p4().E() << "\n"; 
+				
+				myfile.close();
+				
+				
 				fullAlgJetPT->Fill(fullAlgPT);
-				if(rawRecoP4.pt()>=0 and rawRecoP4.pt()<50){
+				if(rawRecoP4.pt()>=0 and rawRecoP4.pt()<25){
 					fullAlgJetPT0_50->Fill(fullAlgPT);
-				} else if(rawRecoP4.pt()>=50 and rawRecoP4.pt()<100){
+				} else if(rawRecoP4.pt()>=50 and rawRecoP4.pt()<55){
 					fullAlgJetPT50_100->Fill(fullAlgPT);
-				} else if(rawRecoP4.pt()>=100 and rawRecoP4.pt()<=150){
+				} else if(rawRecoP4.pt()>=100 and rawRecoP4.pt()<=105){
 					fullAlgJetPT100_150->Fill(fullAlgPT);
-				} else if(rawRecoP4.pt()>=150 and rawRecoP4.pt()<=200){
+				} else if(rawRecoP4.pt()>=150 and rawRecoP4.pt()<=155){
 					fullAlgJetPT150_200->Fill(fullAlgPT);
 				}
 		}
