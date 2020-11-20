@@ -613,9 +613,9 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 											genJetEta, genJetPhi);
 						AlgdPT = *(algorithm_output[x]+0)/genJetPt; 
 						AlgPT = *(algorithm_output[x]);
-						AlgEta = *(algorithm_output[x]+1);
-						AlgPhi = *(algorithm_output[x]+2);
-						AlgE = *(algorithm_output[x]+3);
+						//AlgEta = *(algorithm_output[x]+1);
+						//AlgPhi = *(algorithm_output[x]+2);
+						//AlgE = *(algorithm_output[x]+3);
 				}
 				//std::cout << *(algorithm_output[x]) << ", " << *(algorithm_output[x]+1) << ", " << *(algorithm_output[x]+2) << ", " << *(algorithm_output[x]+3) << std::endl;
 				
