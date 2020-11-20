@@ -598,9 +598,9 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 			float AlgdR = 100;
 			float AlgdPT = 100;
 			float AlgPT = -10000;
-			float AlgEta = -10000;
-			float AlgPhi = -10000;
-			float AlgE = -10000;
+			//float AlgEta = -10000;
+			//float AlgPhi = -10000;
+			//float AlgE = -10000;
 			bool matchedAlg = false;
 
 			for(int x =0; x<std::min(jetCount,5); x++){
