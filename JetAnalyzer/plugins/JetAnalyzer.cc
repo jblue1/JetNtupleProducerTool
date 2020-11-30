@@ -852,7 +852,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 		}
 		if(jetGenMatch==1 && matchedAlg){
 				
-				std::ofstream myfile;
+				/*std::ofstream myfile;
 				myfile.open ("mlData.txt", std::ios_base::app);
 			
 				myfile << fullAlgPT << "\t";
@@ -875,7 +875,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 				myfile << genJetPhi << "\t";
 				myfile << genJetE << "\n"; 
 				
-				myfile.close();
+				myfile.close();*/
 				
 				
 				fullAlgJetPT->Fill(fullAlgPT);
@@ -909,6 +909,9 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 			UInt_t inReco = 0;
 			
 			for(unsigned int y = 0; y < nPF; y++){
+				if(recoMatch[y]==1){
+					continue;
+				}
 				double dR = deltaR((genJetPF_Lorentz[x]).eta(), (genJetPF_Lorentz[x]).phi(),
 										(PF_Lorentz[y]).eta(), (PF_Lorentz[y]).phi());
 				double dPT = PF_Lorentz[y].pt()/genJetPF_Lorentz[x].pt();
@@ -949,7 +952,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 				matchDRDPTDist->Fill(minDR, minDPT);
 				matchPTdPTDist->Fill(genJetPF_Lorentz[x].pt(), minDPT);
 				
-				/*if(firstMatch){
+				if(firstMatch){
 					myfile << 1 << "\t";
 					firstMatch=false;
 				} else {
@@ -969,7 +972,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 				myfile << PF_vx[matchY] << "\t";
 				myfile << PF_vy[matchY] << "\t";
 				myfile << PF_vz[matchY] << "\t";
-				myfile << PF_id[matchY] << "\n"; */
+				myfile << PF_id[matchY] << "\n";
 
 				
 			}
@@ -978,7 +981,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 		
 		for(unsigned int y = 0; y < nPF; y++){
 			if(recoMatch[y]==0){
-				/*if(firstMatch){
+				if(firstMatch){
 					myfile << 1 << "\t";
 					firstMatch=false;
 				} else {
@@ -998,7 +1001,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 				myfile << PF_vx[y] << "\t";
 				myfile << PF_vy[y] << "\t";
 				myfile << PF_vz[y] << "\t";
-				myfile << PF_id[y] << "\n"; */
+				myfile << PF_id[y] << "\n";
 				
 				if(PF_fromAK4Jet[y] == 0){
 					incorrectParticlesNotInReco+=1;
@@ -1010,7 +1013,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 		}
 		
 		
-		//myfile.close();
+		myfile.close();
 		
         // Save the jet in the tree
         jetTree->Fill();
