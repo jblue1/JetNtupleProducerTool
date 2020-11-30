@@ -587,7 +587,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 			//std::cout << "Gen New dR:" << deltaR(*(algorithm_output[0]+1) , *(algorithm_output[0]+2), 
 			//							gj->eta(), gj->phi())  << std::endl;
 			
-            genRecoPT->Fill(gj->pt(), j.pt());
+            /*genRecoPT->Fill(gj->pt(), j.pt());
 			genJetPt = gj->pt();
             genJetEta = gj->eta();
             genJetPhi = gj->phi();
@@ -597,7 +597,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 			
 			float AlgdR = 100;
 			float AlgdPT = 100;
-			float AlgPT = -10000;
+			float AlgPT = -10000;*/
 			//float AlgEta = -10000;
 			//float AlgPhi = -10000;
 			//float AlgE = -10000;
@@ -840,13 +840,13 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 			double dPT = *(algorithm_output[x]+0)/rawRecoP4.pt();
 			if(dR+abs(1-dPT) < fullAlgdR + abs(1-fullAlgdPT)){
 					matchedAlg = true;
-					fullAlgdR =  deltaR(*(algorithm_output[x]+1), *(algorithm_output[x]+2),
+					/*fullAlgdR =  deltaR(*(algorithm_output[x]+1), *(algorithm_output[x]+2),
 										genJetEta, genJetPhi);
 					fullAlgdPT = *(algorithm_output[x]+0)/genJetPt;
 					fullAlgPT = *(algorithm_output[x]);
 					fullAlgEta = *(algorithm_output[x]+1);
 					fullAlgPhi = *(algorithm_output[x]+2);
-					fullAlgE = *(algorithm_output[x]+3);
+					fullAlgE = *(algorithm_output[x]+3);*/
 			}
 			//std::cout << *(algorithm_output[x]) << ", " << *(algorithm_output[x]+1) << ", " << *(algorithm_output[x]+2) << ", " << *(algorithm_output[x]+3) << std::endl;
 		}
