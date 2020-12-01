@@ -587,7 +587,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 			//std::cout << "Gen New dR:" << deltaR(*(algorithm_output[0]+1) , *(algorithm_output[0]+2), 
 			//							gj->eta(), gj->phi())  << std::endl;
 			
-            /*genRecoPT->Fill(gj->pt(), j.pt());
+            genRecoPT->Fill(gj->pt(), j.pt());
 			genJetPt = gj->pt();
             genJetEta = gj->eta();
             genJetPhi = gj->phi();
@@ -597,7 +597,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 			
 			float AlgdR = 100;
 			float AlgdPT = 100;
-			float AlgPT = -10000;*/
+			float AlgPT = -10000;
 			//float AlgEta = -10000;
 			//float AlgPhi = -10000;
 			//float AlgE = -10000;
@@ -840,19 +840,19 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 			double dPT = *(algorithm_output[x]+0)/rawRecoP4.pt();
 			if(dR+abs(1-dPT) < fullAlgdR + abs(1-fullAlgdPT)){
 					matchedAlg = true;
-					/*fullAlgdR =  deltaR(*(algorithm_output[x]+1), *(algorithm_output[x]+2),
+					fullAlgdR =  deltaR(*(algorithm_output[x]+1), *(algorithm_output[x]+2),
 										genJetEta, genJetPhi);
 					fullAlgdPT = *(algorithm_output[x]+0)/genJetPt;
 					fullAlgPT = *(algorithm_output[x]);
 					fullAlgEta = *(algorithm_output[x]+1);
 					fullAlgPhi = *(algorithm_output[x]+2);
-					fullAlgE = *(algorithm_output[x]+3);*/
+					fullAlgE = *(algorithm_output[x]+3);
 			}
 			//std::cout << *(algorithm_output[x]) << ", " << *(algorithm_output[x]+1) << ", " << *(algorithm_output[x]+2) << ", " << *(algorithm_output[x]+3) << std::endl;
 		}
 		if(jetGenMatch==1 && matchedAlg){
 				
-				/*std::ofstream myfile;
+				std::ofstream myfile;
 				myfile.open ("mlData.txt", std::ios_base::app);
 			
 				myfile << fullAlgPT << "\t";
@@ -875,7 +875,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 				myfile << genJetPhi << "\t";
 				myfile << genJetE << "\n"; 
 				
-				myfile.close();*/
+				myfile.close();
 				
 				
 				fullAlgJetPT->Fill(fullAlgPT);
@@ -952,7 +952,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 				matchDRDPTDist->Fill(minDR, minDPT);
 				matchPTdPTDist->Fill(genJetPF_Lorentz[x].pt(), minDPT);
 				
-				if(firstMatch){
+				/*if(firstMatch){
 					myfile << 1 << "\t";
 					firstMatch=false;
 				} else {
@@ -972,7 +972,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 				myfile << PF_vx[matchY] << "\t";
 				myfile << PF_vy[matchY] << "\t";
 				myfile << PF_vz[matchY] << "\t";
-				myfile << PF_id[matchY] << "\n";
+				myfile << PF_id[matchY] << "\n";*/
 
 				
 			}
@@ -981,7 +981,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 		
 		for(unsigned int y = 0; y < nPF; y++){
 			if(recoMatch[y]==0){
-				if(firstMatch){
+				/*if(firstMatch){
 					myfile << 1 << "\t";
 					firstMatch=false;
 				} else {
@@ -1001,7 +1001,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 				myfile << PF_vx[y] << "\t";
 				myfile << PF_vy[y] << "\t";
 				myfile << PF_vz[y] << "\t";
-				myfile << PF_id[y] << "\n";
+				myfile << PF_id[y] << "\n";*/
 				
 				if(PF_fromAK4Jet[y] == 0){
 					incorrectParticlesNotInReco+=1;
@@ -1013,7 +1013,7 @@ void JetAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 		}
 		
 		
-		myfile.close();
+		//myfile.close();
 		
         // Save the jet in the tree
         jetTree->Fill();
