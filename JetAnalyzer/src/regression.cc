@@ -252,7 +252,7 @@ void regression::normalize(float * norm, float * a, int dim1, int dim2){
         for(int y=0; y<dim2; y++){
             if(x == 0 || x == 3 || x == 7 || x == 10 || x == 11 || x == 14){
 				*(a + y + (x * dim2)) = log(*(a + y + (x * dim2)));
-			} else if( x == 4 || x == 5 || x == 6 || x == 15 || x == 16 || x == 17 || ){
+			} else if( x == 4 || x == 5 || x == 6 || x == 15 || x == 16 || x == 17 ){
 				*(a + y + (x * dim2)) = cbrt(*(a + y + (x * dim2)));	
 			}
 			//std::cout << *(a + y + (x * dim2)) << "->";
