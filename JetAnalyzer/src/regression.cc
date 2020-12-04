@@ -250,7 +250,12 @@ void regression::normalize(float * norm, float * a, int dim1, int dim2){
     //std::cout << "Normalize" << std::endl;
 	for(int x=0; x<dim1; x++){
         for(int y=0; y<dim2; y++){
-            //std::cout << *(a + y + (x * dim2)) << "->";
+            if(x == 0 || x == 3 || x == 7 || x == 10 || x == 11 || x == 14){
+				*(a + y + (x * dim2)) = log(*(a + y + (x * dim2)));
+			} else if( x == 4 || x == 5 || x == 6 || x == 15 || x == 16 || x == 17 || ){
+				*(a + y + (x * dim2)) = cbrt(*(a + y + (x * dim2)));	
+			}
+			//std::cout << *(a + y + (x * dim2)) << "->";
             *(a + y + (x * dim2)) = (*(a + y + (x * dim2)) - normInfo1[x][0])/normInfo1[x][1];
 			//std::cout <<  *(a + y + (x * dim2)) << std::endl;
 		}
@@ -265,6 +270,9 @@ void regression::unnormalize(float * a, int dim1, int dim2){
         for(int y=0; y<dim2; y++){
 			//std::cout << *(a + y + (x * dim2)) << "->";
             *(a + y + (x * dim2)) = (*(a + y + (x * dim2))*normInfo1[x][1] + normInfo1[x][0]);
+			if(x == 0 || x == 3){
+				*(a + y + (x * dim2)) = exp(*(a + y + (x * dim2)));
+			}
 			//std::cout <<  *(a + y + (x * dim2)) << std::endl;
 		}
 	}
