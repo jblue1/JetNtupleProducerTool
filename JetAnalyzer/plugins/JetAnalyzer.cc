@@ -24,7 +24,7 @@ JetAnalyzer::JetAnalyzer(const edm::ParameterSet& iConfig):
     ptDToken_(consumes<edm::ValueMap<float>>(edm::InputTag("QGTagger", "ptD"))),
     axis2Token_(consumes<edm::ValueMap<float>>(edm::InputTag("QGTagger", "axis2"))),
     multToken_(consumes<edm::ValueMap<int>>(edm::InputTag("QGTagger", "mult"))),
-	executionMode (iConfig.getUntrackedParameter<int>("executionMode")),
+	executionMode (iConfig.getUntrackedParameter<int>("executionMode"))
 {
     goodVtxNdof = iConfig.getParameter<double>("confGoodVtxNdof");
     goodVtxZ = iConfig.getParameter<double>("confGoodVtxZ");
