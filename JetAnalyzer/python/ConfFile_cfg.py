@@ -72,7 +72,7 @@ process.AK4jets = cms.EDAnalyzer("JetAnalyzer",
 	pfRhoCentral = cms.InputTag("fixedGridRhoFastjetCentral"),
 	pfRhoCentralNeutral = cms.InputTag("fixedGridRhoFastjetCentralNeutral"),
 	pfRhoCentralChargedPileUp = cms.InputTag("fixedGridRhoFastjetCentralChargedPileUp"),
-    executionMode = cms.untracked.int(options.executionMode)
+    executionMode = cms.untracked.int32(options.executionMode)
 )
 
 # Choose how many events to process (-1 = all)
