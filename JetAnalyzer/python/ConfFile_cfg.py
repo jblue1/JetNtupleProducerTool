@@ -29,6 +29,8 @@ process.TFileService.fileName=cms.string("JetNtuple_RunIISummer16_13TeV_MC.root"
 
 # Load up the filelist
 filePath=os.environ["CMSSW_BASE"]+"/src/JetNtupleProducerTool/JetAnalyzer/python/"
+fileList = FileUtils.loadListFromFile(filePath+"filelist.txt")
+
 if(options.executionMode == 0):
     process.source = cms.Source("PoolSource",
 	## Process whole data set
