@@ -12,7 +12,7 @@ options.register( 'executionMode',
                   VarParsing.varType.int,
                   "0 for particle data, 1 for jet data, 2 for jet prediction"
                )
-
+options.parseArguments()
 process = cms.Process("AK4jets")
 
 
