@@ -141,8 +141,7 @@ class JetAnalyzer : public edm::EDAnalyzer {
         std::string t_qgtagger;
 
         TFile* outputFile;
-        TTree* jetTree;
-
+        
         jetConstructor constructJets = jetConstructor();
 		//std::string strRegression = "/home/cmsusr/CMSSW_10_6_8_patch1/src/JetNtupleProducer/JetAnalyzer/data/regression";
      	//std::string strClassifier = "/home/cmsusr/CMSSW_10_6_8_patch1/src/JetNtupleProducer/JetAnalyzer/data/classification";
