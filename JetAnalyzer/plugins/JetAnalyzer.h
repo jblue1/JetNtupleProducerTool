@@ -271,6 +271,8 @@ class JetAnalyzer : public edm::EDAnalyzer {
 		unsigned long long  correctParticlesNotInReco;
 		unsigned long long  incorrectParticlesInReco;
 		unsigned long long  incorrectParticlesNotInReco;
+		
+		bool executionMode;
 
 };
 
